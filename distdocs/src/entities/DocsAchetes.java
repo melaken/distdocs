@@ -8,10 +8,11 @@ import javax.persistence.Id;
 public class DocsAchetes {
 
 	@Id
+	@Column(name="num_transanction")
 	private String numTransaction;
 	@Column(name="doc_id")
 	private long docId;
-	private Utilisateur user;
+	private Utilisateur client;
 	@Column(name="date_achat")
 	private Timestamp dateAchat;
 	@Column(name="compte_debite")
