@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<h:outputStylesheet library="default" name="css/form.css" />
+	</h:head>
+	<h:outputLabel for="nom" value="Nom" style="font-weight:bold">
+		<span class="requis">*</span>
+	</h:outputLabel>
+    <p:inputText id="nom" value="#{user.nom}" />
+    <h:message id="nomMessage" for="nom" errorClass="erreur" />
+<!--     <br /> -->
+    <h:outputLabel for="prenom" value="Prénom" style="font-weight:bold" />
+    <p:inputText id="prenom" value="#{user.prenom}" />
+    <h:message id="prenomMessage" for="prenom" errorClass="erreur" />
+<!--     <br /> -->
+    <h:outputLabel for="email" value="Email" style="font-weight:bold">
+    	<span class="requis">*</span>
+	</h:outputLabel>
+    <p:inputText id="email" value="#{user.email}" size="20" maxlength="60">
+		<f:ajax event="blur" render="emailMessage" />
+		<f:validator  binding="#{existenceEmailValidator}" />
+	</p:inputText>
+    <h:message id="emailMessage" for="email" errorClass="erreur" />
+<!--     <br /> -->
+    <h:outputLabel for="motDePasse" value="Mot de passe" style="font-weight:bold">
+    	<span class="requis">*</span>
+	</h:outputLabel>
+    <h:inputSecret id="motDePasse" value="#{user.motDePasse}" size="20" maxlength="20" >
+		<f:ajax event="blur" execute="motdepasse confirmation" render="motDePasseMessage confirmationMessage" />
+	</h:inputSecret>
+    <h:message id="motDePasseMessage" for="motDePasse" errorClass="erreur" />
+    <br />
+    <h:outputLabel for="numtel" value="Numéro de téléphone" style="font-weight:bold">
+    	<span class="requis">*</span>
+	</h:outputLabel>
+    <p:inputText id="numtel" value="#{user.numTel}">
+    	<f:ajax event="blur" render="numTelMessage" />
+    </p:inputText>
+    <h:message id="numTelMessage" for="numTel" errorClass="erreur" /> 
+<!--     <br /> -->
+</html>

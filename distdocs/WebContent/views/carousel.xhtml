@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+<!-- 		<title>Insérer le titre ici</title> -->
+		<style type="text/css">
+     .value {
+        font-weight: bold;
+    }
+     
+    .ui-carousel {
+        margin-bottom: 20px;
+    }
+</style>
+	</h:head>
+
+	<h:form id="form">
+   <p:carousel numVisible="1" effect="easeInStrong" headerText="Tabs" style="width: 450px;margin-bottom:30px;border:0" 
+   	circular="true" autoPlayInterval="30000">
+        <p:tab title="Godfather Part I" >
+            <h:panelGrid columns="3" cellspacing="0" cellpadding="10" border="0" style="text-align:center">
+                <p:graphicImage name="images/modele.jpg" style="height:200px; width:150px"/>
+                 <p:graphicImage name="images/modele1.jpg" style="height:200px; width:150px"/>
+<!--                   <p:graphicImage name="images/modele2.jpg" style="height:200px; width:150px"/> -->
+            </h:panelGrid>
+        </p:tab>
+         <p:tab title="Godfather Part I">
+            <h:panelGrid columns="1" cellpadding="10" border="0">
+                <p:graphicImage name="images/modele1.jpg" style="height:200px; width:400px" />
+            </h:panelGrid>
+        </p:tab>
+         <p:tab title="Godfather Part I">
+            <h:panelGrid columns="1" cellpadding="10" border="0">
+                <p:graphicImage name="images/modele2.jpg" style="height:200px; width:400px"/>
+            </h:panelGrid>
+        </p:tab>
+    </p:carousel>
+
+  </h:form>
+ 	
+</html>

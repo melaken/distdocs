@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+<!-- 		<title>Insérer le titre ici</title> -->
+		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+	</h:head>
+<!-- 	<h:body> -->
+	
+	<h:form>  
+    <p:growl id="messages"/>
+ 
+    <p:menubar>
+ 		<p:submenu label="Paramètres" icon="pi pi-cog" align="right" rendered="#{sessionScope['user'] != null}">
+     			<p:menuitem value="Publier" outcome="/views/creation/uploadDoc.xhtml" icon="pi pi-upload"
+     			rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
+     			<p:menuitem value="Ma bibliothèque" url="#" icon="pi pi-bookmark"/> 
+     			<p:menuitem value="Mes transactions" url="#" icon="pi pi-money-bill"/> 
+     			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" icon="pi pi-sign-out"
+     			rendered="#{sessionScope['user'] != null}" outcome="/index.html" update="@form"/> 
+   			</p:submenu>
+        <f:facet name="options">
+          <p:inputText style="margin:1px 10px 1px 1px;" placeholder="Rechercher..." icon="pi pi-search"/>
+          <p:linkButton  id="inscription" value="Inscription" rendered="#{sessionScope['user'] == null}" icon="pi user-plus"
+          	style="margin:1px 10px 1px 1px;"/>
+           <p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] == null}" icon="pi user-plus"
+           	outcome="/views/creation/creationEditeur.xhtml" style="margin:1px 10px 1px 1px;"/>
+          <p:commandButton value="Connexion" type="button" onclick="PF('dlg2').show();" icon="pi pi-sign-in"
+        		rendered="#{sessionScope['user'] == null}" style="margin:1px 10px 1px 1px;" />
+       	 <p:commandButton value="Déconnexion" type="button"  icon="pi pi-sign-out" action="#{connexionBean.logout}"
+        		rendered="#{sessionScope['user'] != null}" style="margin:1px 10px 1px 1px;" update="@form"/>
+        </f:facet>
+    </p:menubar>
+</h:form>
+<p:dialog header=" " widgetVar="dlg2" modal="true" height="150" showEffect="explode" hideEffect="bounce"
+	dynamic="true">
+	    <h:form>
+	    	<p:growl id="growl" showDetail="true" sticky="true" />
+	    	<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
+	    		<h:panelGrid columns="2">
+			        <h:outputLabel for="email" value="Email" style="font-weight:bold">
+			        	<span class="requis">*</span>
+					</h:outputLabel>
+			        <p:inputText id="email" value="#{connexionBean.email}">
+			        	<f:ajax event="blur" render="emailMessage" />
+		<!-- 				<f:validator  binding="#{existenceEmailValidator}" /> -->
+					</p:inputText>
+				    <h:message id="emailMessage" for="email" errorClass="erreur" />
+		    </h:panelGrid>
+			    <h:panelGrid columns="2">
+		        <h:outputLabel for="password" value="Mot de passe" style="font-weight:bold">
+		        	<span class="requis">*</span>
+				</h:outputLabel>
+		        <p:password id="password" value="#{connexionBean.password}">
+		        	<f:ajax event="blur" render="motDePasseMessage" />
+				</p:password>
+				<h:message id="motDePasseMessage" for="password" errorClass="erreur" />
+		        
+<!-- 	       <p:link value="Mot de passe oublié?" onclick="PF('dlg3').show();"/> -->
+<!-- 			<p:commandButton value="Mot de passe oublié?" type="button" onclick="PF('dlg2').hide();PF('dlg3').show();" class="nav-link"/> -->
+	    </h:panelGrid>
+	    <p:commandButton value="Connexion" action="#{connexionBean.connect}" onclick="PF('dlg2').hide();"
+	    	icon="pi pi-sign-in" outcome="/index.html" update="@form"/>
+	     </h:panelGrid>
+	</h:form>
+	</p:dialog>
+	
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	 
+<!-- 	</h:body> -->
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="margin-bottom:0">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar"  >
+    <ul class="navbar-nav" style="position:absolute;right:80px;font-size: 15px;" >
+    <li class="nav-item">
+    	 <input type="text" name="search" placeholder="Rechercher.."/> 
+     </li> 
+    <li class="nav-item">
+      	<p:link styleClass="nav-link" value="DEVENIR EDITEUR" outcome="/views/creation/creationEditeur.xhtml"
+      		rendered="#{sessionScope['user'] == null}" />
+      </li>
+      <li>    
+      	<p:link styleClass="nav-link" value="PUBLIER" outcome="/views/creation/uploadDoc.xhtml"
+      		/>
+      </li>
+      <li class="nav-item">
+      	<p:link styleClass="nav-link" value="Inscription" rendered="#{sessionScope['user'] == null}" />
+      </li>
+      <li class="nav-item">
+<!--         	<p:link class="nav-link" value="Connexion" onclick="PF('dlg2').show();"/> -->
+        	<p:commandButton value="Connexion" type="button" onclick="PF('dlg2').show();" class="nav-link"
+        		rendered="#{sessionScope['user'] == null}"/>
+      </li>
+      <li class="nav-item">
+      <h:form rendered="#{sessionScope['user'] != null}">    <p:growl id="messages" />
+     	 <p:splitButton id="basic" value="Paramètres">
+            <p:menuitem value="Ma bibliothèque" />
+            <p:menuitem value="Mes transactions"/>
+            <p:separator />
+            <p:menuitem value="Déconnexion" icon="pi-home" />
+        </p:splitButton>
+       </h:form>
+  </li>
+    </ul>
+  </div>  
+</nav>
+<p:dialog header=" " widgetVar="dlg2" modal="true" height="150" showEffect="explode" hideEffect="bounce"
+	dynamic="true">
+	    <h:form>
+	    	<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
+	    		<h:panelGrid columns="2">
+			        <h:outputLabel for="email" value="Email" style="font-weight:bold">
+			        	<span class="requis">*</span>
+					</h:outputLabel>
+			        <p:inputText id="email" value="#{connexionBean.email}">
+			        	<f:ajax event="blur" render="emailMessage" />
+		<!-- 				<f:validator  binding="#{existenceEmailValidator}" /> -->
+					</p:inputText>
+				    <h:message id="emailMessage" for="email" errorClass="erreur" />
+		    </h:panelGrid>
+			    <h:panelGrid columns="2">
+		        <h:outputLabel for="password" value="Mot de passe" style="font-weight:bold">
+		        	<span class="requis">*</span>
+				</h:outputLabel>
+		        <h:inputSecret id="password" value="#{connexionBean.password}">
+		        	<f:ajax event="blur" render="motDePasseMessage" />
+				</h:inputSecret>
+				<h:message id="motDePasseMessage" for="password" errorClass="erreur" />
+		        
+<!-- 	       <p:link value="Mot de passe oublié?" onclick="PF('dlg3').show();"/> -->
+<!-- 			<p:commandButton value="Mot de passe oublié?" type="button" onclick="PF('dlg2').hide();PF('dlg3').show();" class="nav-link"/> -->
+	    </h:panelGrid>
+	    <p:commandButton value="Connexion" action="#{connexionBean.connect}" onclick="PF('dlg2').hide();"
+	    	icon="pi-check" />
+	     </h:panelGrid>
+	</h:form>
+	</p:dialog>
+	
+<!-- 	<p:dialog header=" " widgetVar="dlg3" modal="true" height="200" showEffect="explode" hideEffect="bounce"> -->
+<!-- 	    <h:form> -->
+<!-- 	    <h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px"> -->
+<!-- 	    	<h:panelGrid columns="2"> -->
+<!-- 	        <h:outputLabel for="email" value="Email" style="font-weight:bold" /> -->
+<!-- 	        <p:inputText id="email" value="#{connexionBean.email}" /> -->
+<!-- 	        <h:outputLabel for="password" value="Mot de passe" style="font-weight:bold" /> -->
+<!-- 	        <h:inputSecret id="password" value="#{connexionBean.password}" /> -->
+<!-- 	        <h:outputLabel for="confirmation" value="Confirmation du mot de passe" style="font-weight:bold" /> -->
+<!-- 	        <h:inputSecret id="confirmation" value="#{connexionBean.password}"> -->
+<!-- 	        	<f:ajax event="blur" execute="motdepasse confirmation" render="motDePasseMessage confirmationMessage" /> -->
+<!-- 				<f:attribute name="composantMotDePasse" value="#{composantMotDePasse}" /> -->
+<!-- 				<f:validator validatorId="confirmationMotDePasseValidator" /> -->
+<!-- 			</h:inputSecret> -->
+<!-- 			</h:panelGrid> -->
+<!-- 	        <p:commandButton value="Changer" icon="pi pi-check" /> -->
+<!-- 	    </h:panelGrid> -->
+<!-- 	</h:form> -->
+<!-- 	</p:dialog> -->
+</html>

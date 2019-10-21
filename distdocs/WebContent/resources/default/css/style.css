@@ -1,0 +1,13 @@
+//remove border from datagrid
+.ui-datagrid-content {
+	border: none;
+}
+// add size of primeicons
+ .pi {
+  width: 24px !important;
+  font-size: 24px !important;
+}
+body{
+	margin-right:30px;
+	margin-left:30px
+}
