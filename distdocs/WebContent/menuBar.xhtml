@@ -8,7 +8,7 @@ xmlns:p="http://primefaces.org/ui">
 	<h:head>
 <!-- 		<title>Insérer le titre ici</title> -->
 		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
-		<h:outputStylesheet name="primefaces-omega/theme.css"/>
+<!-- 		<h:outputStylesheet name="primefaces-omega/theme.css"/> -->
 <!-- 		<h:outputStylesheet name="primefaces-nova-dark/theme.css"/> -->
 <!-- 		<h:outputStylesheet name="primefaces-nova-light/theme.css"/> -->
 <!-- 		<h:outputStylesheet name="primefaces-nova-colored/theme.css"/> -->
@@ -18,9 +18,14 @@ xmlns:p="http://primefaces.org/ui">
 <!-- 		<h:outputStylesheet name="primefaces-luna-amber/theme.css"/> -->
 <!-- 		<h:outputStylesheet name="components.css" library="primefaces"/> -->
 		<style type="text/css">
-       .emoticone {  
+		  .value {
+/*         font-weight: bold; */
+        font-size: 20px;
+    }
+       .pi {  
     width: 24px !important; 
     font-size: 24px !important; 
+
   }  
 </style>
 	</h:head>
@@ -29,30 +34,37 @@ xmlns:p="http://primefaces.org/ui">
 	<h:form>  
     <p:growl id="messages"/>
  	
- 	<p:toolbar style="height:80px;margin-bottom:10px">
+ 	<p:toolbar style="height:80px;font-size:13px">
         <f:facet name="left" style="margin-top:10px;">
-        	<p:graphicImage name="images/modele.jpg" style="height:50px; width:50px;margin-left:10px;
-       			border-radius: 5px"/>
-          <p:inputText style="margin-left:30px;" placeholder="Rechercher..." styleClass="pi pi-search"/>
+        	<p:graphicImage name="images/modele.jpg" style="height:50px; width:50px;margin-top:10px;
+       			border-radius: 5px;margin-left:10px;"/>
+       		<p:inputText style="margin-left:30px;" placeholder="Rechercher..." />
+          
         </f:facet>
- 
-        <f:facet name="right" style="margin-top:10px;">
-        	<p:linkButton  id="inscription" value="Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
-          	style="margin:1px 10px 1px 1px;" outcome="/views/creation/creationUtilisateur.xhtml"/>
+        <f:facet name="right" style="margin-top:20px;margin-right:20px;">
+        	<p:linkButton  id="inscription" value="	Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
+          	style="margin-right:10px;margin-top:20px;padding-left:10px;" 
+          	outcome="/views/creation/creationUtilisateur.xhtml"/>
+          	
            <p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
-           	outcome="/views/creation/creationEditeur.xhtml" style="margin:1px 10px 1px 1px;"/>
-          <p:commandButton value="Connexion" type="button" onclick="PF('dlg2').show();" icon="pi pi-sign-in"
-        		rendered="#{sessionScope['user'] == null}" style="margin:1px 10px 1px 1px;" />
-       	 <p:commandButton value="Déconnexion" action="#{connexionBean.logout}"  icon="pi pi-sign-out" 
-        		rendered="#{sessionScope['user'] != null}" style="margin:1px 10px 1px 1px;" update="@form"/>
-        <p:menuButton value="Options">
-        	<p:menuitem value="Publier" outcome="/views/creation/uploadDoc.xhtml" icon="pi pi-upload"
-     			styleClass="emoticone" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
-     			<p:menuitem value="Ma bibliothèque" url="#" icon="pi pi-bookmark" styleClass="emoticone"/> 
-     			<p:menuitem value="Mes transactions" url="#" icon="pi pi-money-bill" styleClass="emoticone"/>
-     			<p:menuitem value="Paramètres" url="#" icon="pi pi-cog" styleClass="emoticone"/>
+           	outcome="/views/creation/creationEditeur.xhtml" style="margin-right:10px;padding-left:10px"/>
+           	
+          <p:commandButton value="Connexion"  onclick="PF('dlg2').show();" icon="pi pi-sign-in"
+        		rendered="#{sessionScope['user'] == null}" style="margin-right:10px;padding-left:10px" />
+		
+		<h:outputText value="Bienvenue #{sessionScope['user'].nom}" 
+				 rendered="#{sessionScope['user'] != null}" style="margin-right:10px;"/>
+				 
+        <p:menuButton value="Mon profil" style="font-size:13px;margin-right:20px;margin-top:20px;padding-left:15px"
+        	icon="pi pi-user" autoDisplay="true" rendered="#{sessionScope['user'] != null}">
+        		
+        		<p:menuitem value="	Publier" outcome="/views/creation/uploadDoc.xhtml" icon="pi pi-upload"
+     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
+    			<p:menuitem value="Ma bibliothèque" url="#" icon="pi pi-bookmark" style="padding-left:10px"/> 
+     			<p:menuitem value="Mes transactions" url="#" icon="pi pi-money-bill" style="padding-left:10px"/>
+     			<p:menuitem value="Paramètres" url="#" icon="pi pi-cog" style="padding-left:10px"/>
      			<p:separator /> 
-     			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" icon="pi pi-sign-out" styleClass="emoticone"
+     			<p:menuitem value="	Déconnexion" action="#{connexionBean.logout}" icon="pi pi-sign-out" style="padding-left:10px;"
      			rendered="#{sessionScope['user'] != null}" outcome="/index.html" update="@form"/> 
         </p:menuButton>
         </f:facet>
@@ -87,7 +99,7 @@ xmlns:p="http://primefaces.org/ui">
 <!-- 			<p:commandButton value="Mot de passe oublié?" type="button" onclick="PF('dlg2').hide();PF('dlg3').show();" class="nav-link"/> -->
 	    </h:panelGrid>
 	    <p:commandButton value="Connexion" action="#{connexionBean.connect}" onclick="PF('dlg2').hide();"
-	    	icon="pi pi-sign-in" update="@form"/>
+	    	icon="pi pi-sign-in" style="padding-left:15px;" update="@form"/>
 	     </h:panelGrid>
 	</h:form>
 	</p:dialog>

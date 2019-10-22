@@ -16,19 +16,26 @@ xmlns:p="http://primefaces.org/ui">
     }
        .emoticone {  
     width: 24px !important; 
+     
     font-size: 24px !important; 
   }  
 </style>
 	</h:head>
 		<div class="ui-g">
 		    <div class="ui-g-12 ui-md-3">
+		    
 		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
-		        	detail="#{panierBean.articles.size()} article(s) dans le panier."/>
-		        	<p:link value="Commander" outcome="views/listing/recapitulatifAchats.xhtml"/>
+		        	detail="#{panierBean.articles.size()} article(s) dans le panier."
+		        	rendered="#{panierBean.articles.size() > 0}"/>
+<!-- 		        	<h:form > -->
+		        	<p:link value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
+		        	rendered="#{sessionScope['user'] != null}"/>
 <!-- 		        </p:staticMessage> -->
+<!-- 			</h:form> -->
 		    </div>
     	</div>
 		<h:form id="formListe">
+			<p:growl id="msg"  showDetail="true" sticky="true" />
 		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" 
 		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
 		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -46,7 +53,7 @@ xmlns:p="http://primefaces.org/ui">
 			                    <h:outputText styleClass="pi pi-eye emoticone" style="margin:0 auto;text-align:center;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
 			                </p:commandLink>
-			                <p:commandLink  title="Acheter" update=":nbArticles" action="#{panierBean.panier}">
+			                <p:commandLink  title="Acheter" update=":nbArticles @form :commande" action="#{panierBean.panier}">
 			                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;text-align:center;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />
 			                </p:commandLink>
