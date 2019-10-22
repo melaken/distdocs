@@ -22,7 +22,8 @@ import dao.UtilisateurDao;
 @Named
 @SessionScoped
 public class ConnexionBean implements Serializable{
-
+	
+	private final static String ACCUEIL = "index";
 	private final String MODULE = ConnexionBean.class.getName();
 	private static final long serialVersionUID = 1L;
 	@EJB
@@ -52,7 +53,7 @@ public class ConnexionBean implements Serializable{
 		this.email = email;
 	}
 
-	public void connect() {
+	public String connect() {
 		boolean valid = loginDao.validate(email, password);
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
@@ -62,7 +63,7 @@ public class ConnexionBean implements Serializable{
 				session.setAttribute("user", userDao.trouver(email));
 				
 				try {
-					reload();
+					exterNalContext.redirect("index.xhtml");
 				} catch (IOException e) {
 					Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 					e.printStackTrace();
@@ -75,18 +76,22 @@ public class ConnexionBean implements Serializable{
 								"Veuillez saisir des informations valides"));
 				System.out.println("not connected");
 			}
-//		}catch(Exception ex) {
-			
-//		}
+			return "index";
 	}
 
 	//logout event, invalidate session
-	public void logout() {
+	public String logout() {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-		session.invalidate();
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(" ",  "Vous êtes déconnecté: ") );
-		System.out.println("Deconnected");
+		ExternalContext  exterNalContext = facesContext.getExternalContext();
+		exterNalContext.invalidateSession();
+		try {
+			exterNalContext.redirect("index.xhtml");
+		} catch (IOException e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		facesContext.addMessage(null, new FacesMessage(" ",  "Vous êtes déconnecté: ") );
+		return "logout";
 	}
 	public void reload()throws IOException {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

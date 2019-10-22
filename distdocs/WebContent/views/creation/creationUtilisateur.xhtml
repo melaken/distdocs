@@ -7,15 +7,24 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
 	<h:head>
 		<title>Création compte</title>
+		<meta charset="utf-8"/>
+  		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+  		<h:outputStylesheet library="default" name="css/form.css" />
+  		<h:outputStylesheet library="default" name="css/style.css" />
+  		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+  		<h:outputStylesheet name="components.css" library="primefaces"/>
 	</h:head>
 	
 	<h:body>
-	   <h:panelGrid columns="3" cellpadding="5" style="margin-bottom:10px">
-	        <ui:insert name = "nav" >
+		<ui:insert name = "nav" >
+	      <ui:include src = "../../menuBar.xhtml" />
+	   </ui:insert>
+    <div  align="center"> 
+		<h:form id="formCreateUser">
+	        <ui:insert name = "createUser" >
 	     		 <ui:include src = "formCreationUtilisateur.xhtml" />
 	   		</ui:insert>
-   	    </h:panelGrid>
-   	    <p:commandButton value="Envoyer" update="display" icon="pi pi-check" />
-	</h:form>
+		</h:form>
+	</div>
 	</h:body>
 </html>

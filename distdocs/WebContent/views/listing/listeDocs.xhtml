@@ -7,27 +7,34 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
 	<h:head>
 		<title>kiosque numérique</title>
+		<h:outputStylesheet library="default" name="css/style.css" />
+		<h:outputStylesheet name="components.css" library="primefaces"/>
 		<style type="text/css">
     .value {
         font-weight: bold;
         font-size: 20px;
     }
+       .emoticone {  
+    width: 24px !important; 
+    font-size: 24px !important; 
+  }  
 </style>
 	</h:head>
-	
+		<div class="ui-g">
+		    <div class="ui-g-12 ui-md-3">
+		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
+		        	detail="#{panierBean.articles.size()} article(s) dans le panier."/>
+		        	<p:link value="Commander" outcome="views/listing/recapitulatifAchats.xhtml"/>
+<!-- 		        </p:staticMessage> -->
+		    </div>
+    	</div>
 		<h:form id="formListe">
 		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" 
 		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
 		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		        rowsPerPageTemplate="6,12,16">
-		         
-<!-- 		        <f:facet name="header"> -->
-<!-- 		           Journaux -->
-<!-- 		        </f:facet> -->
-		 
 		        <p:panel style="text-align:center;margin:0px;border:0" padding="0">
-		            <h:panelGrid columns="1" style="width:200px;height:300px;"  
-		            	>
+		            <h:panelGrid columns="1" style="width:200px;height:300px;">
 		            	<p:lightBox styleClass="imagebox">  
 		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
                 		 	<f:param name="id" value="#{doc.premiereCouverture}" />
@@ -36,15 +43,15 @@ xmlns:p="http://primefaces.org/ui">
                 		<h:outputText value="#{doc.prix}FCFA" styleClass="label value"/>
                 		<f:facet name="footer">
 			                <p:commandLink update=":formListe:image" oncomplete="PF('coverDialog').show()" title="Agrandir">
-			                    <h:outputText styleClass="pi pi-eye" style="margin:0 auto;text-align:center;"/>
+			                    <h:outputText styleClass="pi pi-eye emoticone" style="margin:0 auto;text-align:center;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
 			                </p:commandLink>
-			                <p:commandLink  title="Acheter">
-			                    <h:outputText styleClass="pi pi-shopping-cart" style="margin:0 auto;text-align:center;"/>
-			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.panier}" />
+			                <p:commandLink  title="Acheter" update=":nbArticles" action="#{panierBean.panier}">
+			                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;text-align:center;"/>
+			                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />
 			                </p:commandLink>
 			                <p:commandLink  title="Résumé" update=":formListe:resumeOutput" oncomplete="PF('resumeDialog').show()">
-			                    <h:outputText styleClass="pi pi-bookmark" style="margin:0 auto;text-align:center;"/>
+			                    <h:outputText styleClass="pi pi-bookmark emoticone" style="margin:0 auto;text-align:center;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
 			                </p:commandLink>
 			                
@@ -73,4 +80,5 @@ xmlns:p="http://primefaces.org/ui">
                	</p:outputPanel>
             </p:dialog>
     </h:form>
+    
 </html>

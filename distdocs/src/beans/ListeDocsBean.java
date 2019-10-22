@@ -6,6 +6,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -76,6 +78,7 @@ public class ListeDocsBean {
 		content=  new DefaultStreamedContent(new ByteArrayInputStream(
 				bos.toByteArray()), "image/png");
 		}catch(Exception ex) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, ex.getMessage(), ex);
 			ex.printStackTrace();
 		}
 		return content;

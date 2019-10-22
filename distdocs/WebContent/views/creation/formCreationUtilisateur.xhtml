@@ -5,42 +5,71 @@ xmlns:f="http://java.sun.com/jsf/core"
 xmlns:h="http://java.sun.com/jsf/html"
 xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
-	<h:head>
-		<h:outputStylesheet library="default" name="css/form.css" />
-	</h:head>
-	<h:outputLabel for="nom" value="Nom" style="font-weight:bold">
-		<span class="requis">*</span>
-	</h:outputLabel>
-    <p:inputText id="nom" value="#{user.nom}" />
-    <h:message id="nomMessage" for="nom" errorClass="erreur" />
-<!--     <br /> -->
-    <h:outputLabel for="prenom" value="Prénom" style="font-weight:bold" />
-    <p:inputText id="prenom" value="#{user.prenom}" />
-    <h:message id="prenomMessage" for="prenom" errorClass="erreur" />
-<!--     <br /> -->
-    <h:outputLabel for="email" value="Email" style="font-weight:bold">
-    	<span class="requis">*</span>
-	</h:outputLabel>
-    <p:inputText id="email" value="#{user.email}" size="20" maxlength="60">
-		<f:ajax event="blur" render="emailMessage" />
-		<f:validator  binding="#{existenceEmailValidator}" />
-	</p:inputText>
-    <h:message id="emailMessage" for="email" errorClass="erreur" />
-<!--     <br /> -->
-    <h:outputLabel for="motDePasse" value="Mot de passe" style="font-weight:bold">
-    	<span class="requis">*</span>
-	</h:outputLabel>
-    <h:inputSecret id="motDePasse" value="#{user.motDePasse}" size="20" maxlength="20" >
-		<f:ajax event="blur" execute="motdepasse confirmation" render="motDePasseMessage confirmationMessage" />
-	</h:inputSecret>
-    <h:message id="motDePasseMessage" for="motDePasse" errorClass="erreur" />
-    <br />
-    <h:outputLabel for="numtel" value="Numéro de téléphone" style="font-weight:bold">
-    	<span class="requis">*</span>
-	</h:outputLabel>
-    <p:inputText id="numtel" value="#{user.numTel}">
-    	<f:ajax event="blur" render="numTelMessage" />
-    </p:inputText>
-    <h:message id="numTelMessage" for="numTel" errorClass="erreur" /> 
-<!--     <br /> -->
+<h:head>
+	<h:outputStylesheet library="default" name="css/style.css" />
+</h:head>
+	    	<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px;width:500px">
+	     		<f:facet name="header">Informations de l'utilisateur</f:facet>
+			   	<h:panelGrid columns="2">
+					<h:outputLabel for="nom" value="Nom" style="font-weight:bold">
+						<span class="requis">*</span>
+					</h:outputLabel>
+		    		<p:inputText id="nom" value="#{creationUserBean.user.nom}">
+		    			<f:ajax event="blur" render="nomMessage" />
+					</p:inputText>
+		    		<h:message id="nomMessage" for="nom" errorClass="erreur" />
+		   		</h:panelGrid>
+				<h:panelGrid columns="2" >
+		    		<h:outputLabel for="prenom" value="Prénom" style="font-weight:bold" />
+				    <p:inputText id="prenom" value="#{creationUserBean.user.prenom}" />
+				    <h:message id="prenomMessage" for="prenom" errorClass="erreur" />
+			    </h:panelGrid>
+				<h:panelGrid columns="2" >
+				    <h:outputLabel for="email" value="Email" style="font-weight:bold">
+				    	<span class="requis">*</span>
+					</h:outputLabel>
+				    <p:inputText id="email" value="#{creationUserBean.user.email}" size="20" maxlength="60">
+						<f:ajax event="blur" render="emailMessage" />
+						<f:validator  binding="#{existenceEmailValidator}" />
+					</p:inputText>
+				    <h:message id="emailMessage" for="email" errorClass="erreur" />
+			    </h:panelGrid>
+				<h:panelGrid columns="2" >
+				    <h:outputLabel for="motDePasse" value="Mot de passe" style="font-weight:bold">
+				    	<span class="requis">*</span>
+					</h:outputLabel>
+				   <p:password id="motdepasse" value="#{creationUserBean.user.motDePasse}" binding="#{composantMotDePasse}"
+						size="20" maxlength="20" >
+						<f:ajax event="blur" execute="motdepasse confirmation"
+							render="motDePasseMessage confirmationMessage" />
+					</p:password>
+					<h:message id="motDePasseMessage" for="motdepasse" errorClass="erreur" />
+			    </h:panelGrid>
+				<h:panelGrid columns="2" >
+					<h:outputLabel for="confirmation" style="font-weight:bold">Confirmation du mot de passe 
+						<span class="requis">*</span>
+					</h:outputLabel>
+					<p:password id="confirmation"
+						value="#{creationUserBean.user.motDePasse}" size="20" maxlength="20" >
+						<f:ajax event="blur" execute="motdepasse confirmation" render="motDePasseMessage confirmationMessage" />
+						<f:attribute name="composantMotDePasse" value="#{composantMotDePasse}" />
+						<f:validator validatorId="confirmationMotDePasseValidator" />
+					</p:password>
+					<h:message id="confirmationMessage" for="confirmation" errorClass="erreur" />
+				</h:panelGrid>
+				<h:panelGrid columns="2" >
+				    <h:outputLabel for="numtel" value="Numéro de téléphone" style="font-weight:bold">
+				    	<span class="requis">*</span>
+					</h:outputLabel>
+				    <p:inputNumber id="numtel" value="#{creationUserBean.user.numTel}">
+				    	<f:ajax event="blur" render="numTelMessage" />
+				    </p:inputNumber>
+				    <h:message id="numTelMessage" for="numtel" errorClass="erreur" /> 
+			    </h:panelGrid>
+				<f:facet name="footer">
+	   	    		<p:commandButton value="S'inscrire" action="#{creationUserBean.inscrire}" icon="pi pi-user-plus" 
+	   	    		style="align:center"/>
+	   	    </f:facet>
+   	    </h:panelGrid>
+	
 </html>

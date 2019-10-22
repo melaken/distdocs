@@ -4,4 +4,33 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
     
+     <navigation-rule>
+      <from-view-id>index.xhtml</from-view-id>
+      <navigation-case>
+         <from-action>#{connexionBean.connect}</from-action>
+         <from-outcome>index</from-outcome>
+         <to-view-id>views/creation/creationUtilisateur.xhtml</to-view-id>
+      </navigation-case>
+      <navigation-case>
+         <from-action>#{connexionBean.logout}</from-action>
+         <from-outcome>logout</from-outcome>
+         <to-view-id>/index.xhtml</to-view-id>
+      </navigation-case>
+   </navigation-rule>
+   <navigation-rule>
+      <from-view-id>/views/creation/creationUtilisateur.xhtml</from-view-id>
+      <navigation-case>
+         <from-action>#{creationUserBean.inscrire}</from-action>
+         <from-outcome>index</from-outcome>
+         <to-view-id>/index.xhtml</to-view-id>
+      </navigation-case>
+   </navigation-rule>
+    <navigation-rule>
+      <from-view-id>/views/creation/creationEditeur.xhtml</from-view-id>
+      <navigation-case>
+         <from-action>#{creationEditeurBean.creerEditeur}</from-action>
+         <from-outcome>index</from-outcome>
+         <to-view-id>/index.xhtml</to-view-id>
+      </navigation-case>
+   </navigation-rule>
 </faces-config>

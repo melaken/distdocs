@@ -12,27 +12,14 @@ xmlns:p="http://primefaces.org/ui">
 		<h:outputStylesheet library="default" name="bootstrap/css/bootstrap.min.css" />
 	</h:head>
 	<h:body>
-		<h:panelGrid columns="1" cellpadding="5">
-    <p:commandButton value="Basic" type="button" onclick="PF('dlg1').show();" />
-     
-    <p:commandButton value="Modal" type="button" onclick="PF('dlg2').show();" />
-     
-    <p:commandButton value="Effects" type="button" onclick="PF('dlg3').show();" /> 
-</h:panelGrid>
-<p:dialog header="Basic Dialog" widgetVar="dlg1" minHeight="40">
-    <h:outputText value="Resistance to PrimeFaces is futile!" />
-</p:dialog>
- 
-<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100" showEffect="explode" hideEffect="bounce">
-    <h:form>
-    <h:panelGrid columns="4" cellpadding="5">
-        <h:outputLabel for="name" value="Name:" style="font-weight:bold" />
-        <p:inputText id="name" value="#{basicView.text}" />
-        <p:commandButton value="Submit" update="display" icon="pi pi-check" />
-        <h:outputText id="display" value="#{basicView.text}" />
-    </h:panelGrid>
-</h:form>
-</p:dialog>   
+		<p:submenu label="Paramètres" icon="pi pi-cog" style="text-align:right;margin-right:0px" >
+     			<p:menuitem value="Publier" outcome="/views/creation/uploadDoc.xhtml" icon="pi pi-upload"
+     			styleClass="emoticone" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
+     			<p:menuitem value="Ma bibliothèque" url="#" icon="pi pi-bookmark" styleClass="emoticone"/> 
+     			<p:menuitem value="Mes transactions" url="#" icon="pi pi-money-bill" styleClass="emoticone"/> 
+     			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" icon="pi pi-sign-out" styleClass="emoticone"
+     			rendered="#{sessionScope['user'] != null}" outcome="/index.html" update="@form"/> 
+   			</p:submenu>
 <p:commandButton value="Envoyer" action="#{editeurBean.creerEditeur}" icon="pi-check" 
 	   	    		align="center"/>
 <p:selectOneMenu>
