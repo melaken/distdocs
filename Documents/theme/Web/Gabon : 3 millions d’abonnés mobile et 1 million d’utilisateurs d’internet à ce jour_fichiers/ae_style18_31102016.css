@@ -1,0 +1,74 @@
+/* CSS Document */
+
+/* STYLE 1 : Image moyenne texte a droite en bas */
+.aidanews2_k2_style18 .aidanews2_k2_topL {
+    width: 25%;
+    float: left;
+}
+
+.aidanews2_k2_style18 .aidanews2_k2_topR {
+    width: 73%;
+    float: right;
+    /*position: absolute;
+    bottom: 10px;
+    right: 0px; */
+}
+
+.aidanews2_k2_style18 .aidanews2_k2_title a {
+    color: black;
+    font-weight: bold;
+    font-size: 1.3em;
+    font-family: arial;
+    line-height: normal;
+}
+
+.aidanews2_k2_style18 span.aidanews2_k2_date {
+    border-right: 1px solid #eee;
+    padding-right: 5px;
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+.aidanews2_k2_style18 span.aidanews2_k2_category {
+     font-size: 0.8em;
+     text-transform: uppercase;
+}
+
+.aidanews2_k2_style18 .aidanews2_k2_positions {
+	margin-bottom:3px;
+}     
+
+.aidanews2_k2_style18 .aidanews2_k2_title {
+  line-height: 1em;
+  font-size:11px;
+}
+.aidanews2_k2_style18 .aidanews2_k2_foot {
+    clear: both;
+    position: absolute;
+    top: 0px;
+    /* left: 0px; */
+    color: #fff;
+    background-color: rgba(0,0,0,0.25);
+    padding: 3px;
+    font-size:9px;
+}
+
+.aidanews2_k2_style18 .aidanews2_k2_positions {
+    border-top: thin solid #feb17d !IMPORTANT;
+}
+.aidanews2_k2_style18 .aidanews2_k2_first .aidanews2_k2_positions {
+    border-top: 0px !IMPORTANT;
+}
+.style18{
+ border:2px solid #feb17d !IMPORTANT;
+ background-color: #fff;
+}
+
+.style18-content {
+ background-color: #f9ede5;
+ margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 10px;
+    padding-right: 10px;
+        border-top: 2px solid #feb17d;
+        height: 100%;
+}

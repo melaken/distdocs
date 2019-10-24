@@ -1,0 +1,119 @@
+.ticker-wrapper.has-js {
+	margin:0;
+	padding:0;
+	width:100%;
+	height:44px;
+	display:block;
+}
+.news-ticker-wrap {
+	height:44px;
+	margin-bottom:20px;
+	overflow:hidden;
+	position:relative
+}
+.news-ticker {
+	background:#f0f0f0;
+	margin:0;
+	min-width:30%;
+	max-width:100%;
+}
+.ticker {
+	width:82%;
+	height:44px;
+	display:block;
+	position:relative;
+	overflow:hidden;
+}
+.news-ticker-title {
+	float:left;
+	padding:12px 10px;
+	color:#fff;
+	font-weight:400;
+	text-transform:uppercase;
+}
+.ticker-content {
+	margin:0px;
+	padding-top:0;
+	position:absolute;
+	font-weight:400;
+	overflow:hidden;
+	white-space:nowrap;
+	line-height:1.2em;
+}
+.ticker-content img {
+	display:inline-block;
+	float:left;
+	margin:7px 15px 7px 0;
+	width:30px
+}
+.ticker-content span {
+	display:inline-block;
+	padding:14px 0
+}
+.ticker a { color:#333 }
+.ticker a span.ticker-meta { color:#000 }
+.ticker-swipe {
+	padding-top:14px;
+	position:absolute;
+	top:0px;
+	background-color:#f0f0f0;
+	display: block;
+	width:800px;
+	height:23px; 
+}
+.ticker-swipe span {
+	margin-left:1px;
+	background-color:#f0f0f0;
+	border-bottom:1px solid #f0f0f0;
+	height:18px;
+	width:7px;
+	display:block;
+}
+.ticker-controls { padding:0 }
+.ticker-controls li {
+	background:#f0f0f0;
+    font-family:FontAwesome;
+    font-style:normal;
+    font-weight:normal;
+    text-decoration:inherit;
+    color:#7e7e7e;
+    font-size:14px;
+    padding-right:0;
+    position: absolute;
+    top:0;
+    left:0;
+	position:relative;
+	padding:14px 0;
+	margin-left:5px;
+	float:left;
+	cursor:pointer;
+	height:16px;
+	width:16px;
+	display:block;
+}
+.ticker-controls li.jnt-play-pause { width:14px }
+.ticker-controls li.jnt-play-pause:before { content: "\f04b" }
+.ticker-controls li.jnt-play-pause.paused:before { content: "\f04c" }
+.ticker-controls li.jnt-prev:before { content: "\f04a" }
+.ticker-controls li.jnt-next:before { content: "\f04e" }
+
+.js-hidden { display:none }
+.no-js-news {
+	padding:10px 0 0 45px; 
+	color:#F8F0DB;
+}
+.left .ticker-controls, .left .ticker-content, .left .ticker-title, .left .ticker { float:left }
+.left .ticker-controls { padding-left:6px }
+.right .ticker-controls, .right .ticker-content, .right .ticker-title, .right .ticker { float:right }
+.right .ticker-controls { padding-right:6px }
+
+@media screen and (max-width:1260px) {
+	.ticker { width:77%}
+}
+@media screen and (max-width:1024px) {
+	.ticker { width:73%}
+}
+@media screen and (max-width:768px) {
+	.ticker { width:100%}
+	.left .ticker-controls { display:none }
+}

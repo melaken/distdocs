@@ -1,0 +1,107 @@
+/* CSS Document */
+
+/* CSS Document */
+
+.chapoarticle {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 14pt;
+text-align: justify;
+font-weight: bolder;
+color: #000000;
+display: block;
+}
+.textearticle {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 10pt;
+text-align: justify;
+color: #222222;
+line-height: normal !IMPORTANT;
+font-weight: normal;
+font-variant: normal;
+text-transform: none;
+}
+.soustitrearticle {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 13pt;
+font-weight: bolder;
+color: #000000;
+display: block;
+}
+.auteurarticle {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 12pt;
+text-align: left;
+font-weight: bold;
+color: #000000;
+font-style: italic;
+font-variant: normal;
+text-decoration: none;
+}
+.legendearticle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11pt;
+	font-weight: normal;
+	color: #222222;
+	display: block;
+	text-align:center;
+}
+.exerguearticle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14pt;
+	font-weight: bolder;
+	color: #000000;
+	display: block;
+	margin-top:8px;
+	margin-bottom:8px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-top-color: #333333;
+	border-right-color: #333333;
+	border-bottom-color: #333333;
+	border-left-color: #333333;
+	padding: 10px;
+	text-align: center;
+}
+.encadrearticle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	color: #000000;
+	display: inline-block;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #993300;
+	border-right-color: #993300;
+	border-bottom-color: #993300;
+	border-left-color: #993300;
+	padding: 3px;
+	text-align: justify;
+	width: 95%;
+	left: 2%;
+	right: 2%;
+	position: relative;
+}
+.titreencadrearticle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-weight: bolder;
+	color: #663300;
+	padding-top:3px;
+	padding-bottom:3px;
+	text-align: center;
+	font-variant: small-caps;
+	display: block;
+}

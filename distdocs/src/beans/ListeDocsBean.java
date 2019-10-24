@@ -77,7 +77,7 @@ public class ListeDocsBean {
 		System.out.println("getImages() in else");
 		content=  new DefaultStreamedContent(new ByteArrayInputStream(
 				bos.toByteArray()), "image/png");
-		}catch(Exception ex) {
+		}catch(Throwable ex) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, ex.getMessage(), ex);
 			ex.printStackTrace();
 		}

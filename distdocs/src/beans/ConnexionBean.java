@@ -86,7 +86,9 @@ public class ConnexionBean implements Serializable{
 		exterNalContext.invalidateSession();
 		try {
 			exterNalContext.redirect("index.xhtml");
-		} catch (IOException e) {
+//			reload();
+			System.out.println("disconnected");
+		} catch (Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
 		}

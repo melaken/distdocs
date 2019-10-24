@@ -4,6 +4,8 @@
 	<jta-data-source>jdbc/distdocs</jta-data-source>
 		<class>entities.Utilisateur</class>
 		<class>entities.Document</class>
+		<class>entities.DocsAchetes</class>
+		<class>entities.Editeur</class>
 		 <properties>
             <property name="eclipselink.logging.level.sql" value="FINE"/>
             <property name="eclipselink.logging.parameters" value="true"/>

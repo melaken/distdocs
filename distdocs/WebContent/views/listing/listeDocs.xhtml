@@ -14,6 +14,10 @@ xmlns:p="http://primefaces.org/ui">
         font-weight: bold;
         font-size: 20px;
     }
+/*     div{ */
+/*     margin-right:30px; */
+/* 	margin-left:30px; */
+/*     } */
        .emoticone {  
     width: 24px !important; 
      
@@ -34,13 +38,13 @@ xmlns:p="http://primefaces.org/ui">
 <!-- 			</h:form> -->
 		    </div>
     	</div>
-		<h:form id="formListe">
+		<h:form id="formListe" >
 			<p:growl id="msg"  showDetail="true" sticky="true" />
 		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" 
 		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
 		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		        rowsPerPageTemplate="6,12,16">
-		        <p:panel style="text-align:center;margin:0px;border:0" padding="0">
+<!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
 		            <h:panelGrid columns="1" style="width:200px;height:300px;">
 		            	<p:lightBox styleClass="imagebox">  
 		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
@@ -64,7 +68,7 @@ xmlns:p="http://primefaces.org/ui">
 			                
 		                </f:facet>
 		            </h:panelGrid>
-		        </p:panel>
+<!-- 		        </p:panel> -->
 		    </p:dataGrid>
 		    <p:dialog  widgetVar="coverDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"
 		    	header="Aperçu">

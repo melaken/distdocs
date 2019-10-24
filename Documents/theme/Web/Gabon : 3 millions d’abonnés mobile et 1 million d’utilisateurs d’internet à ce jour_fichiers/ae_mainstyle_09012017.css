@@ -1,0 +1,827 @@
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+  body{font-size: 14px;}
+}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+  body{font-size: 13px;}
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+  body{font-size: 12px;}
+  .container{width:100%;}
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+  body{font-size: 11px;}
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+  body{font-size: 10px;}
+}
+
+.sppb-row {
+    margin-left: 0px !IMPORTANT;
+    margin-right: 0px !IMPORTANT; 
+}
+#sp-logo .container {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0px;
+}
+#sp-main-menu .container {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0px;
+}
+#sp-main-body {
+padding: 20px 0;
+}
+#sp-toolbar .sp-module {
+   margin-top: 10px;
+}
+body {
+    background: url('/templates/shaper_newedge/images/background-red.png');
+    background-repeat: repeat-x, no-repeat;
+}
+#k2Container img {
+    display: inline;
+}
+.sourcecoast.jfbccomments_count {
+    display: inline;
+}
+.sp-module ul >li >a:before {
+    font-family: FontAwesome;
+    content: "" !IMPORTANT;
+    margin-right: 0px !IMPORTANT;
+}
+
+/* .border-right-thin  {
+  border-right:1px solid #eee;
+}   
+.border-right-thin .aidanews2_k2_topR {
+  padding-right: 18px;
+} */  
+
+.fb_comments_count_zero {
+  display:none;
+}
+.sourcecoast {
+    display: inline;
+}
+.sourcecoast.likebox {
+    display: block;
+}
+div.itemHeader h2.itemTitle {
+    font-family: Arial, Helvetica, non-serif;
+    font-size: 3em;
+    font-weight: normal;
+    line-height: 110%;
+    padding: 10px 0 4px 0;
+    margin: 0;
+}
+
+#sp-footer .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.cont {
+  margin-top: 10px;
+}
+.cont:before {
+    position: absolute;
+    content: "";
+    background-color:#ff0000;
+    border-radius:50%;
+    opacity:0.75;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    margin-top: 8px;
+}
+
+.cont2 {
+  margin-top: 10px;
+}
+.cont2:before {
+    position: absolute;
+    content: "";
+    background-color:#0000ff;
+    border-radius:50%;
+    opacity:0.75;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    margin-top: 8px;
+}
+
+.cont3 {
+  margin-top: 10px;
+}
+.cont3:before {
+    position: absolute;
+    content: "";
+    background-color:#000000;
+    border-radius:50%;
+    opacity:0.75;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    margin-top: 8px;
+    top:15px;
+} 
+
+
+p.titlerubrique {
+    margin-left: 24px;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+p.titlerubrique-normal {
+    margin-left: 24px;
+    margin-bottom:0px;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    /*text-transform: uppercase;*/
+}
+
+#sp-page-builder .page-content .sppb-section {
+    border-bottom: 1px solid #eee;
+}
+#sp-bottom {
+display:none;
+}
+#terroirs-africains .sppb-title-heading {
+    background-color: #000;
+    padding: 10px;
+    display: inline-block;
+}
+#terroirs-africains .sppb-section-title {
+    margin-bottom: 0px;
+}
+body {
+    line-height: normal !IMPORTANT;
+}
+
+
+
+div.itemIntroText {
+    color: #444;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: normal;
+    padding: 4px 0 12px 0;
+}
+
+.grisccc {
+    background-color: #ccc;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.grisddd {
+    background-color: #ddd;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.griseee {
+    background-color: #eee;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.electback1 {
+    background-color: #c8ecd3;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.electback2 {
+    background-color: #dcefe2;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.electback3 {
+    background-color: #eef8f1;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+
+.hydroback1 {
+    background-color: #9bd2de;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.hydroback2 {
+    background-color: #b8dce3;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.hydroback3 {
+    background-color: #d5edf2;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+
+.minesback1 {
+    background-color: #f9e8ad;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.minesback2 {
+    background-color: #f9efcd;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.minesback3 {
+    background-color: #fcf6e0;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+
+
+.commback1 {
+    background-color: #ffe2b0;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.commback2 {
+    background-color: #fae8c8;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.commback3 {
+    background-color: #fbf1e0;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.ticback1 {
+    background-color: #b7dbe8;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.ticback2 {
+    background-color: #d6ebf2;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.ticback3 {
+    background-color: #eaf3f6;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+
+.agroback1 {
+    background-color: #efc4ae;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.agroback2 {
+    background-color: #f4d8ca;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.agroback3 {
+    background-color: #f8e6dd;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+
+.financeback1 {
+    background-color: #e4e7fc;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.financeback2 {
+    background-color: #d4d7f7;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.financeback3 {
+    background-color: #b4b9ec;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+
+.gestionpubliqueback1 {
+    background-color: #e1dada;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.gestionpubliqueback2 {
+    background-color: #c7bfbf;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+.gestionpubliqueback3 {
+    background-color: #c6bdbd;
+    margin-left: -15px!IMPORTANT;
+    padding-left: 15px;
+    margin-right: -15px;
+    padding-right: 15px;
+}
+
+/* STYLE UNE */
+
+.aidanews2_k2_styleune .aidanews2_k2_title a {
+    color: black;
+    font-weight: bold;
+    font-size: 3em;
+    font-family: arial;
+    line-height: normal;  
+}
+.aidanews2_k2_styleune .aidanews2_k2_title {
+  margin-top:10px;
+}
+.aidanews2_k2_styleune {
+  margin-bottom:10px;
+}
+
+/* STYLE BIS */
+.aidanews2_k2_stylebis .aidanews2_k2_title a {
+    color: black;
+    font-weight: bold;
+    font-size: 2.5em;
+    font-family: arial;
+    line-height: normal;
+}
+.aidanews2_k2_stylebis {
+  margin-bottom:10px;
+}
+
+/* STYLE 1 : Image moyenne texte a droite en bas */
+.aidanews2_k2_style1 .aidanews2_k2_topL {
+    width: 25%;
+    float: left;
+}
+
+.aidanews2_k2_style1 .aidanews2_k2_topR {
+    width: 73%;
+    float: right;
+    /*position: absolute;
+    bottom: 10px;
+    right: 0px; */
+}
+
+.aidanews2_k2_style1 .aidanews2_k2_title a {
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: arial;
+    line-height: normal;
+}
+
+.aidanews2_k2_style1 span.aidanews2_k2_date {
+    border-right: 1px solid #eee;
+    padding-right: 5px;
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+.aidanews2_k2_style1 span.aidanews2_k2_category {
+     font-size: 0.8em;
+     text-transform: uppercase;
+}
+
+.aidanews2_k2_style1 .aidanews2_k2_positions {
+	margin-bottom:20px;
+}     
+
+.aidanews2_k2_style1 .aidanews2_k2_title {
+  line-height: 1em;
+}
+.aidanews2_k2_style1 .aidanews2_k2_foot {
+    clear: both;
+    position: absolute;
+    top: 0px;
+    /* left: 0px; */
+    color: #fff;
+    background-color: rgba(0,0,0,0.25);
+    padding: 3px;
+    font-size:9px;
+}
+
+/* STYLE 2 : petite image texte en dessous*/
+
+.aidanews2_k2_style2 .aidanews2_k2_title a {
+    line-height: 1.1em;
+    font-size: 1.1em;
+    color: black;
+    font-weight: bold;
+    font-family: Arial;
+}
+.aidanews2_k2_style2 .aidanews2_k2_title {
+  line-height: 1.1em;
+  margin-top:10px;
+}
+.aidanews2_k2_style2:first-child {
+    margin-right: 5px;
+}
+.aidanews2_k2_style2 .aidanews2_k2_foot {
+    clear: both;
+    position: absolute;
+    top: 0px;
+    /* left: 0px; */
+    color: #fff;
+    background-color: rgba(0,0,0,0.25);
+    padding: 3px;
+    font-size:9px;
+}
+
+/* STYLE 2 : texte en dessous*/
+
+.aidanews2_k2_style2bis .aidanews2_k2_title a {
+    line-height: 1.1em;
+    font-size: 1.1em;
+    color: black;
+    font-weight: bold;
+    font-family: Arial;
+}
+.aidanews2_k2_style2bis .aidanews2_k2_title {
+  line-height: 1.1em;
+  margin-top:0px;
+  padding-top: 0px;
+}
+.aidanews2_k2_style2bis:first-child {
+    margin-right: 5px;
+}
+
+
+/* STYLE 3 : image moyenne texte en dessous*/
+
+.aidanews2_k2_style3 .aidanews2_k2_title a {
+    line-height: 1.1em;
+    font-size: 1.5em;
+    color: black;
+    font-weight: bold;
+    font-family: Arial;
+}
+.aidanews2_k2_style3 .aidanews2_k2_title {
+    line-height: 1.5em;
+  margin-top:10px;
+}
+.aidanews2_k2_style3:first-child {
+    margin-right: 5px;
+}
+.aidanews2_k2_style3 .aidanews2_k2_foot {
+    clear: both;
+    position: absolute;
+    top: 0px;
+    /* left: 0px; */
+    color: #fff;
+    background-color: rgba(0,0,0,0.25);
+    padding: 3px;
+    font-size:9px;
+}
+
+/* STYLE 4 : Image petite texte a droite en bas */
+.aidanews2_k2_style4 .aidanews2_k2_topL {
+    width: 49%;
+    float: left;
+}
+
+.aidanews2_k2_style4 .aidanews2_k2_topR {
+    width: 49%;
+    float: right;
+    /*position: absolute;
+    bottom: 10px;
+    right: 0px;*/
+}
+
+.aidanews2_k2_style4 .aidanews2_k2_title a {
+    color: black;
+    font-weight: bold;
+    font-size: 1em;
+    font-family: arial;
+    line-height: normal;
+}
+
+.aidanews2_k2_style4 .aidanews2_k2_positions {
+	margin-bottom:20px;
+}     
+
+.aidanews2_k2_style4 .aidanews2_k2_title {
+  line-height: 1em;
+}
+.aidanews2_k2_style4 .aidanews2_k2_foot {
+    clear: both;
+    position: absolute;
+    top: 0px;
+    /* left: 0px; */
+    color: #fff;
+    background-color: rgba(0,0,0,0.25);
+    padding: 3px;
+    font-size:9px;
+}
+
+
+/* STYLE 5: Gastronomie text blanc */
+.aidanews2_k2_style5 .aidanews2_k2_topL {
+    width: 49%;
+    float: left;
+}
+.aidanews2_k2_style5 .aidanews2_k2_topR {
+    width: 49%;
+    float: right;
+    line-height: 12px;
+}
+.aidanews2_k2_style5 .aidanews2_k2_title {
+  line-height: 12px;
+}
+.aidanews2_k2_style5 .aidanews2_k2_title a {
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: arial;
+    line-height: normal;
+}
+.aidanews2_k2_style5 .aidanews2_k2_text {
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+    font-family: arial;
+    line-height: 12px;
+}
+.aidanews2_k2_style5 .aidanews2_k2_positions {
+    margin-bottom: 10px;
+}
+
+/* STYLE 6 page: INTERNE ;*/ 
+.aidanews2_k2_style6 .aidanews2_k2_title a {
+    color: black;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: arial;
+    line-height: normal;
+}
+
+.aidanews2_k2_style6 .aidanews2_k2_foot {
+    clear: both;
+    position: absolute;
+    top: 0px;
+    /* left: 0px; */
+    color: #fff;
+    background-color: rgba(0,0,0,0.25);
+    padding: 3px;
+    font-size:9px;
+}
+
+/* STYLE 7 : Image moyenne texte a droite en bas */
+.aidanews2_k2_style7 .aidanews2_k2_topL {
+    width: 49%;
+    float: left;
+}
+
+.aidanews2_k2_style7 .aidanews2_k2_topR {
+    width: 49%;
+    float: right;
+    /*position: absolute;
+    bottom: 10px;
+    right: 0px; */
+}
+
+.aidanews2_k2_style7 .aidanews2_k2_title a {
+    color: black;
+    font-weight: bold;
+    font-size: 1.3em;
+    font-family: arial;
+    line-height: normal;
+}
+
+.aidanews2_k2_style7 .aidanews2_k2_positions {
+	margin-bottom:20px;
+}     
+
+.aidanews2_k2_style7 .aidanews2_k2_title {
+  line-height: 1em;
+}
+.aidanews2_k2_style7 .aidanews2_k2_foot {
+    clear: both;
+    position: absolute;
+    top: 0px;
+    /* left: 0px; */
+    color: #fff;
+    background-color: rgba(0,0,0,0.25);
+    padding: 3px;
+    font-size:9px;
+}
+
+/* STYLE PLUS LUS */
+.aidanews2_k2_stylepluslus .aidanews2_k2_title a {
+    color: black;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: arial;
+    line-height: normal;
+}
+.aidanews2_k2_stylepluslus .aidanews2_k2_positions {
+	margin-bottom:5px;
+}
+.aidanews2_k2_stylepluslus .aidanews2_k2_title {
+  line-height: 10px;
+}
+._logo {
+    margin-top: 8px;
+}
+._logov2 {
+    margin-top: 3px;
+}
+#sp-staticmenu {
+    z-index: 0;
+}
+#maximenuck1320-mobile .level2 {
+    display: none;
+}
+
+.servicemenu {
+    margin-top:0px;
+}
+div#maximenuck1396 img {
+    display: inline-block;
+}
+div#sp-main-menu-sticky-wrapper {
+    z-index: 1000;
+}
+#sp-main-menu .container, #sp-logo-et-date .container, #sp-mainmenu .container, #sp-top-bar .container {
+    width:100% !IMPORTANT;
+}
+#sp-main-menu ul >li >a {
+    line-height: 20px;
+}
+div#maximenuck1396 a.maximenuck {
+    line-height: 10px;
+}
+
+
+.maximenuck.item1223.first.level2 {
+    display: inherit !IMPORTANT;
+}
+.maximenuck.item1224.level2 {
+    display: inherit !IMPORTANT;
+}
+.maximenuck.item1225.level2 {
+    display: inherit !IMPORTANT;
+}
+.anchor {
+  position: absolute;
+  top: -80px;
+}
+.offcanvas-menu .offcanvas-inner .sp-module ul > li a {
+    padding: 0px 0px !IMPORTANT;
+    line-height: 30px !IMPORTANT;
+}
+div#twoj_tabs_block_id1 {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    /* max-width: 330px; */
+    width: 100% !IMPORTANT;
+}
+#fd .aidanews2_k2_foot {
+    display: none;
+}
+.expertwidth {
+  max-width:330px;
+}
+div#fd {
+    padding-bottom: 10px;
+}
+
+#tweet-container_tweet {
+	height:390px;
+	overflow:hidden;
+  width:100% !IMPORTANT;
+}
+
+.scroll {
+  height: 200px;
+  background: whitesmoke;
+  overflow-y: scroll !IMPORTANT;
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  /*padding: 3em;*/
+  font: 100%/1.4 serif;
+  border: 1px solid rgba(0,0,0,0.25)
+}
+p {
+  margin: 0 0 1.5em;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 1em;
+    display:block;
+}
+ 
+.scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.scroll::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+
+.tweet{
+	padding:5px;
+	margin:0 8px 8px;
+	border:1px solid #F0F0F0;
+	background:url(/modules/mod_latestweets/img/transparent.png);
+	font-size:12px ;
+	color:#b4b4b4 !important ;
+	width:auto;
+	overflow:hidden;
+  font-family: Arial, 'Arial Unicode MS', Helvetica, Sans-Serif;
+}
+
+#twitIcon {
+  display: none;
+}
+
+h2.tut {
+    padding: 15px 0 0 2px !IMPORTANT;
+}
+.fb-comments-count {
+    display: inline;
+}
+.jspPane {
+    max-width: 340px !IMPORTANT;
+    width: 340px !IMPORTANT;
+}
+#barcolor .sppb-col-sm-12 {
+    padding: 0px;
+}
+#twitter-ticker_tweet {
+  margin: 0px auto;
+}
+table.fonds td {
+	padding: 5px;
+}
+.nobottomborder {
+	border-bottom: 0px !IMPORTANT;
+}
+.page-header {
+    padding-left: 15px;
+}
+#maximenuck1320 .maximenuck.level2 >a {
+    line-height: 15px !IMPORTANT;
+}
+.jspTrack {
+    height: 100% !IMPORTANT;
+}
+

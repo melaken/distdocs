@@ -1,0 +1,194 @@
+/* reset */
+
+#dc-ln-container,
+#dc-ln-container div,
+#dc-ln-container ul,
+#dc-ln-container li,
+#dc-ln-open{
+	
+	/* this is useful to prevent div highlighting */
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+	-khtml-user-select: none; /* webkit browsers */
+	-o-user-select: none;/* not yet implemented */
+	user-select: none;/* not yet implemented */	
+	-webkit-touch-callout: none;
+	
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;  
+	
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    text-shadow: none !important;
+    
+    border: 0;
+    padding: 0;
+    margin: 0;
+
+    /* forcing webkit antialiasing */
+    -webkit-text-stroke: 0.2px;
+    
+}
+
+/* container */
+
+#dc-ln-container{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    min-height: 140px;
+    width: 100%;
+    z-index: 999999999999;
+}
+
+/* featured */
+
+#dc-ln-featured-container{
+    min-height: 100px;
+    /*width: 100%;*/
+    /* background color defined in the plugin option */
+    padding: 0 80px !important;
+}
+
+#dc-ln-featured-title-container{
+    min-height: 50px;
+    /*width: 100%;*/
+    text-align: left !important;
+    overflow: visible;
+}
+
+#dc-ln-featured-title, #dc-ln-featured-title a{
+    min-height: 50px;
+    line-height: 50px;
+    /*width: 100%;*/
+    /* font size defined in the plugin options */
+    color: #eee;
+    display: inline;
+    text-transform: uppercase;
+    font-weight: 700 !important;
+    text-align: left !important;
+}
+
+#dc-ln-featured-title a, .dc-ln-slider-single-news a{
+    color: #eee !important;
+    text-decoration: none !important;
+}
+
+#dc-ln-featured-title a:hover{ color: #111 !important; text-decoration: none !important; }
+.dc-ln-slider-single-news a:hover{ color: #aaa !important; text-decoration: none !important; }
+
+#dc-ln-container div{
+    text-shadow: 2.5px 4.33px 5px rgba( 0, 0, 0, 0.30 ) !important;
+}
+
+
+}
+
+#dc-ln-featured-excerpt-container{
+    min-height: 50px;
+    /*width: 100%;*/
+    text-align: left !important;
+}
+
+#dc-ln-featured-excerpt{
+    text-align: left !important;
+    min-height: 50px;
+    line-height: 50px;
+    width: 100%;
+    /* font size defined in the plugin options */
+    color: #eee;
+    display: inline;
+    font-weight: 600;
+}
+
+/* slider */
+
+#dc-ln-slider{
+    width: 1000000px;
+    background-color: #000;
+    background: url('../img/slider-bg.png') repeat-x;
+    height: 40px;
+    position: relative;
+    text-transform: uppercase;
+
+}
+#dc-ln-slider-floating-content{
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: hidden;
+    
+}
+
+.dc-ln-slider-single-news{
+    height: 40px;
+    line-height: 40px;
+    float: left;
+    margin-right: 100px !important;
+    font-size: 28px;
+    color: #eee;
+    font-weight: 700;
+}
+
+.dc-ln-slider-single-news:last-child{
+    margin-right: 0;
+}
+
+/* clock */
+
+#dc-ln-clock{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 80px;
+    background: url('../img/clock.png') repeat-x;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #111;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+#dc-ln-container #dc-ln-clock, #dc-ln-container .dc-ln-slider-single-news{
+     text-shadow: none !important;
+}
+
+/* close button */
+#dc-ln-close{
+    background: url('../img/close-button.png') repeat-x;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 80px;
+    background-color: #fff;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+/* open button */
+
+#dc-ln-open{
+    background: url( '../img/open-button.png');
+    cursor: pointer;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 80px;
+    background-color: #fff;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;    
+}
+
+/*set transition with links*/
+#dc-ln-container a{
+    -webkit-transition: .3s all ease-in-out;
+    -moz-transition: .3s all ease-in-out;
+    transition: .3s all ease-in-out;    
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="indexsmall3_mobile_data/jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#currencyform').submit(function(e){
+		e.preventDefault();
+		var form = $(this);
+		var mydiv = $("#results");
+		var post_url = form.attr('action');
+		var post_data = form.serialize();
+		$('#loader', mydiv).html('<img src="loader.gif" width="15px" height="15px" />...');
+		$.ajax({
+			type: 'POST',
+			url: post_url, 
+			data: post_data,
+			success: function(msg) {
+				$(mydiv).fadeOut(500, function(){
+					mydiv.html(msg).fadeIn();
+				});
+			}
+		});
+	});
+});
+</script>
+<script type="text/javascript">
+function resetSubmit () {
+  var mydiv = $("#results");
+  $(mydiv).html('<div id="loader" style="display:inline;">en</div>');
+}
+</script>
+
+</head>
+<body style="margin:4px;background-color:#f5f5f5;">
+<style type="text/css">
+.currencyinput {
+	font-family: Arial;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	color: #333;
+}
+.currencyinput2 {
+	font-family: Arial;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	color: black;
+}
+.button {
+  background: #ddd;
+  color: #666;
+  font: bold 10px 'Trebuchet MS';
+  padding: 2px;
+  cursor: pointer;
+}
+</style>
+<div width="350" style="width:350px;text-align:right;">
+<form action="freecurrencyconverterapi.php" method="post" id="currencyform">
+    <div>
+      <input class="currencyinput2" type="text" value="1" name="montant" size="3">
+      <select class="currencyinput2 element select medium" id="from" name="from" onchange="resetSubmit();" width="80" style="width: 80px"> 
+			 <option value="from" selected="selected">monnaie 1</option> <option value="DZD">Algerie Dinar</option> <option value="BWP">Botswana Pula</option> <option value="BIF">Burundi Franc</option> <option value="XOF">CFA Franc</option> <option value="KMF">Comoros Franc</option> <option value="EGP">Egyptian Pound</option> <option value="ETB">Ethiopie Birr</option> <option value="GHS">Ghana Cedi</option> <option value="GNF">Guinee Franc</option> <option value="GMD">Gambie Dalasi</option> <option value="KES">Kenya Shilling</option> <option value="LSL">Lesotho Loti</option> <option value="MWK">Malawi Kwacha</option> <option value="MRO">Mauritanie Ougulya</option> <option value="MUR">Mauritius Rupee</option> <option value="MAD">Maroc Dirham</option> <option value="NAD">Namibie Dollar</option> <option value="NGN">Nigeria Naira</option> <option value="RWF">Rwanda Franc</option> <option value="ZAR">Afr. Sud Rand</option> <option value="SZL">Swaziland Lilageni</option> <option value="SLL">Sierra Leone</option> <option value="TZS">Tanzanie Shilling</option> <option value="TND">Tunisie Dinar</option> <option value="UGX">Ouganda Shilling</option> <option value="GBP">GB Pound</option> <option value="CNY">Chine Yuan</option> <option value="EUR">Euro</option> <option value="USD">US dollar</option>
+		  </select>
+      <div id="results" class="currencyinput" style="display:inline;"><div id="loader" style="display:inline;">en</div></div>
+      <select class="currencyinput2 element select medium" id="to" name="to" onchange="resetSubmit();" width="80" style="width: 80px"> 
+			 <option value="to" selected="selected">monnaie 2</option> <option value="EUR">Euro</option> <option value="USD">US dollar</option> <option value="GBP">GB Pound</option> <option value="CNY">Chine Yuan</option> <option value="DZD">Algerie Dinar</option> <option value="BWP">Botswana Pula</option> <option value="BIF">Burundi Franc</option> <option value="XOF">CFA Franc</option> <option value="KMF">Comoros Franc</option> <option value="EGP">Egyptian Pound</option> <option value="ETB">Ethiopie Birr</option> <option value="GHS">Ghana Cedi</option> <option value="GNF">Guinee Franc</option> <option value="GMD">Gambie Dalasi</option> <option value="KES">Kenya Shilling</option> <option value="LSL">Lesotho Loti</option> <option value="MWK">Malawi Kwacha</option> <option value="MRO">Mauritanie Ougulya</option> <option value="MUR">Mauritius Rupee</option> <option value="MAD">Maroc Dirham</option> <option value="NAD">Namibie Dollar</option> <option value="NGN">Nigeria Naira</option> <option value="RWF">Rwanda Franc</option> <option value="ZAR">Afr. Sud Rand</option> <option value="SZL">Swaziland Lilageni</option> <option value="SLL">Sierra Leone</option> <option value="TZS">Tanzanie Shilling</option> <option value="TND">Tunisie Dinar</option> <option value="UGX">Ouganda Shilling</option>
+		  </select>     
+      <input type="submit" class="button" value="Convertir">	    
+      </div>
+ </form>
+  </div>
+
+
+</body></html>

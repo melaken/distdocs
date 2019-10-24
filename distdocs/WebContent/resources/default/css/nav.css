@@ -1,0 +1,45 @@
+#bloc_page {
+/* 	width: 900px; */
+/* 	margin: auto; */
+	background-color:#0060a0;
+/* 	height:auto; */
+}
+.logo{
+	height:50px; 
+	width:50px;
+/* 	margin-top:30px; */
+ 	border-radius:5px;
+/*  	margin-left:30px; */
+/*  	text-align:left; */
+/*  	postion:absolute; */
+/*  	margin-right:600px; */
+}
+#titre_principal {
+/* 	display: inline-block; */
+/* 	text-align:center; */
+	margin-top:2px;
+/* 	margin-left:300px; */
+/* 	padding-left:5px; */
+/* 	position:absolute; */
+/* 	margin-right:300px; */
+}
+li{
+	margin-right:5px;
+}
+nav {
+	display: inline-block ;
+/* 	text-align:right; */
+/* 	margin-right:5px; */
+}
+nav ul {
+	list-style-type: none;
+/* 	text-align:right; */
+	margin-bottom:2px;
+}
+
+nav li {
+	display: inline-block;
+/* 	margin-right:3px; */
+/* 	padding-left:3px; */
+/* 	text-align:right; */
+}

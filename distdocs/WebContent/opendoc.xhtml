@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+ <h:head>
+    <title>Bibliothèque</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+ </h:head>
+  <h:body>
+
+    <style type="text/css">
+      body {
+        background-color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        height: 95vh;
+        width: 95%;
+        margin: 20px auto;
+        border: 2px solid red;
+        box-shadow: 0 0 5px red;
+      }
+      .fullscreen {
+        background-color: #333;
+      }
+      .examples {
+        position: relative;
+      }
+      .examples div {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        padding-top: 10px;
+        font-size: 20px;
+      }
+      .examples a {
+        color: #ccc;
+        text-decoration: none;
+        padding: 0 10px;
+      }
+      .examples a:hover {
+        color: #fff;
+      }
+    </style>
+
+    <div class="container" id="container">
+
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/html2canvas.min.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/pdf.min.js"></script>
+
+    <script src="js/3dflipbook.min.js"></script>
+    <script type="text/javascript">
+	function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?\u0026]+([^=\u0026]+)=([^\u0026]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+      $('#container').FlipBook({
+        pdf: 'books/pdf/'.concat(getUrlVars()["file"]),
+        propertiesCallback: function(props) {
+          props.page.depth /= 2.5;
+          props.cover.padding = 0.002;
+          return props;
+        },
+        template: {
+          html: 'templates/default-book-view.html',
+          styles: [
+            'css/white-book-view.css'
+          ],
+          links: [
+            {
+              rel: 'stylesheet',
+              href: 'css/font-awesome.min.css'
+            }
+          ],
+          script: 'js/default-book-view.js'
+        }
+      });
+    </script>
+</h:body>
+</html>

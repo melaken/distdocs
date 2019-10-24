@@ -1,0 +1,1 @@
+/**/__twttr.setFollowersCountAndFollowing([{"following":false,"id":"280936961","screen_name":"agenceecofin","name":"Agence Ecofin","protected":false,"followers_count":22409,"formatted_followers_count":"22,4\u00A0k abonn\u00E9s","age_gated":false}]);
