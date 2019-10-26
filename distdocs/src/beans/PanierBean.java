@@ -2,8 +2,9 @@ package beans;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,13 +31,29 @@ public class PanierBean implements Serializable{
 	private final String MODULE = PanierBean.class.getName();
 	private List<Document> articles;
 	private Document selectedDoc;
+	private String moyenPaiement;
+	private String redirect;
+	private String telMarchand;
 	
 	@PostConstruct
 	public void init() {
 		selectedDoc = new Document();
 		articles = new ArrayList<>();
+		redirect = "http://youbooklive.alwaysdata.net/payment-success.php";
+		telMarchand="07921645";
 	}
-	
+	public String getRedirect() {
+		return redirect;
+	}
+	public void setRedirect(String redirect) {
+		this.redirect = redirect;
+	}
+	public String getTelMarchand() {
+		return telMarchand;
+	}
+	public void setTelMarchand(String telMarchand) {
+		this.telMarchand = telMarchand;
+	}
 	public List<Document> getArticles() {
 		return articles;
 	}
@@ -49,6 +66,15 @@ public class PanierBean implements Serializable{
 	public void setSelectedDoc(Document selectedDoc) {
 		this.selectedDoc = selectedDoc;
 	}
+	
+	public String getMoyenPaiement() {
+		return moyenPaiement;
+	}
+
+	public void setMoyenPaiement(String moyenPaiement) {
+		this.moyenPaiement = moyenPaiement;
+	}
+
 	public void panier() {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
@@ -61,18 +87,21 @@ public class PanierBean implements Serializable{
 			Document doc_recherche = findDocWithId(selectedDoc.getId());
 			if(doc_recherche== null) {
 				articles.add(selectedDoc);
-				if(articles.size()==1)
-					reload();
+//				facesContext.addMessage(null, 
+//						new FacesMessage(FacesMessage.SEVERITY_INFO, " ",articles.size()+" article(s) dans le panier") );
+
+//				if(articles.size()==1)
+//					reload();
 			}
 			else facesContext.addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_WARN, " ","L'élément choisi est déjà dans le panier") );
 		}
 	}
-	public float total() {
-		float somme = 0;
+	public long total() {
+		Float somme = new Float(0);
 		for(Document d: articles)
 			somme += d.getPrix();
-		return somme;
+		return somme.longValue();
 	}
 	public void supprimerDoc() {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -106,4 +135,36 @@ public class PanierBean implements Serializable{
 			e.printStackTrace();
 		}
 	}
+	
+	public void annulerAchat() {
+		articles = new ArrayList<>();
+		continuerAchat();
+	}
+	 public void continuerAchat() {
+		 FacesContext facesContext = FacesContext.getCurrentInstance();
+			ExternalContext  exterNalContext = facesContext.getExternalContext();
+	      try {
+			exterNalContext.redirect("../../index.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+     }
+	 public void choisirPaiement() {
+		 FacesContext facesContext = FacesContext.getCurrentInstance();
+		ExternalContext  exterNalContext = facesContext.getExternalContext();
+	      try {
+			exterNalContext.redirect("payer.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 }
+	 public String reference() {
+		 LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        String formatDateTime = now.format(formatter);
+
+		 return formatDateTime.substring(0,13);
+	 }
 }

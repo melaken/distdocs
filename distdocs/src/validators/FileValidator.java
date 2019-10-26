@@ -18,14 +18,15 @@ public class FileValidator implements Validator{
 	
 	@Override
 	public void validate(FacesContext ctx,UIComponent comp, Object value)  throws ValidatorException{
-		Part file = (Part)value;
-		if(file.getSize() <= TAILLE_MIN)
-			throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, EMPTY_FILE, null));
-		else if (file.getSize() > TAILLE_MAX) {
-			throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, FILE_TOO_BIG, null));
-		}
-		else if (!file.getContentType().contains("pdf") || !file.getContentType().contains("application")) {
-			throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, FILE_NOT_PDF, null));
-		}
-	}
+//		Part file = (Part)value;
+//		if(file.getSize() <= TAILLE_MIN)
+//			throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, EMPTY_FILE, null));
+////		else if (file.getSize() > TAILLE_MAX) {
+////			throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, FILE_TOO_BIG, null));
+////		}
+//		else if (!file.getContentType().contains("pdf") || !file.getContentType().contains("application")) {
+//			throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, FILE_NOT_PDF, null));
+//		}
+//	}
+}
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>Paiement</title>
+		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+		<style type="text/css">    
+    .value {
+        font-weight: bold;
+    }
+    body{
+    	text-align:center;
+    }
+    
+</style>
+	</h:head>
+	<h:body>
+		<h3 style="margin-top:10px">Sélectionnez votre moyen de paiement</h3>
+		<h:form style="text-align:center">
+		<p:panel id="panel" style="text-align:center;border:0">
+			<p:selectOneRadio id="customRadio" value="#{panierBean.moyenPaiement}" layout="custom">
+			    <f:selectItem itemLabel="Image1" itemValue="Airtel Money" />
+			    <f:selectItem itemLabel="Image2" itemValue="Paypal" itemDisabled="true"/>
+			</p:selectOneRadio>
+			<h:panelGrid columns="2" cellpadding="5">
+			    <p:radioButton id="opt1" for="customRadio" itemIndex="0" />
+			    <h:graphicImage name="images/airtel.png" style="height: 70px; width: 70px;border-radius: 2px"/>
+			    <p:radioButton id="opt2" for="customRadio" itemIndex="1" />
+			    <h:graphicImage name="images/paypal.jpeg" style="height: 70px; width: 70px;border-radius: 2px"/>
+			</h:panelGrid>
+	        <p:commandButton value="Payer" update=":moyen" icon="pi pi-check" oncomplete="PF('dlg').show()"/>
+    	</p:panel>
+    </h:form>
+    
+		 <p:dialog modal="true" resizable="false" widgetVar="dlg" header="Informations sur le paiement" showEffect="clip">
+	 	 <form action="https://mypvit.com/airtelmoneypvit.kk" method="POST">
+        	<p:panelGrid columns="2" id="display" columnClasses="label,value">
+	            <h:outputText value="Montant" />
+	            <h:outputText value="#{panierBean.total()} FCFA" />
+	            <h:outputText value="Moyen de paiement" />
+	            <h:outputText id="moyen" value="#{panierBean.moyenPaiement}" />
+	            <p:commandButton value="Annuler" onclick="PF('dlg').hide();"/>
+	            <input type="submit" value="Valider" name="payer" />
+	            
+	            
+            	<input type="text" name="tel_marchand" value="#{panierBean.telMarchand}" style="display:none"/>
+	          <input type="text" name="montant" value="#{panierBean.total()}" style="display:none"/>
+	          <input type="text" name="ref" value="#{panierBean.reference()}" style="display:none"/>
+	          <input type="text" name="redirect" value="#{panierBean.redirect}" style="display:none"/>
+	          
+            </p:panelGrid>
+           </form> 
+          </p:dialog>
+          
+        
+	</h:body>
+</html>

@@ -121,6 +121,10 @@ public class DocumentBean implements Serializable{
 		      Files.copy(input_cover, fich_cover.toPath());
 		      //createImage("JPG",fich,id+"_cover.jpg");
 		      System.out.println("Everything is ok");
+		      
+		      FacesContext facesContext = FacesContext.getCurrentInstance();
+				ExternalContext  exterNalContext = facesContext.getExternalContext();
+		      exterNalContext.redirect("../../index.xhtml");
 	    	}
 	    } catch (Exception e) {
 	    	Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);

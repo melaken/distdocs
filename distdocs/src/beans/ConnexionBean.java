@@ -57,6 +57,7 @@ public class ConnexionBean implements Serializable{
 		boolean valid = loginDao.validate(email, password);
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
+		
 //		try {
 			if (valid) {
 				HttpSession session = (HttpSession) exterNalContext.getSession(false);
@@ -98,5 +99,6 @@ public class ConnexionBean implements Serializable{
 	public void reload()throws IOException {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 	    ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+	    
 	}
 }

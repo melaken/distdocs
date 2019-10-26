@@ -7,19 +7,25 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
 	<h:head>
 		<title>Récapitulatif des achats</title>
+		<style>
+		body{
+    		text-align:center;
+    	}
+	</style>
 	</h:head>
 	<h:body>
 		<ui:insert name = "nav" >
 	      <ui:include src = "../../menuBar.xhtml" />
 	   </ui:insert>
-	   <p align="center">
-   		<h2>Récapitulatif de la commande</h2>
+	   <p style="text-align:center">
+   		<h2>Récapitulatif des achats</h2>
 	   </p>
+	   
 	   <p:dataTable var="doc" value="#{panierBean.articles}" id="listeDocs" style="margin-top:10px"
 	   	emptyMessage="Aucun article dans votre panier">
 	    <p:column headerText="Article">
 	        <p:lightBox styleClass="imagebox">  
-              <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
+              <p:graphicImage  value="#{listeDocsBean.image}" style="height: 100px; width: 70px;border-radius: 2px" > 
           		 <f:param name="id" value="#{doc.premiereCouverture}" />
            		</p:graphicImage> 
         	</p:lightBox>
@@ -30,18 +36,25 @@ xmlns:p="http://primefaces.org/ui">
 	    </p:column>
 	 
 	    <p:column headerText=" ">
+	    <h:form>
 	    	<p:commandLink  title="Retirer cet article du panier" action="#{panierBean.supprimerDoc}" 
 	    		update=":listeDocs :total">
 	    		<f:param name="docId" value="#{doc.id}"/>
                 <h:outputText styleClass="pi pi-trash" style="margin:0 auto;text-align:center;"/>
 <!--                 <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" /> -->
             </p:commandLink>
+            </h:form>
 	    </p:column>
 	</p:dataTable>
+	
 	<div align="center" style="font-weight:bold;margin-top:10px;margin-bottom:10px">
 		<h:outputLabel value="Total : " />
 		<h:outputText  id="total" value="#{panierBean.total()}	FCFA"/>
-<!-- 		<p:separator /> -->
+	</div>
+	<div align="right" style="font-weight:bold;margin-top:10px;margin-bottom:10px;padding-left:5px">
+		<p:commandButton action="#{panierBean.continuerAchat}" value="Continuer les achats" style="margin-right:20px;"/>
+		<p:commandButton  action="#{panierBean.annulerAchat}" value="Annuler" style="margin-right:20px;"/>
+		<p:commandButton action="#{panierBean.choisirPaiement}" value="Continuer" style="margin-right:20px;"/>
 	</div>
 	</h:body>
 </html>

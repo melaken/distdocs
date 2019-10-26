@@ -9,23 +9,15 @@ xmlns:p="http://primefaces.org/ui">
 		<title>Création d'un nouvel éditeur</title>
 		<meta charset="utf-8"/>
   		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<h:outputStylesheet library="default" name="bootstrap/css/bootstrap.min.css" />
+<!-- 		<h:outputStylesheet library="default" name="bootstrap/css/bootstrap.min.css" /> -->
 	</h:head>
 	<h:body>
-		<p:submenu label="Paramètres" icon="pi pi-cog" style="text-align:right;margin-right:0px" >
-     			<p:menuitem value="Publier" outcome="/views/creation/uploadDoc.xhtml" icon="pi pi-upload"
-     			styleClass="emoticone" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
-     			<p:menuitem value="Ma bibliothèque" url="#" icon="pi pi-bookmark" styleClass="emoticone"/> 
-     			<p:menuitem value="Mes transactions" url="#" icon="pi pi-money-bill" styleClass="emoticone"/> 
-     			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" icon="pi pi-sign-out" styleClass="emoticone"
-     			rendered="#{sessionScope['user'] != null}" outcome="/index.html" update="@form"/> 
-   			</p:submenu>
-<p:commandButton value="Envoyer" action="#{editeurBean.creerEditeur}" icon="pi-check" 
-	   	    		align="center"/>
-<p:selectOneMenu>
-  <f:selectItem itemLabel="English" itemValue="en"/>
-  <f:selectItem itemLabel="Turkish" itemValue="tr"/>
-</p:selectOneMenu>
- 
+		<form action="https://mypvit.com/airtelmoneypvit.kk" method="POST">
+		<input type="text" name="tel_marchand" value="07921645"/>
+		<input type="text" name="montant" value= "150"/>
+		<input type="text" name="ref" value= "201910252103"/>
+		<input type="text" name="redirect" value="http://youbooklive.alwaysdata.net/payment-success.php"/>
+		<input type="submit" value="Payer avec AirtelMoney" name="payer" />
+</form> 
 	</h:body>
 </html>

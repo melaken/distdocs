@@ -13,6 +13,7 @@ xmlns:p="http://primefaces.org/ui">
     .value {
         font-weight: bold;
         font-size: 20px;
+        text-align:center;
     }
 /*     div{ */
 /*     margin-right:30px; */
@@ -20,7 +21,7 @@ xmlns:p="http://primefaces.org/ui">
 /*     } */
        .emoticone {  
     width: 24px !important; 
-     
+     text-align:center;
     font-size: 24px !important; 
   }  
 </style>
@@ -28,36 +29,43 @@ xmlns:p="http://primefaces.org/ui">
 		<div class="ui-g">
 		    <div class="ui-g-12 ui-md-3">
 		    
-		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
+		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px" widgetVar="nbArticles"
 		        	detail="#{panierBean.articles.size()} article(s) dans le panier."
 		        	rendered="#{panierBean.articles.size() > 0}"/>
-<!-- 		        	<h:form > -->
-		        	<p:link value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
-		        	rendered="#{sessionScope['user'] != null}"/>
-<!-- 		        </p:staticMessage> -->
-<!-- 			</h:form> -->
+		        	<p:linkButton value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
+		        	rendered="#{panierBean.articles.size() > 0}" widgetVar="commande"/>
 		    </div>
+		    
     	</div>
 		<h:form id="formListe" >
 			<p:growl id="msg"  showDetail="true" sticky="true" />
-		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" 
+			 <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
+	        	detail="#{panierBean.articles.size()} article(s) dans le panier."
+	        	rendered="#{panierBean.articles.size() > 0}"/>
+        	<p:linkButton value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
+	        	 rendered="#{panierBean.articles.size() > 0}" style="width:100px"/>
+<!-- 	        <p:sticky target="nbArticles" /> -->
+<!-- 		    <p:sticky target="commande"/> -->
+			
+		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" emptyMessage="Aucun document à afficher"
 		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
 		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		        rowsPerPageTemplate="6,12,16">
 <!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
 		            <h:panelGrid columns="1" style="width:200px;height:300px;">
-		            	<p:lightBox styleClass="imagebox">  
+<!-- 		            	<p:lightBox styleClass="imagebox">   -->
 		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
                 		 	<f:param name="id" value="#{doc.premiereCouverture}" />
                 		</p:graphicImage> 
-                		</p:lightBox>
-                		<h:outputText value="#{doc.prix}FCFA" styleClass="label value"/>
+<!--                 		</p:lightBox> -->
+                		<h:outputText value="#{doc.prix}FCFA" styleClass="label value" style="text-align:center"/>
                 		<f:facet name="footer">
 			                <p:commandLink update=":formListe:image" oncomplete="PF('coverDialog').show()" title="Agrandir">
 			                    <h:outputText styleClass="pi pi-eye emoticone" style="margin:0 auto;text-align:center;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
 			                </p:commandLink>
-			                <p:commandLink  title="Acheter" update=":nbArticles @form :commande" action="#{panierBean.panier}">
+			                <p:commandLink  title="Acheter" update=":nbArticles @form :commande" 
+			                	action="#{panierBean.panier}" >
 			                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;text-align:center;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />
 			                </p:commandLink>
