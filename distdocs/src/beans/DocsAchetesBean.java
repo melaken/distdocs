@@ -13,7 +13,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import dao.DocsAchetesDao;
-import entities.DocsAchetes;
+import entities.Document;
 import entities.Utilisateur;
 
 @Named
@@ -23,7 +23,7 @@ public class DocsAchetesBean implements Serializable{
 
 	@EJB
 	private DocsAchetesDao dao;
-	private List<DocsAchetes> liste;
+	private List<Document> liste;
 	
 	@PostConstruct
 	public void init() {
@@ -36,22 +36,19 @@ public class DocsAchetesBean implements Serializable{
 		if(session.getAttribute("user")==null) 
 			facesContext.addMessage(null, 
 					new FacesMessage(FacesMessage.SEVERITY_WARN, " ","Veuillez vous connecter !!!") );
-		else {System.out.println("dans init docsAchetesBean");
+		else {
+			System.out.println("dans init docsAchetesBean");
 			Utilisateur user = (Utilisateur)session.getAttribute("user");
 			liste = dao.docAchetesParclient(user.getId());
 			System.out.println("end init achetesBean");
 			}
 	}
 	
-	public List<DocsAchetes> getListe() {
+	public List<Document> getListe() {
 		return liste;
 	}
 
-	public void setListe(List<DocsAchetes> liste) {
+	public void setListe(List<Document> liste) {
 		this.liste = liste;
-	}
-	public String findCover(long doc_id) {
-		System.out.println("Dans findCover");
-		return dao.trouverPremiereCouverture(doc_id);
 	}
 }

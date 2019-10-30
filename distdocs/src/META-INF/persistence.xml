@@ -6,6 +6,7 @@
 		<class>entities.Document</class>
 		<class>entities.DocsAchetes</class>
 		<class>entities.Editeur</class>
+		<class>entities.Transaction</class>
 		 <properties>
             <property name="eclipselink.logging.level.sql" value="FINE"/>
             <property name="eclipselink.logging.parameters" value="true"/>

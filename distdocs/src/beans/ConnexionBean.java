@@ -60,7 +60,7 @@ public class ConnexionBean implements Serializable{
 		
 //		try {
 			if (valid) {
-				HttpSession session = (HttpSession) exterNalContext.getSession(false);
+				HttpSession session = (HttpSession) exterNalContext.getSession(true);
 				session.setAttribute("user", userDao.trouver(email));
 				
 				try {

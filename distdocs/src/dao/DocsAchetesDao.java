@@ -5,20 +5,25 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.Stateless;
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import entities.DocsAchetes;
 import entities.Document;
+import entities.Etat;
 
-@Stateless
+@Stateful
 public class DocsAchetesDao {
 
 	private final String MODULE = DocsAchetesDao.class.getName();
 	@PersistenceContext(unitName = "distdocs_PU")
 	private EntityManager em;
+	@EJB
+	TransactionDao transDao;
 	
 	
 	public List<DocsAchetes> lister(){
@@ -32,17 +37,20 @@ public class DocsAchetesDao {
 		}
 		return liste;
 	}
-	public List<DocsAchetes> docAchetesParclient(long client_id) {
-		List<DocsAchetes> liste= new ArrayList<>();
-		System.out.println("Dans docAchetesParclient");
-		Query requete = em.createQuery("SELECT d FROM DocsAchetes d WHERE d.clientId = :id");
-		requete.setParameter("id", client_id);
-		try {
-			liste = requete.getResultList();
-		} catch (Throwable e) {
-			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
-			e.printStackTrace();
-		}
+	public List<Document> docAchetesParclient(long clientId) {
+		List<Document> liste= new ArrayList<>();
+		try{
+			Query q = em.createNativeQuery("SELECT da.doc_id,d.premiere_couverture "
+					+ "from Document d,Transaction t, DocsAchetes da"
+					+ "where t.etat = :etat and t.reference = da.reference and t.client_id = :id"+
+					"and d.id = da.doc_id" );
+			q.setParameter("etat",Etat.TERMINE.name() );
+			q.setParameter("id",clientId );
+			liste = q.getResultList();
+			}catch(Throwable e) {
+				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+				e.printStackTrace();
+			}
 		return liste;
 	}
 	public String trouverPremiereCouverture(long doc_id) {
@@ -60,4 +68,18 @@ public class DocsAchetesDao {
 		System.out.println("cover "+cover);
 		return cover;
 	}
+	
+	@Transactional
+	public void storeDocsAchetes(List<DocsAchetes> liste) {
+		try {
+			System.out.println("storeDocsAchetes size "+liste.size());
+			for(DocsAchetes doc : liste)
+				System.out.println(doc.toString());
+//				em.persist(doc);
+		} catch (Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+	}
+	
 }

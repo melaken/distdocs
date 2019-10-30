@@ -9,15 +9,32 @@ xmlns:p="http://primefaces.org/ui">
 		<title>Création d'un nouvel éditeur</title>
 		<meta charset="utf-8"/>
   		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<!-- 		<h:outputStylesheet library="default" name="bootstrap/css/bootstrap.min.css" /> -->
+  		<h:outputStylesheet name="components.css" library="primefaces"/>
+  		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+  		<style>
+  		 .pi {  
+    width: 18px !important; 
+    font-size: 18px !important; 
+  }  
+</style>
 	</h:head>
 	<h:body>
-		<form action="https://mypvit.com/airtelmoneypvit.kk" method="POST">
-		<input type="text" name="tel_marchand" value="07921645"/>
-		<input type="text" name="montant" value= "150"/>
-		<input type="text" name="ref" value= "201910252103"/>
-		<input type="text" name="redirect" value="http://youbooklive.alwaysdata.net/payment-success.php"/>
-		<input type="submit" value="Payer avec AirtelMoney" name="payer" />
-</form> 
+	<h:form><p:commandButton id="store" action="#{panierBean.store}" rendered="false"/></h:form>
+				
+				<form id ="form1" action="https://mypvit.com/airtelmoneypvit.kk" method="POST" 
+					>
+	            	<input type="text" name="tel_marchand" value="07921645" />
+		          <input jsf:id="test" type="text" name="montant" value="200" />
+		          <input type="text" name="ref" value="9876543210st" />
+		          <input type="text" name="redirect" value="http://youbooklive.alwaysdata.net/payment-success.php" />
+	              <input type="button" name="payer" onclick="submitOrder();" value="envoyer"/>
+              </form>
+	              
+	   <script> 
+	   function submitOrder() {
+		   document.getElementById('store').click();
+		    $('#form1').submit();
+		}
+	   </script>
 	</h:body>
 </html>

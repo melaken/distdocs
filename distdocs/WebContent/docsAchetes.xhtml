@@ -14,20 +14,18 @@ xmlns:p="http://primefaces.org/ui">
 	   </ui:insert>
 	   
 	   <h:form id="formListe" >
-		    <p:dataGrid var="achat" value="#{docsAchetesBean.liste}" columns="5" 
+		    <p:dataGrid var="doc" value="#{docsAchetesBean.liste}" columns="5" 
 		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
 		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		        rowsPerPageTemplate="6,12,16">
 <!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
 		            <h:panelGrid columns="1" style="width:200px;height:300px;">
-<!-- 		            	<p:lightBox styleClass="imagebox">   -->
 		            		<p:link  outcome = "opendoc.xhtml" target="_blank">
-		                		<p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
-                		 			<f:param name="id" value="#{docsAchetesBean.findCover(achat.docId)}" />
-                				</p:graphicImage> 
-                			<f:param name="file" value="#{achat.docId}" />
+                				<p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
+		                		 	<f:param name="id" value="#{doc.premiereCouverture}" />
+		                		</p:graphicImage> 
+	                			<f:param name="file" value="#{doc.id}" />
                 		</p:link>
-<!--                 		</p:lightBox> -->
 		            </h:panelGrid>
 <!-- 		        </p:panel> -->
 		    </p:dataGrid>

@@ -12,23 +12,22 @@ import javax.persistence.Table;
 public class DocsAchetes {
 
 	@Id
-	@Column(name="num_transaction")
-	private String numTransaction;
+	private String reference;
+	@Id
 	@Column(name="doc_id")
 	private long docId;
+	@Id
 	@Column(name="client_id")
 	private long clientId;
-	@Column(name="date_achat")
-	private Timestamp dateAchat;
-	@Column(name="compte_debite")
-	private String compteDebite;
-	@Column(name="moyen_paiement")
-	private String moyenPaiement;
-	public String getNumTransaction() {
-		return numTransaction;
+	
+	public String toString() {
+		return "ref = "+reference+" docId = "+docId+"	clientID = "+clientId;
 	}
-	public void setNumTransaction(String numTransaction) {
-		this.numTransaction = numTransaction;
+	public String getReference() {
+		return reference;
+	}
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
 	public long getDocId() {
 		return docId;
@@ -41,24 +40,6 @@ public class DocsAchetes {
 	}
 	public void setClientId(long clientId) {
 		this.clientId = clientId;
-	}
-	public Timestamp getDateAchat() {
-		return dateAchat;
-	}
-	public void setDateAchat(Timestamp dateAchat) {
-		this.dateAchat = dateAchat;
-	}
-	public String getCompteDebite() {
-		return compteDebite;
-	}
-	public void setCompteDebite(String compteDebite) {
-		this.compteDebite = compteDebite;
-	}
-	public String getMoyenPaiement() {
-		return moyenPaiement;
-	}
-	public void setMoyenPaiement(String moyenPaiement) {
-		this.moyenPaiement = moyenPaiement;
 	}
 	
 }

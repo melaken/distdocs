@@ -9,31 +9,31 @@ xmlns:p="http://primefaces.org/ui">
 		<title>kiosque numérique</title>
 		<h:outputStylesheet library="default" name="css/style.css" />
 		<h:outputStylesheet name="components.css" library="primefaces"/>
+		<h:outputStylesheet name="galleria/galleria.css" library="primefaces"/>
 		<style type="text/css">
     .value {
         font-weight: bold;
         font-size: 20px;
         text-align:center;
     }
-/*     div{ */
-/*     margin-right:30px; */
-/* 	margin-left:30px; */
-/*     } */
        .emoticone {  
     width: 24px !important; 
      text-align:center;
     font-size: 24px !important; 
   }  
+    body .ui-staticmessage.ui-message {
+        width: 25%;
+        height:20px;
+    }
 </style>
 	</h:head>
 		<div class="ui-g">
 		    <div class="ui-g-12 ui-md-3">
-		    
-		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px" widgetVar="nbArticles"
+		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
 		        	detail="#{panierBean.articles.size()} article(s) dans le panier."
 		        	rendered="#{panierBean.articles.size() > 0}"/>
-		        	<p:linkButton value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
-		        	rendered="#{panierBean.articles.size() > 0}" widgetVar="commande"/>
+	        	<p:linkButton value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
+		        	rendered="#{panierBean.articles.size() > 0}"/>
 		    </div>
 		    
     	</div>
@@ -44,8 +44,6 @@ xmlns:p="http://primefaces.org/ui">
 	        	rendered="#{panierBean.articles.size() > 0}"/>
         	<p:linkButton value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
 	        	 rendered="#{panierBean.articles.size() > 0}" style="width:100px"/>
-<!-- 	        <p:sticky target="nbArticles" /> -->
-<!-- 		    <p:sticky target="commande"/> -->
 			
 		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" emptyMessage="Aucun document à afficher"
 		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
@@ -53,11 +51,9 @@ xmlns:p="http://primefaces.org/ui">
 		        rowsPerPageTemplate="6,12,16">
 <!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
 		            <h:panelGrid columns="1" style="width:200px;height:300px;">
-<!-- 		            	<p:lightBox styleClass="imagebox">   -->
 		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
                 		 	<f:param name="id" value="#{doc.premiereCouverture}" />
                 		</p:graphicImage> 
-<!--                 		</p:lightBox> -->
                 		<h:outputText value="#{doc.prix}FCFA" styleClass="label value" style="text-align:center"/>
                 		<f:facet name="footer">
 			                <p:commandLink update=":formListe:image" oncomplete="PF('coverDialog').show()" title="Agrandir">
