@@ -84,14 +84,14 @@ xmlns:p="http://primefaces.org/ui">
 		   			</p:inputText>
 		   			<h:message id="maisonEditionMessage" for="maisonEdition" errorClass="erreur" />
 	   			</h:panelGrid>
-	   			<h:panelGrid columns="2" >
-		   			<h:outputLabel for="docType" value="Type de contenu à publier" style="font-weight:bold" />
-		   			<p:selectOneMenu id="docType"  value="#{editeurBean.editeur.docType}" style="width:180px">
-			            <f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
-			            <f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
-			            <f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
-		        	</p:selectOneMenu>
-	        	</h:panelGrid>
+<!-- 	   			<h:panelGrid columns="2" > -->
+<!-- 		   			<h:outputLabel for="docType" value="Type de contenu à publier" style="font-weight:bold" /> -->
+<!-- 		   			<p:selectOneMenu id="docType"  value="#{editeurBean.editeur.docType}" style="width:180px"> -->
+<!-- 			            <f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" /> -->
+<!-- 			            <f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" /> -->
+<!-- 			            <f:selectItem itemLabel="LIVRE" itemValue="LIVRE" /> -->
+<!-- 		        	</p:selectOneMenu> -->
+<!-- 	        	</h:panelGrid> -->
 	        	<h:messages globalOnly="true" infoClass="info" />
 				<f:facet name="footer" >
 	   	    		<p:commandButton value="Enregistrer" action="#{editeurBean.creerEditeur}" icon="pi pi-save" 

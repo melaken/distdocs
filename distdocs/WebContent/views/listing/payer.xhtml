@@ -38,7 +38,6 @@ xmlns:p="http://primefaces.org/ui">
 	        <p:commandButton id="payer"  value="Payer"  update=":envoi:moyen" 
 	        	icon="pi pi-check" oncomplete="PF('dlg').show()"
 	        	disabled="#{panierBean.moyenPaiement == null}" >
-	        	<f:setPropertyActionListener value="#{sessionScope['user'].id}" target="#{panierBean.clientId}" />
 	        </p:commandButton>
     	</p:panel>
     </h:form>
@@ -52,8 +51,8 @@ xmlns:p="http://primefaces.org/ui">
 	            <h:outputText value="#{panierBean.total()} FCFA" />
 	            <h:outputText value="Moyen de paiement" />
 	            <h:outputText id="moyen" value="#{panierBean.moyenPaiement}" />
-	            <p:button id ="annuler" value="Annuler" onclick="PF('dlg').hide();" />
-	            <p:commandButton id="valider" value="Valider" actionListener="#{panierBean.store()}"
+<!-- 	            <p:button value="Annuler" onclick="PF('dlg').hide();" /> -->
+	            <p:commandButton value="Valider" actionListener="#{panierBean.updateTransactionWithPaymentMethod()}"
 	            	onclick="document.getElementById('send').click()"/>
 
             </p:panelGrid>

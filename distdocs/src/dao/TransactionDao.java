@@ -42,7 +42,7 @@ public class TransactionDao {
 	public void update(Transaction trans) {
 		try {
 			System.out.println(trans.toString());
-//			em.merge(trans);
+			em.merge(trans);
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();

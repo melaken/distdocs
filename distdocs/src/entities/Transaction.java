@@ -26,7 +26,7 @@ public class Transaction {
 	
 	public String toString() {
 		return "ref = "+reference+" tel = "+telClient+" moyen = "+moyenPaiement+"\n client_id = "+clientId
-				+"etat = "+etat+" montant = "+montant;
+				+"	etat = "+etat+" montant = "+montant;
 	}
 	public Timestamp getDateAchat() {
 		return dateAchat;

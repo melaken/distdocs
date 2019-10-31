@@ -54,7 +54,9 @@ xmlns:p="http://primefaces.org/ui">
 	<div align="right" style="font-weight:bold;margin-top:10px;margin-bottom:10px;padding-left:5px">
 		<p:commandButton action="#{panierBean.continuerAchat}" value="Continuer les achats" style="margin-right:20px;"/>
 		<p:commandButton  action="#{panierBean.annulerAchat}" value="Annuler" style="margin-right:20px;"/>
-		<p:commandButton action="#{panierBean.choisirPaiement}" value="Continuer" style="margin-right:20px;"/>
+		<p:commandButton action="#{panierBean.choisirPaiement}" value="Continuer" style="margin-right:20px;">
+			<f:setPropertyActionListener value="#{sessionScope['user'].id}" target="#{panierBean.clientId}" />
+		</p:commandButton>
 	</div>
 	</h:body>
 </html>

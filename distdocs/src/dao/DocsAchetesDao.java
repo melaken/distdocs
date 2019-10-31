@@ -73,9 +73,10 @@ public class DocsAchetesDao {
 	public void storeDocsAchetes(List<DocsAchetes> liste) {
 		try {
 			System.out.println("storeDocsAchetes size "+liste.size());
-			for(DocsAchetes doc : liste)
+			for(DocsAchetes doc : liste) {
 				System.out.println(doc.toString());
-//				em.persist(doc);
+				em.persist(doc);
+			}
 		} catch (Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();

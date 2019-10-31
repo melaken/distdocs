@@ -108,7 +108,7 @@ public class PanierBean implements Serializable{
 		else {
 			Document doc_recherche = findDocWithId(selectedDoc.getId());
 			if(doc_recherche== null) {
-				articles.add(selectedDoc);
+				this.articles.add(selectedDoc);
 			}
 			else {
 				 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, " ", "L'élément choisi est déjà dans le panier.");
@@ -127,7 +127,7 @@ public class PanierBean implements Serializable{
 		String docId = context.getExternalContext().getRequestParameterMap().get("docId");
 		Document doc_recherche = findDocWithId(Long.parseLong(docId));
 		if(doc_recherche != null)
-			articles.remove(doc_recherche);
+			this.articles.remove(doc_recherche);
 		
 	}
 	private Document findDocWithId(long id) {
@@ -161,22 +161,28 @@ public class PanierBean implements Serializable{
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		HttpSession session = (HttpSession) exterNalContext.getSession(false);
-	      try {
-			exterNalContext.redirect("payer.xhtml");
-			genererRef();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		if(session.getAttribute("user") == null) {
+//			redirect("");
+		}else {
+		      try {
+				exterNalContext.redirect("payer.xhtml");
+				genererRef();
+				store();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	 }
-	 public void genererRef() {
-	 String ref =null;
+	 private void genererRef() {
+	 String ref = null;
 	 	do{
 	 		 ref = UUID.randomUUID().toString().substring(0, 13);
 	 	}while(transDao.getTransactionByRef(ref) != null);
 		 this.reference = ref;
 	 }
-	 public void store() {
+	 private void store() {
 	 System.out.println("in store");
 		List<DocsAchetes> liste = new ArrayList<>();
 		for(Document d : articles) {
@@ -185,8 +191,6 @@ public class PanierBean implements Serializable{
 		}
 		transDao.creer(this.getTransaction());
 		dao.storeDocsAchetes(liste);
-		articles = new ArrayList<>();
-		
 	}
 	private DocsAchetes remplirData(Document d){
 		DocsAchetes doc = new DocsAchetes();
@@ -198,9 +202,9 @@ public class PanierBean implements Serializable{
 	}
 	 private Transaction getTransaction() {
 	 	Transaction trans = new Transaction();
-	 	trans.setClientId(clientId);
+	 	trans.setClientId(this.clientId);
 	 	trans.setDateAchat(new Timestamp(System.currentTimeMillis()));
-	 	trans.setMoyenPaiement(moyenPaiement);
+	 	trans.setMoyenPaiement(this.moyenPaiement);
 	 	trans.setReference(this.reference);
 	 	trans.setMontant(total());
 	 	trans.setEtat(Etat.INITIE.name());
@@ -216,5 +220,14 @@ public class PanierBean implements Serializable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	 }
+	 public void updateTransactionWithPaymentMethod() {
+		 Object obj =  transDao.getTransactionByRef(this.reference);
+		 if(obj != null) {
+			 Transaction trans = (Transaction)obj;
+			 trans.setMoyenPaiement(this.moyenPaiement);
+			 transDao.update(trans);
+			 this.articles = new ArrayList<>();
+		 }
 	 }
 }
