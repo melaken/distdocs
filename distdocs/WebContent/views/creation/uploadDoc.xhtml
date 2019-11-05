@@ -11,9 +11,34 @@ xmlns:p="http://primefaces.org/ui">
 		<h:outputStylesheet library="default" name="css/form.css" />
 	</h:head>
 	<h:body>
-	    <ui:insert name = "nav" >
-	      <ui:include src = "../../menuBar.xhtml" />
-	   </ui:insert>
+	   <h:form>  
+	    <p:growl id="messages"/>
+	 	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
+	        <f:facet name="left">
+	       		<p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;margin-top:0px;
+	        			border-radius: 5px;position:relative"/>
+	        	</p:commandLink><br/>
+	        </f:facet>
+	        <f:facet name="right" style="margin-right:20px;">
+	        	<p:linkButton outcome="/index.xhtml" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" style="margin-top:50px"/> -->
+				 
+	        	<p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
+		        	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
+	        		
+	        		<p:menuitem value="Publier" outcome="/views/creation/uploadDoc.xhtml" icon="pi pi-upload"
+	     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
+	    			<p:menuitem value="Ma bibliothèque" outcome="/docsAchetes" 
+	    			icon="pi pi-file" style="padding-left:10px"/> 
+	     			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" style="padding-left:10px"/>
+	     			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>
+	     			<p:separator /> 
+	     			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" type="button" icon="pi pi-sign-out" style="padding-left:10px;"
+	     			rendered="#{sessionScope['user'] != null}" update="@form"/> 
+        	</p:menuButton>
+	        </f:facet>
+    	</p:toolbar>
+    <p:sticky target="tb" />
+    
 	   <div  align="center"> 
 	 	<h:form enctype="multipart/form-data">
 	 		 <h:panelGrid columns="2" style="margin-bottom:10px;" cellpadding="5">

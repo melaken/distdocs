@@ -91,6 +91,9 @@ public class Document {
 	public void setPremiereCouverture(String premiereCouverture) {
 		this.premiereCouverture = premiereCouverture;
 	}
-	
+	public String toString() {
+		
+		return "id = "+id+" cover = "+premiereCouverture+" prix = "+prix +"docType = "+docType;
+	}
 	
 }

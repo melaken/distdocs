@@ -66,7 +66,7 @@ xmlns:p="http://primefaces.org/ui">
     return vars;
 }
       $('#container').FlipBook({
-        pdf: 'books/pdf/'.concat(getUrlVars()["file"]),
+        pdf: 'books/'.concat(getUrlVars()["file"]),
         propertiesCallback: function(props) {
           props.page.depth /= 2.5;
           props.cover.padding = 0.002;

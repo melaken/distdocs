@@ -124,7 +124,7 @@ public class DocumentBean implements Serializable{
 		      
 		      FacesContext facesContext = FacesContext.getCurrentInstance();
 				ExternalContext  exterNalContext = facesContext.getExternalContext();
-		      exterNalContext.redirect("../../index.xhtml");
+		      exterNalContext.redirect(ConstanteBean.ACCUEIL);
 	    	}
 	    } catch (Exception e) {
 	    	Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);

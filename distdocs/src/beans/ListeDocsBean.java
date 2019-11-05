@@ -59,24 +59,26 @@ public class ListeDocsBean {
 		StreamedContent content = new DefaultStreamedContent();
 		try {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		String fileName = context.getExternalContext().getRequestParameterMap().get("id");
-		BufferedImage img = ImageIO.read(new File(ConstanteBean.CHEMIN_IMAGES,fileName));
-		int w = img.getWidth(null);
-		int h = img.getHeight(null);
-	
-		// image is scaled two times at run time
-		int scale = 2;
-	
-		BufferedImage bi = new BufferedImage(w * scale, h * scale,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics g = bi.getGraphics();
-	
-		g.drawImage(img, 10, 10, w * scale, h * scale, null);
-	
-		ImageIO.write(bi, "png", bos);
-		System.out.println("getImages() in else");
-		content=  new DefaultStreamedContent(new ByteArrayInputStream(
-				bos.toByteArray()), "image/png");
+		String fileName = context.getExternalContext().getRequestParameterMap().get("cover");
+		if(fileName != null && !fileName.isEmpty()) {
+			BufferedImage img = ImageIO.read(new File(ConstanteBean.CHEMIN_IMAGES,fileName));
+			int w = img.getWidth(null);
+			int h = img.getHeight(null);
+		
+			// image is scaled two times at run time
+			int scale = 2;
+		
+			BufferedImage bi = new BufferedImage(w * scale, h * scale,
+					BufferedImage.TYPE_INT_ARGB);
+			Graphics g = bi.getGraphics();
+		
+			g.drawImage(img, 10, 10, w * scale, h * scale, null);
+		
+			ImageIO.write(bi, "png", bos);
+			System.out.println("getImages() in else");
+			content=  new DefaultStreamedContent(new ByteArrayInputStream(
+					bos.toByteArray()), "image/png");
+		}
 		}catch(Throwable ex) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, ex.getMessage(), ex);
 			ex.printStackTrace();

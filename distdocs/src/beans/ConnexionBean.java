@@ -64,7 +64,7 @@ public class ConnexionBean implements Serializable{
 				session.setAttribute("user", userDao.trouver(email));
 				
 				try {
-					exterNalContext.redirect("index.xhtml");
+					exterNalContext.redirect(ConstanteBean.ACCUEIL);
 				} catch (IOException e) {
 					Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 					e.printStackTrace();
@@ -86,7 +86,7 @@ public class ConnexionBean implements Serializable{
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		exterNalContext.invalidateSession();
 		try {
-			exterNalContext.redirect("index.xhtml");
+			exterNalContext.redirect(ConstanteBean.ACCUEIL);
 //			reload();
 			System.out.println("disconnected");
 		} catch (Throwable e) {

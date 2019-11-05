@@ -25,7 +25,6 @@ public class DocsAchetesDao {
 	@EJB
 	TransactionDao transDao;
 	
-	
 	public List<DocsAchetes> lister(){
 		List<DocsAchetes> liste= new ArrayList<>();
 		Query request = em.createQuery("select d from DocsAchetes d");
@@ -40,13 +39,22 @@ public class DocsAchetesDao {
 	public List<Document> docAchetesParclient(long clientId) {
 		List<Document> liste= new ArrayList<>();
 		try{
-			Query q = em.createNativeQuery("SELECT da.doc_id,d.premiere_couverture "
-					+ "from Document d,Transaction t, DocsAchetes da"
-					+ "where t.etat = :etat and t.reference = da.reference and t.client_id = :id"+
-					"and d.id = da.doc_id" );
-			q.setParameter("etat",Etat.TERMINE.name() );
-			q.setParameter("id",clientId );
-			liste = q.getResultList();
+			Query q = em.createNativeQuery("SELECT da.doc_id,d.premiere_couverture  "
+					+ "from Document d,Transaction t, DocsAchetes da "
+					+ " where t.reference = da.reference and d.id = da.doc_id " 
+					+ "and t.etat = ? and  t.client_id = ?");
+			q.setParameter(1,Etat.INITIE.name() );
+			q.setParameter(2,clientId );
+			List<Object[]> temp = q.getResultList();
+			System.out.println("size tmp = "+temp.size());
+			for(Object[] obj : temp) {
+				Document doc = new Document();
+				doc.setId(Long.parseLong(obj[0].toString()));
+				doc.setPremiereCouverture(obj[1].toString());
+//				System.out.println("doc "+doc.toString());
+				liste.add(doc);
+			}
+			System.out.println("End docAchetesParclient");
 			}catch(Throwable e) {
 				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 				e.printStackTrace();

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+               
+    <url-mapping>
+		<pattern value="/accueil" />
+		<view-id value="/index.xhtml" />
+	</url-mapping>       
+	<url-mapping>
+		<pattern value="/biblio" />
+		<view-id value="/docsAchetes.xhtml" />
+	</url-mapping>
+	<url-mapping>
+		<pattern value="/lecture" />
+		<view-id value="/opendoc.xhtml" />
+	</url-mapping>
+	<url-mapping>
+		<pattern value="/connexion" />
+		<view-id value="/views/connexion.xhtml" />
+	</url-mapping>
+	<url-mapping>
+		<pattern value="/creation_editeur" />
+		<view-id value="/views/creationEditeur.xhtml" />
+	</url-mapping>
+	<url-mapping>
+		<pattern value="/creation_user" />
+		<view-id value="/views/creationEditeur.xhtml" />
+	</url-mapping>
+	<url-mapping>
+		<pattern value="/upload" />
+		<view-id value="/views/uploadDoc.xhtml" />
+	</url-mapping>
+	<url-mapping>
+		<pattern value="/paiement" />
+		<view-id value="/views/listing/payer.xhtml" />
+	</url-mapping>
+	<url-mapping>
+		<pattern value="/success" />
+		<view-id value="/views/results/paymentSucceed.xhtml" />
+	</url-mapping>
+	<url-mapping>
+		<pattern value="/echec" />
+		<view-id value="/views/results/paymentFailed.xhtml" />
+	</url-mapping>
+</pretty-config>

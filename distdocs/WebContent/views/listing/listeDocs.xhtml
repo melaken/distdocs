@@ -52,7 +52,7 @@ xmlns:p="http://primefaces.org/ui">
 <!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
 		            <h:panelGrid columns="1" style="width:200px;height:300px;">
 		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
-                		 	<f:param name="id" value="#{doc.premiereCouverture}" />
+                		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
                 		</p:graphicImage> 
                 		<h:outputText value="#{doc.prix}FCFA" styleClass="label value" style="text-align:center"/>
                 		<f:facet name="footer">

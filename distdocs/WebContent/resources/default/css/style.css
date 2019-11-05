@@ -10,3 +10,10 @@
 body{
 	background-color:#e0e0e0;
 }
+.value {
+        font-size: 20px;
+    }
+       .pi {  
+    width: 16px !important; 
+    font-size: 16px !important; 
+  }  

@@ -7,6 +7,10 @@
 		<param-value>Development</param-value>
 	</context-param>
 	<context-param>
+	    <param-name>com.ocpsoft.pretty.DEVELOPMENT</param-name>
+	    <param-value>true</param-value>
+	</context-param>
+	<context-param>
 		<param-name>CHEMIN_DOCS</param-name>
 		<param-value>/home/lady/eclipse-workspace/pro/WebContent/books/pdf</param-value>
 	</context-param>

@@ -155,7 +155,7 @@ public class PanierBean implements Serializable{
 		continuerAchat();
 	}
 	 public void continuerAchat() {
-		redirect("../../index.xhtml");
+		redirect(ConstanteBean.ACCUEIL);
      }
 	 public void choisirPaiement() {
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -166,7 +166,7 @@ public class PanierBean implements Serializable{
 //			redirect("");
 		}else {
 		      try {
-				exterNalContext.redirect("payer.xhtml");
+				exterNalContext.redirect(ConstanteBean.PAYMENT);
 				genererRef();
 				store();
 			} catch (IOException e) {

@@ -9,12 +9,29 @@ xmlns:p="http://primefaces.org/ui">
    		<meta charset="utf-8" />
 		<title>Création d'un éditeur</title>
 		<h:outputStylesheet library="default" name="css/form.css" />
-<!-- 		<h:outputStylesheet library="default" name="bootstrap/css/bootstrap.min.css" /> -->
+  		<h:outputStylesheet library="default" name="css/style.css" />
+  		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+  		<h:outputStylesheet name="components.css" library="primefaces"/>
 	</h:head>
 	<h:body>
-	    <ui:insert name = "nav" >
-	      <ui:include src = "../../menuBar.xhtml" />
-	   </ui:insert>
+	   <h:form>  
+	    <p:growl id="messages"/>
+	 	
+	 	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
+	        <f:facet name="left">
+	       		<p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;margin-top:0px;
+	        			border-radius: 5px;position:relative"/>
+	        </f:facet>
+	        <f:facet name="right" style="margin-right:20px;">
+	        	<p:linkButton outcome="/index.xhtml" value="Accueil" icon="pi pi-home" style="margin-top:50px"/>
+	        	<p:linkButton  id="inscription" value="	Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
+	          	style="margin-right:10px;margin-top:50px;padding-left:5px" 
+	          	outcome="/views/creation/creationUtilisateur.xhtml"/>
+			</f:facet>
+    	</p:toolbar>
+    <p:sticky target="tb" />
+</h:form>
+	   
 	   <div  align="center"> 
 	 	<h:form>
 	    	<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
@@ -84,14 +101,6 @@ xmlns:p="http://primefaces.org/ui">
 		   			</p:inputText>
 		   			<h:message id="maisonEditionMessage" for="maisonEdition" errorClass="erreur" />
 	   			</h:panelGrid>
-<!-- 	   			<h:panelGrid columns="2" > -->
-<!-- 		   			<h:outputLabel for="docType" value="Type de contenu à publier" style="font-weight:bold" /> -->
-<!-- 		   			<p:selectOneMenu id="docType"  value="#{editeurBean.editeur.docType}" style="width:180px"> -->
-<!-- 			            <f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" /> -->
-<!-- 			            <f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" /> -->
-<!-- 			            <f:selectItem itemLabel="LIVRE" itemValue="LIVRE" /> -->
-<!-- 		        	</p:selectOneMenu> -->
-<!-- 	        	</h:panelGrid> -->
 	        	<h:messages globalOnly="true" infoClass="info" />
 				<f:facet name="footer" >
 	   	    		<p:commandButton value="Enregistrer" action="#{editeurBean.creerEditeur}" icon="pi pi-save" 
