@@ -1,20 +1,176 @@
 package beans;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
+
+@Named
+@ApplicationScoped
 public class ConstanteBean {
 
-	public static final String CHEMIN_DOCS="/home/lady/git/repository/distdocs/WebContent/books/pdf";
-	public static final String CHEMIN_IMAGES="/home/lady/git/repository/distdocs/WebContent/books/cover_page";
-//	private static final String DOCS_DIR=FacesContext.getCurrentInstance().getExternalContext()
-//			.getInitParameter("chemin_docs");
-//	private static final String IMAGES_DIR = FacesContext.getCurrentInstance().getExternalContext()
-//			.getInitParameter("chemin_images");
-	public static final String ROOT = "/distdocs";
-	public static final String ACCUEIL = ROOT+"/accueil";
-	public static final String BIBLIO = ROOT+"/biblio";
-	public static final String RECAP = ROOT+"/recap";
-	public static final String PAYMENT = ROOT+"/paiement";
-	public static final String USER_CREATE = ROOT+"/creation_user";
-	public static final String EDITEUR_CREATE = ROOT+"/creation_editeur";
-	public static final String UPLOAD = ROOT+"/upload";
-	public static final String LECTURE = ROOT+"/lecture";
+	private String accueil;
+	private String upload;
+	private String openDoc;
+	private String recap;
+	private String echec;
+	private String biblio;
+	private String lecture;
+	private String creationEditeur;
+	private String creationUser;
+	private String paiement;
+	private String success;
+	private String connexion;
+	private String formCreationUser;
+	private String menuBar;
+	private String carousel;
+	private String listeDocs;
+	
+	@PostConstruct
+	public void init() {
+		accueil = "/index.xhtml";
+		upload = "/WEB-INF/views/creation/uploadDoc.xhtml";
+		openDoc = "/opendoc.xhtml";
+		recap = "/WEB-INF/views/listing/recapitulatifAchats.xhtmls";
+		echec = "/WEB-INF/views/results/paymentFailed.xhtml";
+		biblio = "/docsAchetes.xhtml";
+		lecture = "/opendoc.xhtml";
+		creationEditeur = "/WEB-INF/views/creation/creationEditeur.xhtml";
+		creationUser = "/WEB-INF/views/creation/creationUtilisateur.xhtml" ;
+		paiement = "/WEB-INF/views/listing/payer.xhtml";
+		success = "/WEB-INF/views/results/paymentSucceed.xhtml";
+		connexion = "/WEB-INF/views/creation/connexion.xhtml";
+		formCreationUser = "/WEB-INF/views/creation/formCreationUtilisateur.xhtml" ;
+		menuBar = "/menuBar.xhtml";
+		carousel = "/WEB-INF/views/carousel.xhtml";
+		listeDocs = "WEB-INF/views/listing/listeDocs.xhtml";
+	}
+
+	public String getAccueil() {
+		return accueil;
+	}
+
+	public void setAccueil(String accueil) {
+		this.accueil = accueil;
+	}
+
+	public String getUpload() {
+		return upload;
+	}
+
+	public void setUpload(String upload) {
+		this.upload = upload;
+	}
+
+	public String getOpenDoc() {
+		return openDoc;
+	}
+
+	public void setOpenDoc(String openDoc) {
+		this.openDoc = openDoc;
+	}
+
+	public String getRecap() {
+		return recap;
+	}
+
+	public void setRecap(String recap) {
+		this.recap = recap;
+	}
+
+	public String getEchec() {
+		return echec;
+	}
+
+	public void setEchec(String echec) {
+		this.echec = echec;
+	}
+
+	public String getBiblio() {
+		return biblio;
+	}
+
+	public void setBiblio(String biblio) {
+		this.biblio = biblio;
+	}
+
+	public String getLecture() {
+		return lecture;
+	}
+
+	public void setLecture(String lecture) {
+		this.lecture = lecture;
+	}
+
+	public String getCreationEditeur() {
+		return creationEditeur;
+	}
+
+	public void setCreationEditeur(String creationEditeur) {
+		this.creationEditeur = creationEditeur;
+	}
+
+	public String getCreationUser() {
+		return creationUser;
+	}
+
+	public void setCreationUser(String creationUser) {
+		this.creationUser = creationUser;
+	}
+
+	public String getPaiement() {
+		return paiement;
+	}
+
+	public void setPaiement(String paiement) {
+		this.paiement = paiement;
+	}
+
+	public String getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+
+	public String getConnexion() {
+		return connexion;
+	}
+
+	public void setConnexion(String connexion) {
+		this.connexion = connexion;
+	}
+
+	public String getFormCreationUser() {
+		return formCreationUser;
+	}
+
+	public void setFormCreationUser(String formCreationUser) {
+		this.formCreationUser = formCreationUser;
+	}
+
+	public String getMenuBar() {
+		return menuBar;
+	}
+
+	public void setMenuBar(String menuBar) {
+		this.menuBar = menuBar;
+	}
+
+	public String getCarousel() {
+		return carousel;
+	}
+
+	public void setCarousel(String carousel) {
+		this.carousel = carousel;
+	}
+
+	public String getListeDocs() {
+		return listeDocs;
+	}
+
+	public void setListeDocs(String listeDocs) {
+		this.listeDocs = listeDocs;
+	}
+	
 }

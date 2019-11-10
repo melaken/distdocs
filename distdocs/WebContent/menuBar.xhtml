@@ -41,25 +41,22 @@ style="margin-right:10px;padding-left:10px"-->
         			border-radius: 5px;margin-left:30px;"/><br/> 
         			</f:facet>
         <f:facet name="right" style="margin-right:20px;">
-        	<p:linkButton  id="inscription" value="	Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
+        	<p:linkButton  id="inscription" value="Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
           	style="margin-right:10px;margin-top:50px;padding-left:5px" 
-          	outcome="/views/creation/creationUtilisateur.xhtml"/>
+          	outcome="#{constanteBean.creationUser}"/>
           	
            <p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
-           	outcome="/views/creation/creationEditeur.xhtml" style="margin-right:10px;padding-left:5px"/>
+           	outcome="#{constanteBean.creationEditeur}" style="margin-right:10px;padding-left:5px"/>
            	
           <p:commandButton value="Connexion"  onclick="PF('dlg2').show();" icon="pi pi-sign-in"
         		rendered="#{sessionScope['user'] == null}" style="margin-right:10px;padding-left:5px" />
 		
-<!-- 		<p:linkButton outcome="/index.xhtml" value="Accueil" rendered="#{sessionScope['user'] != null}" 
-				icon="pi pi-home" style="margin-top:50px"/> -->
-				 
         <p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
         	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
         		
-        		<p:menuitem value="Publier" outcome="/views/creation/uploadDoc.xhtml" icon="pi pi-upload"
+        		<p:menuitem value="Publier" outcome="#{constanteBean.upload}" icon="pi pi-upload"
      				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
-    			<p:menuitem value="Ma bibliothèque" outcome="/docsAchetes" 
+    			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
     			icon="pi pi-file" style="padding-left:10px"/> 
      			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" style="padding-left:10px"/>
      			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>

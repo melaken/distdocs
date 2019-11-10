@@ -64,9 +64,17 @@ public class EditeurBean implements Serializable{
 		initialiserDateCreation();
 		user.setUserType(UserType.EDITEUR.name());
 		userDao.creer(user);
+		 FacesContext facesContext = FacesContext.getCurrentInstance();
+		Constante.redirect(facesContext, Constante.ACCUEIL,MODULE);
 	}
 	private void initialiserDateCreation() {
 		Timestamp date = new Timestamp( System.currentTimeMillis());
 		user.setDateCreation(date);
+	}
+	
+	public void call() {
+		System.out.println("in call");
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		Constante.redirect(facesContext, Constante.ACCUEIL, MODULE);
 	}
 }

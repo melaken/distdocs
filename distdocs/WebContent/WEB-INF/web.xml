@@ -2,6 +2,17 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Kiosque numérique</display-name>
   <!-- Changer cette valeur à "Production" lors du déploiement final de l'application -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<multipart-config>
+	      <location>/tmp</location>
+	      <max-file-size>5242880</max-file-size>
+	      <max-request-size>6291456</max-request-size>
+	      <file-size-threshold>1048576</file-size-threshold>
+	 	</multipart-config>
+	</servlet>
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
@@ -27,11 +38,7 @@
 	    <param-value>aristo</param-value>  
 	</context-param>  
 	<!-- Déclaration du contrôleur central de JSF : la FacesServlet -->
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>-1</load-on-startup>
-	</servlet>
+	
 	<!-- Mapping : association des requêtes dont le fichier porte
 	l'extension .xhtml à la FacesServlet -->
 	<servlet-mapping>

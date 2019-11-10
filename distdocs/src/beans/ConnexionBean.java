@@ -23,7 +23,7 @@ import dao.UtilisateurDao;
 @SessionScoped
 public class ConnexionBean implements Serializable{
 	
-	private final static String ACCUEIL = "index";
+	//private final static String ACCUEIL = "index";
 	private final String MODULE = ConnexionBean.class.getName();
 	private static final long serialVersionUID = 1L;
 	@EJB
@@ -64,7 +64,7 @@ public class ConnexionBean implements Serializable{
 				session.setAttribute("user", userDao.trouver(email));
 				
 				try {
-					exterNalContext.redirect(ConstanteBean.ACCUEIL);
+					exterNalContext.redirect(Constante.ACCUEIL);
 				} catch (IOException e) {
 					Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 					e.printStackTrace();
@@ -86,7 +86,7 @@ public class ConnexionBean implements Serializable{
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		exterNalContext.invalidateSession();
 		try {
-			exterNalContext.redirect(ConstanteBean.ACCUEIL);
+			exterNalContext.redirect(Constante.ACCUEIL);
 //			reload();
 			System.out.println("disconnected");
 		} catch (Throwable e) {

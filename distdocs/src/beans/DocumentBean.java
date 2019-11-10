@@ -23,11 +23,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.inject.Named;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import javax.transaction.Transactional;
-
-import org.primefaces.event.FileUploadEvent;
 
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
@@ -38,6 +36,9 @@ import entities.Utilisateur;
 
 @Named
 @RequestScoped
+@MultipartConfig(location = "/tmp", maxFileSize = 50 * 1024
+* 1024, maxRequestSize = 60 * 1024 * 1024, fileSizeThreshold =
+10*1024 * 1024)
 public class DocumentBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -53,8 +54,8 @@ public class DocumentBean implements Serializable{
 	@PostConstruct
 	public void init() {
 		doc = new Document();
+		System.out.println("In DocumentBean init()");
 	}
-
 	public Document getDoc() {
 		return doc;
 	}
@@ -95,11 +96,16 @@ public class DocumentBean implements Serializable{
     	  return (Utilisateur)user;
       else return null;
 	}
-	 //@Transactional
+	public void call() {
+		System.out.println("in call");
+	}
 	public void upload() {
+		Utilisateur user = currentUser();
+    	System.out.println("IN upload "+user);
 	    try {
-	    	Utilisateur user = currentUser();
+	    	
 	    	if(user != null) {
+	    		System.out.println("in upload if");
 		    	InputStream input = file.getInputStream();
 		    	InputStream input_cover = cover.getInputStream();
 		    	
@@ -112,10 +118,10 @@ public class DocumentBean implements Serializable{
 		      doc.setEditeur(user.getId());
 		      initialiserDateAjout();
 		      
-		      docDao.creer(doc);
+		      //docDao.creer(doc);
 		      
-		      File fich = new File(ConstanteBean.CHEMIN_DOCS,id+"");
-		      File fich_cover = new File(ConstanteBean.CHEMIN_IMAGES,p_couverture);
+		      File fich = new File(Constante.CHEMIN_DOCS,id+"");
+		      File fich_cover = new File(Constante.CHEMIN_IMAGES,p_couverture);
 		      
 		      Files.copy(input, fich.toPath());
 		      Files.copy(input_cover, fich_cover.toPath());
@@ -123,8 +129,7 @@ public class DocumentBean implements Serializable{
 		      System.out.println("Everything is ok");
 		      
 		      FacesContext facesContext = FacesContext.getCurrentInstance();
-				ExternalContext  exterNalContext = facesContext.getExternalContext();
-		      exterNalContext.redirect(ConstanteBean.ACCUEIL);
+		      Constante.redirect(facesContext, Constante.ACCUEIL, MODULE);
 	    	}
 	    } catch (Exception e) {
 	    	Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
@@ -136,6 +141,7 @@ public class DocumentBean implements Serializable{
 		Timestamp date = new Timestamp( System.currentTimeMillis());
 		doc.setDateAjout(date );
 	}
+	
 	void createImage(String format,File pdfFile, String fileName) {
 		try {
 			RandomAccessFile raf = new RandomAccessFile(pdfFile, "r");
@@ -158,7 +164,7 @@ public class DocumentBean implements Serializable{
 			);
 			Graphics2D bufImageGraphics = bufferedImage.createGraphics();
 			bufImageGraphics.drawImage(image, 0, 0, null);
-			ImageIO.write(bufferedImage, format, new File( ConstanteBean.CHEMIN_IMAGES,fileName ));
+			ImageIO.write(bufferedImage, format, new File( Constante.CHEMIN_IMAGES,fileName ));
 			doc.setPremiereCouverture(fileName);
 			raf.close();
 		}catch(Exception e) {

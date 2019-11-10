@@ -25,8 +25,8 @@ public class TransactionResponse extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	private static final int STATUT = 200;
-	private static final String SUCCESS = "/views/results/paymentSucceed.xhtml";
-	private static final String  ECHEC = "/views/results/paymentFailed.xhtml";
+	private static final String SUCCESS = "/WEB-INF/views/results/paymentSucceed.xhtml";
+	private static final String  ECHEC = "/WEB-INF/views/results/paymentFailed.xhtml";
 	@EJB
 	TransactionDao dao;
 	

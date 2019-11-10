@@ -23,8 +23,9 @@ xmlns:p="http://primefaces.org/ui">
 	<h:body>
 		<h3 style="margin-top:10px">Sélectionnez votre moyen de paiement</h3>
 		<h:form style="text-align:center">
-		<p:panel id="panel" style="text-align:center;border:0">
-			<p:selectOneRadio id="customRadio" value="#{panierBean.moyenPaiement}" layout="custom" update=":payer">
+		<p:panel id="panel" style="border:0;margin-left:400px">
+			<p:selectOneRadio id="customRadio" value="#{panierBean.moyenPaiement}" layout="custom" 
+				update=":payer" style="margin-left:300px">
 			    <f:selectItem itemLabel="Image1" itemValue="Airtel Money" />
 			    <f:selectItem itemLabel="Image2" itemValue="Paypal" itemDisabled="true"/>
 			    <f:ajax execute="box" render="payer" event="change" />
@@ -35,11 +36,11 @@ xmlns:p="http://primefaces.org/ui">
 			    <p:radioButton id="opt2" for="customRadio" itemIndex="1" />
 			    <h:graphicImage name="images/paypal.jpeg" style="height: 70px; width: 70px;border-radius: 2px"/>
 			</h:panelGrid>
-	        <p:commandButton id="payer"  value="Payer"  update=":envoi:moyen" 
+    	</p:panel>
+    	<p:commandButton id="payer"  value="Payer"  update=":envoi:moyen" 
 	        	icon="pi pi-check" oncomplete="PF('dlg').show()"
 	        	disabled="#{panierBean.moyenPaiement == null}" >
 	        </p:commandButton>
-    	</p:panel>
     </h:form>
     
     
@@ -48,7 +49,7 @@ xmlns:p="http://primefaces.org/ui">
 	 	 <h:form id="envoi">
         	<p:panelGrid columns="2" id="display" columnClasses="label,value">
 	            <h:outputText value="Montant" />
-	            <h:outputText value="#{panierBean.total()} FCFA" />
+	            <h:outputText value="#{panierBean.total} FCFA" />
 	            <h:outputText value="Moyen de paiement" />
 	            <h:outputText id="moyen" value="#{panierBean.moyenPaiement}" />
 <!-- 	            <p:button value="Annuler" onclick="PF('dlg').hide();" /> -->
@@ -62,7 +63,7 @@ xmlns:p="http://primefaces.org/ui">
           <form method="POST" action="https://mypvit.com/airtelmoneypvit.kk">
 	            <input type="submit" id="send" name="payer" style="display:none"/>
             	<input type="text" name="tel_marchand" value="#{panierBean.telMarchand}" style="display:none"/>
-	          <input type="text" name="montant" value="#{panierBean.total()}" style="display:none"/>
+	          <input type="text" name="montant" value="#{panierBean.total}" style="display:none"/>
 	          <input type="text" name="ref" value="#{panierBean.reference}" style="display:none"/>
 	          <input type="text" name="redirect" value="#{panierBean.redirect}" style="display:none"/>
            </form>

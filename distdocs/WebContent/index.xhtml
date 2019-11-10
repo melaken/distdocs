@@ -27,13 +27,13 @@ xmlns:p="http://primefaces.org/ui">
 </h:head>
 <h:body>
 	<ui:insert name = "nav" >
-      <ui:include src = "menuBar.xhtml" />
+      <ui:include src = "#{constanteBean.menuBar}" />
    </ui:insert>
 	<ui:insert name = "carousel" >
-      <ui:include src = "views/carousel.xhtml" />
+      <ui:include src = "#{constanteBean.carousel}" />
    </ui:insert>
    <ui:insert name = "listing" >
-      <ui:include src = "views/listing/listeDocs.xhtml" />
+      <ui:include src = "#{constanteBean.listeDocs}" />
    </ui:insert>
 </h:body>
 </html>

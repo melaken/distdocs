@@ -33,12 +33,14 @@ public class ListeDocsBean {
 	@EJB
 	private DocumentDao docDao;
 	private List<Document> liste;
+	private List<String> tenLatestDocs;
 	private StreamedContent image;
 	private Document selectedDoc;
 	
 	@PostConstruct
 	public void init() {
 		liste = docDao.lister();
+		tenLatestDocs = docDao.tenLatestDocs();
 	}
 	public List<Document> getListe() {
 		return liste;
@@ -53,6 +55,12 @@ public class ListeDocsBean {
 	public void setSelectedDoc(Document selectedDoc) {
 		this.selectedDoc = selectedDoc;
 	}
+	public List<String> getTenLatestDocs() {
+		return tenLatestDocs;
+	}
+	public void setTenLatestDocs(List<String> tenLatestDocs) {
+		this.tenLatestDocs = tenLatestDocs;
+	}
 	public StreamedContent getImage(){
 		
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -61,7 +69,7 @@ public class ListeDocsBean {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		String fileName = context.getExternalContext().getRequestParameterMap().get("cover");
 		if(fileName != null && !fileName.isEmpty()) {
-			BufferedImage img = ImageIO.read(new File(ConstanteBean.CHEMIN_IMAGES,fileName));
+			BufferedImage img = ImageIO.read(new File(Constante.CHEMIN_IMAGES,fileName));
 			int w = img.getWidth(null);
 			int h = img.getHeight(null);
 		

@@ -34,12 +34,20 @@ public class PanierBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private final String MODULE = PanierBean.class.getName();
+	//liste des articles du panier
 	private List<Document> articles;
+	//document selectionné pa le cient
 	private Document selectedDoc;
+	//moyen de paiement sélectionné par le client
 	private String moyenPaiement;
+	//lien où airtel va rediriger la réponse
 	private String redirect;
+	//tel marchand où l'argent sera versé
 	private String telMarchand;
+	//reference de la transaction maxi 13 caractères
 	private String reference;
+	//montant total des articles dans le panier
+	private float total;
 	@EJB
 	private DocsAchetesDao dao;
 	@EJB
@@ -96,6 +104,14 @@ public class PanierBean implements Serializable{
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
+	public float getTotal() {
+		return total;
+	}
+	public void setTotal(float total) {
+		this.total = total;
+	}
+	
+	//methode qui gère la panier
 	public void panier() {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
@@ -109,6 +125,9 @@ public class PanierBean implements Serializable{
 			Document doc_recherche = findDocWithId(selectedDoc.getId());
 			if(doc_recherche== null) {
 				this.articles.add(selectedDoc);
+				total();
+				 FacesContext context = FacesContext.getCurrentInstance();
+			     context.addMessage(null, new FacesMessage("Votre panier",  this.articles.size()+" article(s) dans le panier") );
 			}
 			else {
 				 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, " ", "L'élément choisi est déjà dans le panier.");
@@ -116,20 +135,25 @@ public class PanierBean implements Serializable{
 			}
 		}
 	}
-	public long total() {
+	//calcule montant total du panier
+	public void total() {
 		Float somme = new Float(0);
 		for(Document d: articles)
 			somme += d.getPrix();
-		return somme.longValue();
+		this.total= somme.longValue();
 	}
+	//retire un doc dans le panier
 	public void supprimerDoc() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		String docId = context.getExternalContext().getRequestParameterMap().get("docId");
 		Document doc_recherche = findDocWithId(Long.parseLong(docId));
-		if(doc_recherche != null)
+		if(doc_recherche != null) {
 			this.articles.remove(doc_recherche);
+			total();
+		}
 		
 	}
+	//retrouve un doc par son id
 	private Document findDocWithId(long id) {
 		Document doc_recherche = null;
 		for(Document d: articles) {
@@ -140,39 +164,35 @@ public class PanierBean implements Serializable{
 		}
 		return doc_recherche;	
 	}
+	//méthode utilitaire pour recharger la page courante
 	public void reload() {
-		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-	    try {
-			ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
-		} catch (IOException e) {
-			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
-			e.printStackTrace();
-		}
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Constante.redirect(fc, ((HttpServletRequest) fc.getExternalContext().getRequest()).getRequestURI(), MODULE);
 	}
-	
+	//annule les achats en retirant tout du panier
 	public void annulerAchat() {
 		articles = new ArrayList<>();
 		continuerAchat();
 	}
 	 public void continuerAchat() {
-		redirect(ConstanteBean.ACCUEIL);
+		 FacesContext facesContext = FacesContext.getCurrentInstance();
+		 Constante.redirect(facesContext,Constante.ACCUEIL,MODULE);
      }
 	 public void choisirPaiement() {
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		HttpSession session = (HttpSession) exterNalContext.getSession(false);
-		
-		if(session.getAttribute("user") == null) {
-//			redirect("");
-		}else {
-		      try {
-				exterNalContext.redirect(ConstanteBean.PAYMENT);
-				genererRef();
-				store();
+		try {
+			if(session.getAttribute("user") == null) {
+				exterNalContext.redirect(Constante.ACCUEIL);
+			}else {
+					exterNalContext.redirect(Constante.PAYMENT);
+					genererRef();
+			}
+			store();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
 		}
 	 }
 	 private void genererRef() {
@@ -182,6 +202,7 @@ public class PanierBean implements Serializable{
 	 	}while(transDao.getTransactionByRef(ref) != null);
 		 this.reference = ref;
 	 }
+	 //stocke l'opération d'achat en BD
 	 private void store() {
 	 System.out.println("in store");
 		List<DocsAchetes> liste = new ArrayList<>();
@@ -206,20 +227,10 @@ public class PanierBean implements Serializable{
 	 	trans.setDateAchat(new Timestamp(System.currentTimeMillis()));
 	 	trans.setMoyenPaiement(this.moyenPaiement);
 	 	trans.setReference(this.reference);
-	 	trans.setMontant(total());
+	 	trans.setMontant(this.total);
 	 	trans.setEtat(Etat.INITIE.name());
 	 	
 			return trans;
-	 }
-	 private void redirect(String path) {
-		 FacesContext facesContext = FacesContext.getCurrentInstance();
-		ExternalContext  exterNalContext = facesContext.getExternalContext();
-			try {
-				exterNalContext.redirect(path);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	 }
 	 public void updateTransactionWithPaymentMethod() {
 		 Object obj =  transDao.getTransactionByRef(this.reference);

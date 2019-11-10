@@ -56,7 +56,7 @@ public class CreationUserBean implements Serializable{
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
 			ExternalContext  exterNalContext = facesContext.getExternalContext();
 		      try {
-				exterNalContext.redirect(ConstanteBean.ACCUEIL);
+				exterNalContext.redirect(Constante.ACCUEIL);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
