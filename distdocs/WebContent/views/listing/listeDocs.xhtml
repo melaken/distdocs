@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>kiosque numérique</title>
+		<h:outputStylesheet library="default" name="css/style.css" />
+		<h:outputStylesheet name="components.css" library="primefaces"/>
+		<h:outputStylesheet name="galleria/galleria.css" library="primefaces"/>
+		<style type="text/css">
+    .value {
+        font-weight: bold;
+        font-size: 20px;
+        text-align:center;
+        font-color:#0060a0;
+    }
+       .emoticone {  
+    width: 24px !important; 
+    font-size: 30px !important; 
+    color: #0060a0;
+    padding-left:10px;
+  }  
+    body .ui-staticmessage.ui-message {
+        width: 25%;
+        height:20px;
+    }
+</style>
+	</h:head>
+		<div class="ui-g">
+		    <div class="ui-g-12 ui-md-3">
+		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
+		        	detail="#{panierBean.articles.size()} article(s) dans le panier."
+		        	rendered="#{panierBean.articles.size() > 0}"/>
+	        	<p:linkButton value="Commander" id="commande" outcome="#{constanteBean.recap}"
+		        	rendered="#{panierBean.articles.size() > 0}"/>
+		    </div>
+		    
+    	</div>
+		<h:form id="formListe" >
+			<p:growl id="msg"  showDetail="true" sticky="true" />
+			 <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px;width:200px;"
+	        	detail="#{panierBean.articles.size()} article(s) dans le panier."
+	        	rendered="#{panierBean.articles.size() > 0}"/>
+        	<p:linkButton value="Commander" id="commande" outcome="#{constanteBean.recap}"
+	        	 rendered="#{panierBean.articles.size() > 0}"
+	        	 style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right"/>
+			
+		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" emptyMessage="Aucun document à afficher"
+		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
+		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		        rowsPerPageTemplate="6,12,16">
+<!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
+		            <h:panelGrid columns="1" style="width:200px;height:300px;text-align:center;">
+		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
+                		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
+                		</p:graphicImage> 
+                		<h:outputText value="#{doc.prix}FCFA" styleClass="label value"/>
+                		<f:facet name="footer">
+			                <p:commandLink update=":formListe:image" oncomplete="PF('coverDialog').show()" title="Agrandir">
+			                    <h:outputText styleClass="pi pi-eye emoticone" style="margin:0 auto;"/>
+			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
+			                </p:commandLink>
+			                <p:commandLink  title="Acheter" update=":nbArticles @form :commande" 
+			                	action="#{panierBean.panier}" >
+			                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;"/>
+			                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />
+			                </p:commandLink>
+			                <p:commandLink  title="Résumé" update=":formListe:resumeOutput" oncomplete="PF('resumeDialog').show()">
+			                    <h:outputText styleClass="pi pi-bookmark emoticone" style="margin:0 auto;"/>
+			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
+			                </p:commandLink>
+			                
+		                </f:facet>
+		            </h:panelGrid>
+<!-- 		        </p:panel> -->
+		    </p:dataGrid>
+		    <p:dialog  widgetVar="coverDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+		    	header="Aperçu">
+	        	<p:outputPanel id="image" style="text-align:justify;border:0">
+		            <p:panelGrid  columns="1" rendered="#{not empty listeDocsBean.selectedDoc}" columnClasses="label,value">
+		                 <p:graphicImage value="#{listeDocsBean.image}" style="height:400px; width:800px">
+		                    	<f:param name="id" value="#{listeDocsBean.selectedDoc.premiereCouverture}" />
+		                    </p:graphicImage>
+	                </p:panelGrid>
+               	</p:outputPanel>
+            </p:dialog>
+            <p:dialog  widgetVar="resumeDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+            	header="Résumé">
+	        	<p:outputPanel id="resumeOutput" style="text-align:justify;border:0" border="0">
+		            <p:panelGrid  columns="1" rendered="#{not empty listeDocsBean.selectedDoc}" columnClasses="label,value"
+		            	border="0">
+		                <h:outputText value="#{listeDocsBean.selectedDoc.resume}"  style="text-align:justify"/>
+		                
+	                </p:panelGrid>
+               	</p:outputPanel>
+            </p:dialog>
+    </h:form>
+    
+</html>

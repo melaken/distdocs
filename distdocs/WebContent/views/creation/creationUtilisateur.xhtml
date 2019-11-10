@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>Création compte</title>
+		<meta charset="utf-8"/>
+  		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+  		<h:outputStylesheet library="default" name="css/form.css" />
+  		<h:outputStylesheet library="default" name="css/style.css" />
+  		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+  		<h:outputStylesheet name="components.css" library="primefaces"/>
+	</h:head>
+	
+	<h:body>
+		<h:form>  
+	    <p:growl id="messages"/>
+	 	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
+	        <f:facet name="left">
+	       		<p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;margin-top:0px;
+	        			border-radius: 5px;position:relative"/>
+	        </f:facet>
+	        <f:facet name="right" style="margin-right:20px;">
+	          	<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" rendered="#{sessionScope['user'] == null}" 
+	          		icon="pi pi-home" style="margin-top:50px;margin-right:10px"/>
+	           <p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
+	           	outcome="#{constanteBean.creationEditeur}" style="margin-right:10px;padding-left:5px"/>
+	        </f:facet>
+    	</p:toolbar>
+    <p:sticky target="tb" />
+</h:form>
+    <div  align="center"> 
+		<h:form id="formCreateUser">
+	        <ui:insert name = "createUser" >
+	     		 <ui:include src = "#{constanteBean.formCreationUser}" />
+	   		</ui:insert>
+		</h:form>
+	</div>
+	<ui:insert name = "connexion" >
+    	<ui:include src = "#{constanteBean.connexion}" />
+	</ui:insert>
+	</h:body>
+</html>

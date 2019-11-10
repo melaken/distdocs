@@ -6,28 +6,10 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
-		<multipart-config>
-	      <location>/tmp</location>
-	      <max-file-size>5242880</max-file-size>
-	      <max-request-size>6291456</max-request-size>
-	      <file-size-threshold>1048576</file-size-threshold>
-	 	</multipart-config>
 	</servlet>
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
-	</context-param>
-	<context-param>
-	    <param-name>com.ocpsoft.pretty.DEVELOPMENT</param-name>
-	    <param-value>true</param-value>
-	</context-param>
-	<context-param>
-		<param-name>CHEMIN_DOCS</param-name>
-		<param-value>/home/lady/eclipse-workspace/pro/WebContent/books/pdf</param-value>
-	</context-param>
-	<context-param>
-		<param-name>CHEMIN_IMAGES</param-name>
-		<param-value>/home/lady/eclipse-workspace/pro/WebContent/books/cover_page</param-value>
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
@@ -75,4 +57,5 @@
 	    <extension>woff2</extension>
 	    <mime-type>application/x-font-woff2</mime-type>
 	</mime-mapping>
+	
 </web-app>

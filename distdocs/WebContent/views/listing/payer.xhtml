@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>Paiement</title>
+		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+		<style type="text/css">    
+    .value {
+        font-weight: bold;
+    }
+    body{
+    	text-align:center;
+    }
+    
+</style>
+<!-- onclick="document.getElementById('send').click()" -->
+<!-- action="https://mypvit.com/airtelmoneypvit.kk" method="POST" -->
+	</h:head>
+	<h:body>
+		<h3 style="margin-top:10px">Sélectionnez votre moyen de paiement</h3>
+		<h:form style="text-align:center">
+		<p:panel id="panel" style="border:0;margin-left:400px">
+			<p:selectOneRadio id="customRadio" value="#{panierBean.moyenPaiement}" layout="custom" 
+				update=":payer" style="margin-left:300px">
+			    <f:selectItem itemLabel="Image1" itemValue="Airtel Money" />
+			    <f:selectItem itemLabel="Image2" itemValue="Paypal" itemDisabled="true"/>
+			    <f:ajax execute="box" render="payer" event="change" />
+			</p:selectOneRadio>
+			<h:panelGrid columns="2" cellpadding="5">
+			    <p:radioButton id="opt1" for="customRadio" itemIndex="0" />
+			    <h:graphicImage name="images/airtel.png" style="height: 70px; width: 70px;border-radius: 2px"/>
+			    <p:radioButton id="opt2" for="customRadio" itemIndex="1" />
+			    <h:graphicImage name="images/paypal.jpeg" style="height: 70px; width: 70px;border-radius: 2px"/>
+			</h:panelGrid>
+    	</p:panel>
+    	<p:commandButton id="payer"  value="Payer"  update=":envoi:moyen" 
+	        	icon="pi pi-check" oncomplete="PF('dlg').show()"
+	        	disabled="#{panierBean.moyenPaiement == null}" >
+	        </p:commandButton>
+    </h:form>
+    
+    
+		 <p:dialog modal="true" id="dialog" resizable="false" widgetVar="dlg" header="Informations sur le paiement" 
+		 	showEffect="clip" closable="false">
+	 	 <h:form id="envoi">
+        	<p:panelGrid columns="2" id="display" columnClasses="label,value">
+	            <h:outputText value="Montant" />
+	            <h:outputText value="#{panierBean.total} FCFA" />
+	            <h:outputText value="Moyen de paiement" />
+	            <h:outputText id="moyen" value="#{panierBean.moyenPaiement}" />
+<!-- 	            <p:button value="Annuler" onclick="PF('dlg').hide();" /> -->
+	            <p:commandButton value="Valider" actionListener="#{panierBean.updateTransactionWithPaymentMethod()}"
+	            	onclick="document.getElementById('send').click()"/>
+
+            </p:panelGrid>
+           </h:form> 
+          </p:dialog>
+          <p:panelGrid >
+          <form method="POST" action="https://mypvit.com/airtelmoneypvit.kk">
+	            <input type="submit" id="send" name="payer" style="display:none"/>
+            	<input type="text" name="tel_marchand" value="#{panierBean.telMarchand}" style="display:none"/>
+	          <input type="text" name="montant" value="#{panierBean.total}" style="display:none"/>
+	          <input type="text" name="ref" value="#{panierBean.reference}" style="display:none"/>
+	          <input type="text" name="redirect" value="#{panierBean.redirect}" style="display:none"/>
+           </form>
+           </p:panelGrid>
+	</h:body>
+</html>

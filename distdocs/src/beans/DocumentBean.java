@@ -36,9 +36,7 @@ import entities.Utilisateur;
 
 @Named
 @RequestScoped
-@MultipartConfig(location = "/tmp", maxFileSize = 50 * 1024
-* 1024, maxRequestSize = 60 * 1024 * 1024, fileSizeThreshold =
-10*1024 * 1024)
+
 public class DocumentBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;

@@ -19,16 +19,13 @@ xmlns:p="http://primefaces.org/ui">
 </style>
 	</h:head>
 	<h:body>
-	<h:form><p:commandButton id="store" action="#{panierBean.store}" rendered="false"/></h:form>
-				
-				<form id ="form1" action="https://mypvit.com/airtelmoneypvit.kk" method="POST" 
-					>
-	            	<input type="text" name="tel_marchand" value="07921645" />
-		          <input jsf:id="test" type="text" name="montant" value="200" />
-		          <input type="text" name="ref" value="9876543210st" />
-		          <input type="text" name="redirect" value="http://youbooklive.alwaysdata.net/payment-success.php" />
-	              <input type="button" name="payer" onclick="submitOrder();" value="envoyer"/>
-              </form>
+	<h:form enctype="multipart/form-data">
+	<h:outputLabel for="file" value="Contenu à publier" style="font-weight:bold" />
+	<h:inputFile  id="file"  mode="simple" skinSimple="true" value="#{testBean.file}"/><br/>
+	<p:commandButton value="Publier" action="#{documentBean.upload}" immediate="true" icon="pi pi-cloud-upload" 
+	   	    		align="center"  />
+	   	    		<br/>
+	</h:form>
 	              
 <!-- 	  <multipart-config> -->
 <!-- 	      <location>/tmp</location> -->

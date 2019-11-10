@@ -28,21 +28,21 @@ public class ConstanteBean {
 	@PostConstruct
 	public void init() {
 		accueil = "/index.xhtml";
-		upload = "/WEB-INF/views/creation/uploadDoc.xhtml";
+		upload = "/views/creation/uploadDoc.xhtml";
 		openDoc = "/opendoc.xhtml";
-		recap = "/WEB-INF/views/listing/recapitulatifAchats.xhtmls";
-		echec = "/WEB-INF/views/results/paymentFailed.xhtml";
+		recap = "/views/listing/recapitulatifAchats.xhtml";
+		echec = "/views/results/paymentFailed.xhtml";
 		biblio = "/docsAchetes.xhtml";
 		lecture = "/opendoc.xhtml";
-		creationEditeur = "/WEB-INF/views/creation/creationEditeur.xhtml";
-		creationUser = "/WEB-INF/views/creation/creationUtilisateur.xhtml" ;
-		paiement = "/WEB-INF/views/listing/payer.xhtml";
-		success = "/WEB-INF/views/results/paymentSucceed.xhtml";
-		connexion = "/WEB-INF/views/creation/connexion.xhtml";
-		formCreationUser = "/WEB-INF/views/creation/formCreationUtilisateur.xhtml" ;
+		creationEditeur = "/views/creation/creationEditeur.xhtml";
+		creationUser = "/views/creation/creationUtilisateur.xhtml" ;
+		paiement = "/views/listing/payer.xhtml";
+		success = "/views/results/paymentSucceed.xhtml";
+		connexion = "/views/creation/connexion.xhtml";
+		formCreationUser = "/views/creation/formCreationUtilisateur.xhtml" ;
 		menuBar = "/menuBar.xhtml";
-		carousel = "/WEB-INF/views/carousel.xhtml";
-		listeDocs = "WEB-INF/views/listing/listeDocs.xhtml";
+		carousel = "/views/carousel.xhtml";
+		listeDocs = "/views/listing/listeDocs.xhtml";
 	}
 
 	public String getAccueil() {
