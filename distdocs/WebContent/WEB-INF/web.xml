@@ -7,14 +7,6 @@
 		<param-value>Development</param-value>
 	</context-param>
 	<context-param>
-		<param-name>CHEMIN_DOCS</param-name>
-		<param-value>/home/lady/eclipse-workspace/pro/WebContent/books/pdf</param-value>
-	</context-param>
-	<context-param>
-		<param-name>CHEMIN_IMAGES</param-name>
-		<param-value>/home/lady/eclipse-workspace/pro/WebContent/books/cover_page</param-value>
-	</context-param>
-	<context-param>
 		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
 		<param-value>true</param-value>
 	</context-param>

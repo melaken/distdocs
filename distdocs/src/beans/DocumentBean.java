@@ -97,8 +97,10 @@ public class DocumentBean implements Serializable{
 	}
 	 //@Transactional
 	public void upload() {
+		Utilisateur user = currentUser();
+		System.out.println("user "+user);
 	    try {
-	    	Utilisateur user = currentUser();
+	    	
 	    	if(user != null) {
 		    	InputStream input = file.getInputStream();
 		    	InputStream input_cover = cover.getInputStream();
@@ -107,15 +109,15 @@ public class DocumentBean implements Serializable{
 		      doc.setNom(file.getSubmittedFileName());
 		      doc.setDateParution(new java.sql.Date(dateParution.getTime()));
 		      long id = docDao.lastInsertId()+1;
-		      String p_couverture=id+"_cover.jpg";
+		      String p_couverture=id+"_cover";
 		      doc.setPremiereCouverture(p_couverture);
 		      doc.setEditeur(user.getId());
 		      initialiserDateAjout();
 		      
 		      docDao.creer(doc);
 		      
-		      File fich = new File(ConstanteBean.CHEMIN_DOCS,id+"");
-		      File fich_cover = new File(ConstanteBean.CHEMIN_IMAGES,p_couverture);
+		      File fich = new File(Constante.CHEMIN_DOCS,id+"");
+		      File fich_cover = new File(Constante.CHEMIN_IMAGES,p_couverture);
 		      
 		      Files.copy(input, fich.toPath());
 		      Files.copy(input_cover, fich_cover.toPath());
@@ -158,7 +160,7 @@ public class DocumentBean implements Serializable{
 			);
 			Graphics2D bufImageGraphics = bufferedImage.createGraphics();
 			bufImageGraphics.drawImage(image, 0, 0, null);
-			ImageIO.write(bufferedImage, format, new File( ConstanteBean.CHEMIN_IMAGES,fileName ));
+			ImageIO.write(bufferedImage, format, new File( Constante.CHEMIN_IMAGES,fileName ));
 			doc.setPremiereCouverture(fileName);
 			raf.close();
 		}catch(Exception e) {

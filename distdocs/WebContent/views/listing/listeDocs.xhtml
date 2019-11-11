@@ -15,11 +15,13 @@ xmlns:p="http://primefaces.org/ui">
         font-weight: bold;
         font-size: 20px;
         text-align:center;
+        font-color:#0060a0;
     }
        .emoticone {  
     width: 24px !important; 
-     text-align:center;
-    font-size: 24px !important; 
+    font-size: 30px !important; 
+    color: #0060a0;
+    padding-left:10px;
   }  
     body .ui-staticmessage.ui-message {
         width: 25%;
@@ -32,41 +34,42 @@ xmlns:p="http://primefaces.org/ui">
 		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
 		        	detail="#{panierBean.articles.size()} article(s) dans le panier."
 		        	rendered="#{panierBean.articles.size() > 0}"/>
-	        	<p:linkButton value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
+	        	<p:linkButton value="Commander" id="commande" outcome="#{constanteBean.recap}"
 		        	rendered="#{panierBean.articles.size() > 0}"/>
 		    </div>
 		    
     	</div>
 		<h:form id="formListe" >
 			<p:growl id="msg"  showDetail="true" sticky="true" />
-			 <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
+			 <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px;width:200px;"
 	        	detail="#{panierBean.articles.size()} article(s) dans le panier."
 	        	rendered="#{panierBean.articles.size() > 0}"/>
-        	<p:linkButton value="Commander" id="commande" outcome="views/listing/recapitulatifAchats.xhtml"
-	        	 rendered="#{panierBean.articles.size() > 0}" style="width:100px"/>
+        	<p:linkButton value="Commander" id="commande" outcome="#{constanteBean.recap}"
+	        	 rendered="#{panierBean.articles.size() > 0}"
+	        	 style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right"/>
 			
 		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" emptyMessage="Aucun document à afficher"
 		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
 		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		        rowsPerPageTemplate="6,12,16">
 <!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
-		            <h:panelGrid columns="1" style="width:200px;height:300px;">
+		            <h:panelGrid columns="1" style="width:200px;height:300px;text-align:center;">
 		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
-                		 	<f:param name="id" value="#{doc.premiereCouverture}" />
+                		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
                 		</p:graphicImage> 
-                		<h:outputText value="#{doc.prix}FCFA" styleClass="label value" style="text-align:center"/>
+                		<h:outputText value="#{doc.prix}  FCFA" styleClass="label value"/>
                 		<f:facet name="footer">
 			                <p:commandLink update=":formListe:image" oncomplete="PF('coverDialog').show()" title="Agrandir">
-			                    <h:outputText styleClass="pi pi-eye emoticone" style="margin:0 auto;text-align:center;"/>
+			                    <h:outputText styleClass="pi pi-eye emoticone" style="margin:0 auto;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
 			                </p:commandLink>
 			                <p:commandLink  title="Acheter" update=":nbArticles @form :commande" 
 			                	action="#{panierBean.panier}" >
-			                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;text-align:center;"/>
+			                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />
 			                </p:commandLink>
 			                <p:commandLink  title="Résumé" update=":formListe:resumeOutput" oncomplete="PF('resumeDialog').show()">
-			                    <h:outputText styleClass="pi pi-bookmark emoticone" style="margin:0 auto;text-align:center;"/>
+			                    <h:outputText styleClass="pi pi-bookmark emoticone" style="margin:0 auto;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
 			                </p:commandLink>
 			                
@@ -78,8 +81,8 @@ xmlns:p="http://primefaces.org/ui">
 		    	header="Aperçu">
 	        	<p:outputPanel id="image" style="text-align:justify;border:0">
 		            <p:panelGrid  columns="1" rendered="#{not empty listeDocsBean.selectedDoc}" columnClasses="label,value">
-		                 <p:graphicImage value="#{listeDocsBean.image}" style="height:400px; width:800px">
-		                    	<f:param name="id" value="#{listeDocsBean.selectedDoc.premiereCouverture}" />
+		                 <p:graphicImage value="#{listeDocsBean.image}" style="height:600px; width:400px">
+		                    	<f:param name="cover" value="#{listeDocsBean.selectedDoc.premiereCouverture}" />
 		                    </p:graphicImage>
 	                </p:panelGrid>
                	</p:outputPanel>

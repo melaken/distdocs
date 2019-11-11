@@ -19,8 +19,6 @@ import entities.Utilisateur;
 @Named
 @RequestScoped
 public class DocsAchetesBean implements Serializable{
-	private static final long serialVersionUID = 1L;
-
 	@EJB
 	private DocsAchetesDao dao;
 	private List<Document> liste;
@@ -40,8 +38,9 @@ public class DocsAchetesBean implements Serializable{
 			System.out.println("dans init docsAchetesBean");
 			Utilisateur user = (Utilisateur)session.getAttribute("user");
 			liste = dao.docAchetesParclient(user.getId());
-			System.out.println("end init achetesBean");
-			}
+			System.out.println("end size liste "+liste.size());
+			//System.out.println("cover "+liste.get(0).getPremiereCouverture());
+		}
 	}
 	
 	public List<Document> getListe() {

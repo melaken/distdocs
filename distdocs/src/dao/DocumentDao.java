@@ -65,4 +65,12 @@ public class DocumentDao {
 		
 			return lastId;
 	}
+	public List<String> tenLatestDocs() {
+		List<String> liste= new ArrayList<>();
+		Query q = em.createNativeQuery("select premiere_couverture from Document "
+				+ "order by date_ajout desc "
+				+ "limit 10");
+		liste = q.getResultList();
+		return liste;
+	}
 }
