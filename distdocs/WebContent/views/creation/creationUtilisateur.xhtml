@@ -16,9 +16,23 @@ xmlns:p="http://primefaces.org/ui">
 	</h:head>
 	
 	<h:body>
-		<ui:insert name = "nav" >
-	      <ui:include src = "../../menuBar.xhtml" />
-	   </ui:insert>
+	<h:form>
+		 <p:growl id="messages"/>
+	 	
+	 	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
+	        <f:facet name="left">
+	       		<p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;margin-top:0px;
+	        			border-radius: 5px;position:relative"/>
+	        </f:facet>
+	        <f:facet name="right" style="margin-right:20px;">
+	        	<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" style="margin-right:10px;margin-top:50px"/>
+				<p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
+           		outcome="#{constanteBean.creationEditeur}" style="margin-right:10px;padding-left:5px"/>
+           	
+			</f:facet>
+    	</p:toolbar>
+    <p:sticky target="tb" />
+</h:form>
     <div  align="center"> 
 		<h:form id="formCreateUser">
 	        <ui:insert name = "createUser" >

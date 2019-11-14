@@ -25,8 +25,6 @@ public class TransactionResponse extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	private static final int STATUT = 200;
-	private static final String SUCCESS = "/views/results/paymentSucceed.xhtml";
-	private static final String  ECHEC = "/views/results/paymentFailed.xhtml";
 	@EJB
 	TransactionDao dao;
 	
@@ -34,10 +32,7 @@ public class TransactionResponse extends HttpServlet{
 			throws ServletException, IOException {
 		String xml = null;
 		Response rep = null;
-		
-		
         try {
-   		 
                 byte[] xmlData = new byte[request.getContentLength()];
 
                 //Start reading XML Request as a Stream of Bytes
@@ -61,10 +56,9 @@ public class TransactionResponse extends HttpServlet{
             			trans.setEtat(Etat.TERMINE.name());
             			dao.update(trans);
             		}
-            		request.getRequestDispatcher(SUCCESS).forward(request, response);	
-            		
+            		request.getRequestDispatcher(Constante.SUCCESS).forward(request, response);	
                 }
-                else request.getRequestDispatcher(ECHEC).forward(request, response);
+                else request.getRequestDispatcher(Constante.ECHEC).forward(request, response);
                 
         } catch (Throwable ex) {
         	ex.printStackTrace();

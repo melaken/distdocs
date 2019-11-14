@@ -19,6 +19,7 @@ import javax.inject.Named;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import dao.DAOException;
 import dao.DocumentDao;
 import entities.Document;
 import entities.Utilisateur;
@@ -39,12 +40,13 @@ public class ListeDocsBean {
 	
 	@PostConstruct
 	public void init() {
-		//System.out.println();
-		liste = docDao.lister();
-		tenLatestDocs = docDao.tenLatestDocs();
-		System.out.println("10 last pdf");
-		for(String d : tenLatestDocs) {
-			System.out.println(d);
+		
+		try {
+			liste = docDao.lister();
+			tenLatestDocs = docDao.tenLatestDocs();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	public List<Document> getListe() {

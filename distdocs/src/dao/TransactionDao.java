@@ -17,17 +17,18 @@ public class TransactionDao {
 	@PersistenceContext(unitName = "distdocs_PU")
 	private EntityManager em;
 	
-	public void creer(Transaction trans) {
+	public void creer(Transaction trans) throws DAOException{
 		try {
 			System.out.println(trans.toString());
 			em.persist(trans);
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		
 	}
-	public Object getTransactionByRef(String ref) {
+	public Object getTransactionByRef(String ref){
 		Query request = em.createQuery("select t from Transaction t where t.reference = :ref");
 		request.setParameter("ref", ref);
 		Object obj=null;
@@ -39,13 +40,14 @@ public class TransactionDao {
 		}
 		return obj ;
 	}
-	public void update(Transaction trans) {
+	public void update(Transaction trans) throws DAOException{
 		try {
 			System.out.println(trans.toString());
 			em.merge(trans);
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		
 	}

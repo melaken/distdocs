@@ -61,9 +61,9 @@ xmlns:p="http://primefaces.org/ui">
 				    <h:outputLabel for="numtel" value="Numéro de téléphone" style="font-weight:bold">
 				    	<span class="requis">*</span>
 					</h:outputLabel>
-				    <p:inputNumber id="numtel" value="#{creationUserBean.user.numTel}">
+				    <p:inputMask id="numtel" value="#{creationUserBean.user.numTel}" mask="999999999">
 				    	<f:ajax event="blur" render="numTelMessage" />
-				    </p:inputNumber>
+				    </p:inputMask>
 				    <h:message id="numTelMessage" for="numtel" errorClass="erreur" /> 
 			    </h:panelGrid>
 				<f:facet name="footer">

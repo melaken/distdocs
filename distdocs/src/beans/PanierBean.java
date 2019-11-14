@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
+import dao.DAOException;
 import dao.DocsAchetesDao;
 import dao.TransactionDao;
 import entities.DocsAchetes;
@@ -182,17 +183,21 @@ public class PanierBean implements Serializable{
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		HttpSession session = (HttpSession) exterNalContext.getSession(false);
-		try {
-			if(session.getAttribute("user") == null) {
-				exterNalContext.redirect(Constante.ACCUEIL);
-			}else {
-					exterNalContext.redirect(Constante.PAYMENT);
-					genererRef();
+		if(session.getAttribute("user ") != null) {
+			try {
+				if(session.getAttribute("user") == null) {
+					exterNalContext.redirect(Constante.ACCUEIL);
+				}else {
+						exterNalContext.redirect(Constante.PAYMENT);
+						genererRef();
+				}
+				store();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 			}
-			store();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		}else {
+			Constante.redirect(facesContext, Constante.ACCUEIL, MODULE);
 		}
 	 }
 	 private void genererRef() {
@@ -210,8 +215,14 @@ public class PanierBean implements Serializable{
 			DocsAchetes doc = remplirData(d);
 			liste.add(doc);
 		}
-		transDao.creer(this.getTransaction());
-		dao.storeDocsAchetes(liste);
+		try {
+			transDao.creer(this.getTransaction());
+			dao.storeDocsAchetes(liste);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	private DocsAchetes remplirData(Document d){
 		DocsAchetes doc = new DocsAchetes();
@@ -237,8 +248,14 @@ public class PanierBean implements Serializable{
 		 if(obj != null) {
 			 Transaction trans = (Transaction)obj;
 			 trans.setMoyenPaiement(this.moyenPaiement);
-			 transDao.update(trans);
-			 this.articles = new ArrayList<>();
+			 try {
+				transDao.update(trans);
+				 this.articles = new ArrayList<>();
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		 }
 	 }
 }

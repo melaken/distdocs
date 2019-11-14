@@ -2,6 +2,8 @@ package beans;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,8 +18,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import dao.DAOException;
 import dao.LoginDao;
 import dao.UtilisateurDao;
+import recherche.IndexException;
+import recherche.LuceneWriteIndexFromFile;
 
 @Named
 @SessionScoped
@@ -54,23 +59,39 @@ public class ConnexionBean implements Serializable{
 	}
 
 	public String connect() {
-		boolean valid = loginDao.validate(email, password);
+		boolean valid =false;
+		try {
+			valid = loginDao.validate(email, password);
+//			final Path docDir = Paths.get(Constante.CHEMIN_DOCS);
+//			LuceneWriteIndexFromFile.indexer(docDir);
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+//		}catch(IndexException e) {
+//			System.out.println("Error while indexing ");
+//			e.printStackTrace();
+//			
+		}
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		
 //		try {
 			if (valid) {
-				HttpSession session = (HttpSession) exterNalContext.getSession(true);
-				session.setAttribute("user", userDao.trouver(email));
-				
 				try {
-					exterNalContext.redirect("index.xhtml");
+					HttpSession session = (HttpSession) exterNalContext.getSession(true);
+					session.setAttribute("user", userDao.trouver(email));
+					//exterNalContext.redirect("index.xhtml");
+					reload();
+					facesContext.addMessage(null, new FacesMessage(" ",  "Vous êtes connecté: ") );
+					System.out.println("connected");
 				} catch (IOException e) {
 					Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 					e.printStackTrace();
+				}catch (DAOException e) {
+					Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+					e.printStackTrace();
 				}
-				facesContext.addMessage(null, new FacesMessage(" ",  "Vous êtes connecté: ") );
-				System.out.println("connected");
+				
 			} else {
 				facesContext.addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,
 								"Mot de passe ou email incorrect",

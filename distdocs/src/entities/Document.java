@@ -1,7 +1,7 @@
 package entities;
 
-import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Document")
@@ -24,10 +25,13 @@ public class Document {
 	private java.sql.Date	dateParution;
 	@Column(name = "doc_type")
 	private String docType;
+	@NotNull(message = "Le prix est obligatoire")
 	private float prix;
 	@Column(name="numero_edition")
+	@NotNull(message = "Le numéro d'édition est obligatoire")
 	private String numeroEdition;
 	private Long editeur;
+	@NotNull(message = "Le résumé ne peut être vide")
 	private String resume;
 	@Column(name = "premiere_couverture")
 	private String premiereCouverture;

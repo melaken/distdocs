@@ -22,7 +22,7 @@ public class LoginDao {
 
 	
 	
-	public boolean validate(String email, String pwd) {
+	public boolean validate(String email, String pwd) throws DAOException{
 		ConfigurablePasswordEncryptor passwordEncryptor = new ConfigurablePasswordEncryptor();
 		passwordEncryptor.setAlgorithm(Utilitaire.ALGO_CHIFFREMENT);
 		

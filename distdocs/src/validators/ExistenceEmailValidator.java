@@ -21,14 +21,14 @@ public class ExistenceEmailValidator implements Validator {
 	@Override
 	public void validate( FacesContext context, UIComponent component, Object value ) throws ValidatorException {
 		String email = (String) value;
-//		try {
-//			if ( utilisateurDao.trouver( email ) != null ) {
-//				throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, EMAIL_EXISTE_DEJA, null ) );
-//			}
-//		} catch (Exception e ) {
-//			FacesMessage message = new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(), null );
-//			FacesContext facesContext = FacesContext.getCurrentInstance();
-//			facesContext.addMessage( component.getClientId(facesContext ), message );
-//		}
+		try {
+			if ( utilisateurDao.trouver( email ) != null ) {
+				throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, EMAIL_EXISTE_DEJA, null ) );
+			}
+		} catch (Exception e ) {
+			FacesMessage message = new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(), null );
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			facesContext.addMessage( component.getClientId(facesContext ), message );
+		}
 	}
 }

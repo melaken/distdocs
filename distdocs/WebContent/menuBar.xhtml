@@ -28,20 +28,17 @@ xmlns:p="http://primefaces.org/ui">
   }  
 </style>
 	</h:head>
-<!-- 	<h:body> rendered="#{sessionScope['user'] != null}"
-style="margin-right:10px;padding-left:10px"-->
-	
 	<h:form>  
     <p:growl id="messages"/>
  	
  	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
         <f:facet name="left">
-       		<p:inputText style="margin-top:15px;margin-left:400px;width:300px;height:20px;" placeholder="Rechercher..." />
-       		<p:commandLink title="rechercher" style="margin-top:15px;height:25px;margin-left:0px;">
-        		 <p:button icon="pi pi-search" style="margin:0px;"/>
-        	</p:commandLink><br/>
-<!--           <p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;margin-top:0px; -->
-<!--         			border-radius: 5px;position:relative"/> -->
+       		<p:inputText value="#{rechercheBean.chaine}" style="margin-top:15px;margin-left:400px;width:300px;height:20px;" 
+       			placeholder="Rechercher..." />
+       		<p:commandButton title="rechercher" action="#{rechercheBean.search}" icon="pi pi-search"
+       			style="margin-top:15px;height:25px;margin-left:0px;" />
+<!--         		 <p:button  style="margin:0px;"/> -->
+<!--         	</p:commandButton><br/> -->
         </f:facet>
         <f:facet name="middle">
         <p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;
@@ -50,24 +47,23 @@ style="margin-right:10px;padding-left:10px"-->
         <f:facet name="right" style="margin-right:20px;">
         	<p:linkButton  id="inscription" value="	Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
           	style="margin-right:10px;margin-top:50px;padding-left:5px" 
-          	outcome="/views/creation/creationUtilisateur.xhtml"/>
+          	outcome="#{constanteBean.creationUser}"/>
           	
            <p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
-           	outcome="/views/creation/creationEditeur.xhtml" style="margin-right:10px;padding-left:5px"/>
+           	outcome="#{constanteBean.creationEditeur}" style="margin-right:10px;padding-left:5px"/>
            	
           <p:commandButton value="Connexion"  onclick="PF('dlg2').show();" icon="pi pi-sign-in"
         		rendered="#{sessionScope['user'] == null}" style="margin-right:10px;padding-left:5px" />
 		
-		<p:linkButton outcome="/index.xhtml" value="Accueil" rendered="#{sessionScope['user'] != null}" style="margin-top:50px"/>
-<!-- 		<h:outputText value="Bienvenue #{sessionScope['user'].nom}"  -->
-<!-- 				 rendered="#{sessionScope['user'] != null}" style="margin-right:10px;"/> -->
+		<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" 
+			style="margin-top:50px"/>
 				 
         <p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
         	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
         		
-        		<p:menuitem value="Publier" outcome="/views/creation/uploadDoc.xhtml" icon="pi pi-upload"
+        		<p:menuitem value="Publier" outcome="#{constanteBean.upload}" icon="pi pi-upload"
      				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
-    			<p:menuitem value="Ma bibliothèque" outcome="/docsAchetes" 
+    			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
     			icon="pi pi-file" style="padding-left:10px"/> 
      			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" style="padding-left:10px"/>
      			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>

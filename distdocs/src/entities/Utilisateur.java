@@ -36,8 +36,9 @@ public class Utilisateur {
 	private String nom;
 	private String prenom;
 	@Column(name="num_tel")
-	@NotNull( message = "Veuillez votre numéro" )
-	private long numTel;
+	@NotNull( message = "Le numéro de téléphone doit contenir 9 chiffres" )
+	@Size( min = 9, message = "Le numéro de téléphone doit contenir 9 chiffres")
+	private String numTel;
 	@Column(name="user_type")
 	private String userType;
 	@Column(name="date_creation")
@@ -73,10 +74,10 @@ public class Utilisateur {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-	public long getNumTel() {
+	public String getNumTel() {
 		return numTel;
 	}
-	public void setNumTel(long numTel) {
+	public void setNumTel(String numTel) {
 		this.numTel = numTel;
 	}
 	public String getUserType() {

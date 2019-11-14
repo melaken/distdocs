@@ -23,17 +23,18 @@ public class UtilisateurDao {
 	private EntityManager em;
 
 	// Enregistrement d'un nouvel utilisateur
-	public void creer(Utilisateur utilisateur){
+	public void creer(Utilisateur utilisateur) throws DAOException{
 		try {
 			em.persist(utilisateur);
 		} catch (Exception e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 	}
 
 	// Recherche d'un utilisateur à partir de son adresse email
-	public Utilisateur trouver(String email){
+	public Utilisateur trouver(String email) throws DAOException{
 		Utilisateur utilisateur = null;
 		Query requete = em.createQuery(JPQL_SELECT_PAR_EMAIL);
 		requete.setParameter(PARAM_EMAIL, email);
@@ -44,10 +45,11 @@ public class UtilisateurDao {
 		} catch (Exception e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		return utilisateur;
 	}
-	public List<Utilisateur> lister() {
+	public List<Utilisateur> lister() throws DAOException{
 		List<Utilisateur> liste= new ArrayList<>();
 		Query request = em.createQuery("select u from Utilisateur u");
 		try {
@@ -55,6 +57,7 @@ public class UtilisateurDao {
 		}catch(Exception e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		return liste;
 	}

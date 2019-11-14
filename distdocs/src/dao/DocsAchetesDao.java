@@ -25,7 +25,7 @@ public class DocsAchetesDao {
 	@EJB
 	TransactionDao transDao;
 	
-	public List<DocsAchetes> lister(){
+	public List<DocsAchetes> lister() throws DAOException{
 		List<DocsAchetes> liste= new ArrayList<>();
 		Query request = em.createQuery("select d from DocsAchetes d");
 		try {
@@ -33,10 +33,11 @@ public class DocsAchetesDao {
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		return liste;
 	}
-	public List<Document> docAchetesParclient(long clientId) {
+	public List<Document> docAchetesParclient(long clientId) throws DAOException{
 		List<Document> liste= new ArrayList<>();
 		try{
 			Query q = em.createNativeQuery("SELECT da.doc_id,d.premiere_couverture  "
@@ -58,10 +59,11 @@ public class DocsAchetesDao {
 			}catch(Throwable e) {
 				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 				e.printStackTrace();
+				throw new DAOException(e);
 			}
 		return liste;
 	}
-	public String trouverPremiereCouverture(long doc_id) {
+	public String trouverPremiereCouverture(long doc_id) throws DAOException{
 		String cover="";
 		System.out.println("Dans trouverPremiereCouverture "+doc_id);
 		Query request = em.createQuery("select d from Document d where d.id = :id");
@@ -72,13 +74,14 @@ public class DocsAchetesDao {
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		System.out.println("cover "+cover);
 		return cover;
 	}
 	
 	@Transactional
-	public void storeDocsAchetes(List<DocsAchetes> liste) {
+	public void storeDocsAchetes(List<DocsAchetes> liste) throws DAOException{
 		try {
 			System.out.println("storeDocsAchetes size "+liste.size());
 			for(DocsAchetes doc : liste) {
@@ -88,6 +91,7 @@ public class DocsAchetesDao {
 		} catch (Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 	}
 	

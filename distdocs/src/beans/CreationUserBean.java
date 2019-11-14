@@ -3,6 +3,8 @@ package beans;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
@@ -13,6 +15,7 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
+import dao.DAOException;
 import dao.UtilisateurDao;
 import entities.UserType;
 import entities.Utilisateur;
@@ -43,22 +46,30 @@ public class CreationUserBean implements Serializable{
 		user.setUserType(UserType.CLIENT.name());
 		String pass = user.getMotDePasse();
 		user.setMotDePasse(Utilitaire.chiffrer(pass));
-		userDao.creer(user);
-//		FacesMessage message = new FacesMessage( "Succès de l'inscription !" );
-//		FacesContext.getCurrentInstance().addMessage( null, message);
-		showSuccessMessage();
+		try {
+			userDao.creer(user);
+			showSuccessMessage();
+		} catch (DAOException e) {
+			showErrorMessage();
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
 	}
 	private void initialiserDateInscription() {
 		Timestamp date = new Timestamp( System.currentTimeMillis());
 		user.setDateCreation(date);
 	}
-	public void showSuccessMessage() {
+	private void showErrorMessage() {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR," ", "Erreurs lors de l'inscription !!!");
+        PrimeFaces.current().dialog().showMessageDynamic(message);
+	}
+	private void showSuccessMessage() {
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
 			ExternalContext  exterNalContext = facesContext.getExternalContext();
 		      try {
 				exterNalContext.redirect("../../index.xhtml");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 				e.printStackTrace();
 			}
 		

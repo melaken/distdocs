@@ -13,9 +13,10 @@ xmlns:p="http://primefaces.org/ui">
     		text-align:center;
     	}
     	.emoticone{
-    	width: 24px !important; 
-	    font-size: 30px !important; 
+    	width: 35px !important; 
+	    font-size: 35px !important; 
 	    color: #0060a0;
+	    padding-left: 10px;
     }
 	</style>
 	</h:head>
@@ -38,17 +39,13 @@ xmlns:p="http://primefaces.org/ui">
 	   <p:dataTable var="doc" value="#{panierBean.articles}" id="listeDocs" style="margin-top:10px"
 	   	emptyMessage="Aucun article dans votre panier">
 	    <p:column headerText="Article">
-<!-- 	        <p:lightBox styleClass="imagebox">   -->
               <p:graphicImage  value="#{listeDocsBean.image}" style="height: 100px; width: 70px;border-radius: 2px" > 
           		 <f:param name="cover" value="#{doc.premiereCouverture}" />
            		</p:graphicImage> 
-<!--         	</p:lightBox> -->
 	    </p:column>
-	 
 	    <p:column headerText="Prix">
 	        <h:outputText value="#{doc.prix}	FCFA" />
 	    </p:column>
-	 
 	    <p:column headerText=" ">
 	    <h:form>
 	    	<p:commandLink  title="Retirer cet article du panier" action="#{panierBean.supprimerDoc}" 
@@ -67,7 +64,7 @@ xmlns:p="http://primefaces.org/ui">
 	</div>
 	<div align="right" style="font-weight:bold;margin-top:10px;margin-bottom:10px;padding-left:5px">
 		<p:commandButton action="#{panierBean.choisirPaiement}" value="Commander" 
-			rendered="#{panierBean.total > 0 }" style="margin-right:20px;">
+			rendered="#{panierBean.total > 0 and sessionScope['user'] != null }" style="margin-right:20px;">
 			<f:setPropertyActionListener value="#{sessionScope['user'].id}" target="#{panierBean.clientId}" />
 		</p:commandButton>
 		<p:commandButton action="#{panierBean.continuerAchat}" value="Continuer les achats" style="margin-right:20px;"/>

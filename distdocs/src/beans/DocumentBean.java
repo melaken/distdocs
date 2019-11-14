@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.logging.Level;
@@ -19,22 +21,26 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 
-import org.primefaces.event.FileUploadEvent;
+import org.primefaces.PrimeFaces;
 
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 
+import dao.DAOException;
 import dao.DocumentDao;
 import entities.Document;
 import entities.Utilisateur;
+import recherche.IndexException;
+import recherche.LuceneWriteIndexFromFile;
 
 @Named
 @RequestScoped
@@ -46,7 +52,9 @@ public class DocumentBean implements Serializable{
 	private Document doc;
 	@EJB
 	private DocumentDao docDao;
+	@NotNull(message = "Veuillez sélectionnez le document à publier")
 	private Part file;
+	@NotNull(message = "Image vide")
 	private Part cover;
 	private java.util.Date dateParution;
 	
@@ -100,8 +108,9 @@ public class DocumentBean implements Serializable{
 		Utilisateur user = currentUser();
 		System.out.println("user "+user);
 	    try {
-	    	
-	    	if(user != null) {
+	    	if(!verifyCompulsoryFields())
+	    		throw new ValidationException("Erreur validation");
+	    	//if(user != null) {
 		    	InputStream input = file.getInputStream();
 		    	InputStream input_cover = cover.getInputStream();
 		    	
@@ -114,29 +123,49 @@ public class DocumentBean implements Serializable{
 		      doc.setEditeur(user.getId());
 		      initialiserDateAjout();
 		      
-		      docDao.creer(doc);
-		      
 		      File fich = new File(Constante.CHEMIN_DOCS,id+"");
 		      File fich_cover = new File(Constante.CHEMIN_IMAGES,p_couverture);
-		      
+
+		      //écritures des fichiers sur le disque
 		      Files.copy(input, fich.toPath());
 		      Files.copy(input_cover, fich_cover.toPath());
+		      
+		      //indexation du document
+		      LuceneWriteIndexFromFile.indexer(fich.toPath());
+		      
+		      //enregistrement des infos du doc en BD
+		      docDao.creer(doc);
+		      
 		      //createImage("JPG",fich,id+"_cover.jpg");
 		      System.out.println("Everything is ok");
 		      
 		      FacesContext facesContext = FacesContext.getCurrentInstance();
 				ExternalContext  exterNalContext = facesContext.getExternalContext();
-		      exterNalContext.redirect("../../index.xhtml");
-	    	}
-	    } catch (Exception e) {
-	    	Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
-	      e.printStackTrace();
-	    }
+		      exterNalContext.redirect(Constante.ACCUEIL);
+	    	//}
+	    }catch (ValidationException e) {
+	    	System.out.println("erreur lors de la validation des champs");
+	    	 e.printStackTrace();
+	    }catch(DAOException e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, " ", "Une erreur est survenue.");
+	        PrimeFaces.current().dialog().showMessageDynamic(message);
+		}catch (IndexException e) {
+			System.out.println("Erreur lors de l'indexation");
+	    	 e.printStackTrace();
+	    }catch(Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+		      e.printStackTrace();
+		}
 	  }
 	
 	private void initialiserDateAjout() {
 		Timestamp date = new Timestamp( System.currentTimeMillis());
 		doc.setDateAjout(date );
+	}
+	private boolean verifyCompulsoryFields() {
+		if(doc.getResume() == null || doc.getNumeroEdition() == null)
+			return false;
+		else return true;
 	}
 	void createImage(String format,File pdfFile, String fileName) {
 		try {

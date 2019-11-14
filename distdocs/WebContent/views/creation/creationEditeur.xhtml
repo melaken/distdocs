@@ -23,9 +23,9 @@ xmlns:p="http://primefaces.org/ui">
 	        			border-radius: 5px;position:relative"/>
 	        </f:facet>
 	        <f:facet name="right" style="margin-right:20px;">
-	        	<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" style="margin-top:50px"/>
-	        	<p:linkButton  id="inscription" value="	Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
-	          	style="margin-right:10px;margin-top:50px;padding-left:5px" 
+	        	<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" style="margin-right:10px;margin-top:50px"/>
+	        	<p:linkButton  id="inscription" value="Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
+	          	style="margin-right:10px;margin-top:50px;padding-left:5px;margin-right:10px;" 
 	          	outcome="#{constanteBean.creationUser}"/>
 			</f:facet>
     	</p:toolbar>
@@ -87,9 +87,9 @@ xmlns:p="http://primefaces.org/ui">
 				    <h:outputLabel for="numtel" value="Numéro de téléphone" style="font-weight:bold">
 				    	<span class="requis">*</span>
 					</h:outputLabel>
-				    <p:inputNumber id="numtel" value="#{editeurBean.user.numTel}">
+				    <p:inputMask id="numtel" value="#{editeurBean.user.numTel}" mask="999999999">
 				    	<f:ajax event="blur" render="numTelMessage" />
-				    </p:inputNumber>
+				    </p:inputMask>
 				    <h:message id="numTelMessage" for="numtel" errorClass="erreur" /> 
 			    </h:panelGrid>
 			    <h:panelGrid columns="2" >
@@ -101,10 +101,10 @@ xmlns:p="http://primefaces.org/ui">
 		   			</p:inputText>
 		   			<h:message id="maisonEditionMessage" for="maisonEdition" errorClass="erreur" />
 	   			</h:panelGrid>
-	        	<h:messages globalOnly="true" infoClass="info" />
-				<f:facet name="footer" >
+	        	<h:messages globalOnly="true" errorClass="erreur" />
+				<f:facet name="footer" align="center" >
 	   	    		<p:commandButton value="Enregistrer" action="#{editeurBean.creerEditeur}" icon="pi pi-save" 
-	   	    		align="center"/>
+	   	    		/>
 	   	    </f:facet>
    	    </h:panelGrid>
 	</h:form>

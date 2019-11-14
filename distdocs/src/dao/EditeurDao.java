@@ -26,16 +26,17 @@ public class EditeurDao {
 	private EntityManager em;
 	
 	// Enregistrement d'un nouvel éditeur
-		public void creer(Editeur editeur) {
+		public void creer(Editeur editeur) throws DAOException{
 			try {
 				em.persist(editeur);
 			} catch (Exception e) {
 				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 				e.printStackTrace();
+				throw new DAOException(e);
 			}
 		}
 		// Recherche d'un éditeur à partir de son adresse email 
-		public Editeur trouver(String email) {
+		public Editeur trouver(String email) throws DAOException{
 			Editeur editeur = null;
 			Query requete = em.createQuery(JPQL_SELECT_PAR_EMAIL);
 			requete.setParameter(PARAM_EMAIL, email);
@@ -46,10 +47,11 @@ public class EditeurDao {
 			} catch (Exception e) {
 				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 				e.printStackTrace();
+				throw new DAOException(e);
 			}
 			return editeur;
 		}
-		public List<Editeur> lister(){
+		public List<Editeur> lister() throws DAOException{
 			List<Editeur> liste= new ArrayList<>();
 			Query request = em.createQuery("select u from Utilisateur u");
 			try {
@@ -57,6 +59,7 @@ public class EditeurDao {
 			}catch(Exception e) {
 				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 				e.printStackTrace();
+				throw new DAOException(e);
 			}
 			return liste;
 		}

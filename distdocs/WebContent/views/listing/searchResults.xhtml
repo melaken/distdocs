@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta charset="utf-8"/>
+  		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+  		<h:outputStylesheet library="default" name="css/form.css" />
+  		<h:outputStylesheet library="default" name="css/style.css" />
+  		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+  		<h:outputStylesheet name="components.css" library="primefaces"/>
+  <style>
+  	 .logo {
+        width: 5%;
+    }
+    .detail {
+        width: 85%;
+        padding-left: 25px;
+    }
+     .emoticone {  
+    width: 24px !important; 
+    font-size: 30px !important; 
+    color: #0060a0;
+    padding-left:10px;
+  }  
+  </style>
+</h:head>
+<h:body>
+	<ui:insert name = "nav" >
+      <ui:include src = "#{constanteBean.menuBar}" />
+   </ui:insert>
+   <h:form id="form">
+	    <p:dataView var="doc" value="#{rechercheBean.results}" rows="12" paginator="true" rowsPerPageTemplate="6,12,16"
+	                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                >
+	    	<p:dataViewListItem>
+	            <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
+					 <p:graphicImage  value="#{listeDocsBean.image}" style="height: 100px; width: 70px;border-radius: 2px" > 
+               		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
+               		</p:graphicImage>	 
+	                <p:outputPanel>
+	                    <h:panelGrid columns="1" cellpadding="5">
+	                        <h:outputText value="Résumé" style="font-weight: bold" />
+	                        <h:outputText value="#{doc.resume}"/>
+	                    </h:panelGrid>
+	                </p:outputPanel>
+	 
+	                <p:commandLink  title="Acheter" 
+			                	action="#{panierBean.panier}" >
+	                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;"/>
+	                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />
+	                </p:commandLink>
+	            </h:panelGrid>
+	            <p:separator />
+        	</p:dataViewListItem>
+       	</p:dataView>
+     </h:form>
+</h:body>
+</html>

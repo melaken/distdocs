@@ -12,6 +12,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.PrimeFaces;
+
+import dao.DAOException;
 import dao.DocsAchetesDao;
 import entities.Document;
 import entities.Utilisateur;
@@ -19,6 +22,10 @@ import entities.Utilisateur;
 @Named
 @RequestScoped
 public class DocsAchetesBean implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	private final String MODULE = DocsAchetesBean.class.getName();
+	
 	@EJB
 	private DocsAchetesDao dao;
 	private List<Document> liste;
@@ -37,9 +44,14 @@ public class DocsAchetesBean implements Serializable{
 		else {
 			System.out.println("dans init docsAchetesBean");
 			Utilisateur user = (Utilisateur)session.getAttribute("user");
-			liste = dao.docAchetesParclient(user.getId());
-			System.out.println("end size liste "+liste.size());
-			//System.out.println("cover "+liste.get(0).getPremiereCouverture());
+			try {
+				liste = dao.docAchetesParclient(user.getId());
+				System.out.println("end size liste "+liste.size());
+				//System.out.println("cover "+liste.get(0).getPremiereCouverture());
+			} catch (DAOException e) {
+				e.printStackTrace();
+				showErrorMessage();
+			}
 		}
 	}
 	
@@ -49,5 +61,9 @@ public class DocsAchetesBean implements Serializable{
 
 	public void setListe(List<Document> liste) {
 		this.liste = liste;
+	}
+	private void showErrorMessage() {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR," ", "Erreurs !!!");
+        PrimeFaces.current().dialog().showMessageDynamic(message);
 	}
 }
