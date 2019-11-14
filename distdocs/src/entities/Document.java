@@ -95,6 +95,11 @@ public class Document {
 	public void setPremiereCouverture(String premiereCouverture) {
 		this.premiereCouverture = premiereCouverture;
 	}
-	
+	@Override
+	public boolean equals(Object d) {
+		if(this.id == ((Document)d).getId())
+				return true;
+		else return false;
+	}
 	
 }

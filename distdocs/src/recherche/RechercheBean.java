@@ -1,5 +1,6 @@
 package recherche;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -47,34 +47,37 @@ public class RechercheBean implements Serializable{
 		System.out.println("set results.size "+results.size());
 		this.results = results;
 	}
-
-	public void search() {
-		this.results = new ArrayList<>();
+	public List<entities.Document> mainSearch(String text,DocumentDao dao) throws IndexException,IOException,DAOException{
 		List<Document> liste = new ArrayList<>();
+		List<entities.Document> res = new ArrayList<>();
+		
+			if(text != null && !text.isEmpty()) {
+				liste = LuceneReadIndexFromFile.rechercher(text);
+				for(Document d : liste) {
+					entities.Document doc = dao.trouver(Long.parseLong(d.get("fileName")));
+					res.add(doc);
+				}
+			}
+			return res;
+	}
+	//recherche dans les docs existants
+	public void search() {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		//ExternalContext exc = facesContext.getExternalContext();
 		try {
-			if(this.chaine != null && !chaine.isEmpty()) {
-				liste = LuceneReadIndexFromFile.rechercher(this.chaine);
-				for(Document d : liste) {
-					entities.Document doc = docDao.trouver(Long.parseLong(d.get("fileName")));
-					this.results.add(doc);
-				}
-			}
+			this.results = mainSearch(this.chaine,this.docDao);
 			System.out.println("before redirect "+results.size());
-			Constante.redirect(facesContext, Constante.SEARCH, MODULE);
 			System.out.println("after redirect "+results.size());
+			Constante.redirect(facesContext, Constante.SEARCH, MODULE);
 		} catch (IndexException e) {
 			System.out.println("Erreur lors de la recherche");
 			e.printStackTrace();
 			showErrorMessage();
 		}catch (NumberFormatException e) {
 			System.out.println("NumberFormatException");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DAOException e) {
 			System.out.println("daoException");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}catch(Throwable e) {
 			System.out.println("exception in redirect ");

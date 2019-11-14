@@ -117,7 +117,7 @@ public class ConnexionBean implements Serializable{
 		facesContext.addMessage(null, new FacesMessage(" ",  "Vous êtes déconnecté: ") );
 		return "logout";
 	}
-	public void reload()throws IOException {
+	private void reload()throws IOException {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 	    ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
 	    

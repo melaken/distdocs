@@ -11,6 +11,7 @@ xmlns:p="http://primefaces.org/ui">
 		<h:outputStylesheet name="galleria/galleria.css" library="primefaces"/>
 		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
 		<h:outputStylesheet library="default" name="css/style.css" />
+		<h:outputStylesheet library="default" name="css/form.css" />
 	</h:head>
 	<style>
 		body{
@@ -24,12 +25,10 @@ xmlns:p="http://primefaces.org/ui">
  	
  	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
         <f:facet name="left">
-       		<p:inputText style="margin-top:15px;margin-left:400px;width:300px;height:20px;" placeholder="Rechercher..." />
-       		<p:commandLink title="rechercher" style="margin-top:15px;height:25px;margin-left:0px;">
-        		 <p:button icon="pi pi-search" style="margin:0px;"/>
-        	</p:commandLink><br/>
-<!--           <p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;margin-top:0px; -->
-<!--         			border-radius: 5px;position:relative"/> -->
+       		<p:inputText value="#{docsAchetesBean.chaine}" style="margin-top:15px;margin-left:400px;width:300px;height:20px;" 
+       			placeholder="Rechercher..." />
+       		<p:commandButton title="rechercher" action="#{docsAchetesBean.searchBoughtDocs}" update=":formListe"
+       			icon="pi pi-search" style="margin-top:15px;height:25px;margin-left:0px;" />
         </f:facet>
         <f:facet name="middle">
         <p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;
@@ -54,8 +53,8 @@ xmlns:p="http://primefaces.org/ui">
     <p:sticky target="tb" />
 </h:form>
 	   
-	   <h:form >
-		    <p:dataGrid var="doc" value="#{docsAchetesBean.liste}" columns="5" emptyMessage="Aucun article dans votre bibliohèque"
+	   <h:form id="formListe">
+		    <p:dataGrid var="doc" value="#{docsAchetesBean.liste}" columns="5" emptyMessage="#{docsAchetesBean.emptyMessage}"
 		        rows="12" paginator="true" style="cellspacing:0px;"
 		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		        rowsPerPageTemplate="6,12,16">
