@@ -9,6 +9,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
+import dao.DAOException;
 import dao.UtilisateurDao;
 
 //@FacesValidator("emailValidator")
@@ -20,15 +21,25 @@ public class ExistenceEmailValidator implements Validator {
 	private UtilisateurDao utilisateurDao;
 	@Override
 	public void validate( FacesContext context, UIComponent component, Object value ) throws ValidatorException {
-		String email = (String) value;
 		try {
-			if ( utilisateurDao.trouver( email ) != null ) {
-				throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, EMAIL_EXISTE_DEJA, null ) );
+			if(value != null ) {
+				System.out.println("In first if");
+				String email = (String) value;
+				if ( utilisateurDao.trouver( email ) != null ) {
+					System.out.println("In second if");
+					throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, EMAIL_EXISTE_DEJA, null ) );
+				}
+			}else {
+				System.out.println("In else");
+				FacesMessage message = new FacesMessage( FacesMessage.SEVERITY_ERROR, "", "Le champ email ne peut être vide" );
+				FacesContext facesContext = FacesContext.getCurrentInstance();
+				facesContext.addMessage( component.getClientId(facesContext ), message );
 			}
-		} catch (Exception e ) {
-			FacesMessage message = new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(), null );
+		}catch (Throwable e ) {
+			FacesMessage message = new FacesMessage( FacesMessage.SEVERITY_ERROR, "", "Une erreur est survenue" );
 			FacesContext facesContext = FacesContext.getCurrentInstance();
 			facesContext.addMessage( component.getClientId(facesContext ), message );
+			e.printStackTrace();
 		}
 	}
 }

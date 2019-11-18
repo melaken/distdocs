@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
@@ -58,11 +59,18 @@ public class EditeurBean implements Serializable{
 	//@Transactional
 	public void creerEditeur() {
 		try {
+			if(!verifyCompulsoryFields()) {
+				FacesContext context = FacesContext.getCurrentInstance();
+			     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"",  "Erreurs") );
+			     throw new ValidationException("Erreur validation");
+			}
+	    		
 			creerUser();
 			Utilisateur newUser = userDao.trouver(user.getEmail());
 			editeur.setId(newUser.getId());
 			editeurDao.creer(editeur);
 			System.out.println("In creerEditeur");
+			showSuccessMessage();
 		}catch(DAOException e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, " ", "Une erreur est survenue.");
 	        PrimeFaces.current().dialog().showMessageDynamic(message);
@@ -87,7 +95,7 @@ public class EditeurBean implements Serializable{
 		Timestamp date = new Timestamp( System.currentTimeMillis());
 		user.setDateCreation(date);
 	}
-	private boolean	verifyCompulsoryField(){
+	private boolean	verifyCompulsoryFields(){
 		if(user.getEmail() == null || user.getMotDePasse() == null || user.getNom() == null )
 			return false;
 			else return true;
@@ -96,4 +104,11 @@ public class EditeurBean implements Serializable{
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR," ", "Erreurs lors de l'inscription!!!");
         PrimeFaces.current().dialog().showMessageDynamic(message);
 	}
+	private void showSuccessMessage() {
+		 FacesContext facesContext = FacesContext.getCurrentInstance();
+		 Constante.redirect(facesContext, Constante.ACCUEIL, MODULE);
+		
+       FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès de l'inscription !!!", "Vous pouvez à présent vous connecter.");
+       PrimeFaces.current().dialog().showMessageDynamic(message);
+   }
 }

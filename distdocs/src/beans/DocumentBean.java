@@ -98,7 +98,7 @@ public class DocumentBean implements Serializable{
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
       HttpSession session = (HttpSession) exterNalContext.getSession(false);
-      Object user = session.getAttribute("user");
+      Object user = session.getAttribute(Constante.ATTRIB_USER);
       if(user != null)
     	  return (Utilisateur)user;
       else return null;
@@ -110,14 +110,14 @@ public class DocumentBean implements Serializable{
 	    try {
 	    	if(!verifyCompulsoryFields())
 	    		throw new ValidationException("Erreur validation");
-	    	//if(user != null) {
+	    	if(user != null) {
 		    	InputStream input = file.getInputStream();
 		    	InputStream input_cover = cover.getInputStream();
 		    	
-		    	System.out.println("LastId "+docDao.lastInsertId());
+		    	//System.out.println("LastId "+docDao.lastInsertId());
 		      doc.setNom(file.getSubmittedFileName());
 		      doc.setDateParution(new java.sql.Date(dateParution.getTime()));
-		      long id = docDao.lastInsertId()+1;
+		      long id = docDao.lastInsertId()+1;System.out.println("doc_id in upload() "+id);
 		      String p_couverture=id+"_cover";
 		      doc.setPremiereCouverture(p_couverture);
 		      doc.setEditeur(user.getId());
@@ -139,10 +139,11 @@ public class DocumentBean implements Serializable{
 		      //createImage("JPG",fich,id+"_cover.jpg");
 		      System.out.println("Everything is ok");
 		      
-		      FacesContext facesContext = FacesContext.getCurrentInstance();
-				ExternalContext  exterNalContext = facesContext.getExternalContext();
-		      exterNalContext.redirect(Constante.ACCUEIL);
-	    	//}
+		      Constante.redirect(FacesContext.getCurrentInstance(), "../../index.xhtml", MODULE);
+	    	}else {
+	    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN," ", "Veuillez vous connecter");
+	            PrimeFaces.current().dialog().showMessageDynamic(message);
+	    	}
 	    }catch (ValidationException e) {
 	    	System.out.println("erreur lors de la validation des champs");
 	    	 e.printStackTrace();

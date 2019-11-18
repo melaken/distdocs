@@ -67,8 +67,8 @@ public class RechercheBean implements Serializable{
 		try {
 			this.results = mainSearch(this.chaine,this.docDao);
 			System.out.println("before redirect "+results.size());
-			System.out.println("after redirect "+results.size());
 			Constante.redirect(facesContext, Constante.SEARCH, MODULE);
+			System.out.println("after redirect "+results.size());
 		} catch (IndexException e) {
 			System.out.println("Erreur lors de la recherche");
 			e.printStackTrace();

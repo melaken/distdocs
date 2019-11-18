@@ -183,19 +183,10 @@ public class PanierBean implements Serializable{
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		HttpSession session = (HttpSession) exterNalContext.getSession(false);
-		if(session.getAttribute("user ") != null) {
-			try {
-				if(session.getAttribute("user") == null) {
-					exterNalContext.redirect(Constante.ACCUEIL);
-				}else {
-						exterNalContext.redirect(Constante.PAYMENT);
-						genererRef();
-				}
-				store();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-			}
+		if(session.getAttribute(Constante.ATTRIB_USER) != null) {
+			Constante.redirect(facesContext, Constante.PAYMENT, MODULE);
+			genererRef();
+			store();
 		}else {
 			Constante.redirect(facesContext, Constante.ACCUEIL, MODULE);
 		}

@@ -65,12 +65,10 @@ public class ConnexionBean implements Serializable{
 //			final Path docDir = Paths.get(Constante.CHEMIN_DOCS);
 //			LuceneWriteIndexFromFile.indexer(docDir);
 		} catch (DAOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 //		}catch(IndexException e) {
 //			System.out.println("Error while indexing ");
 //			e.printStackTrace();
-//			
 		}
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();

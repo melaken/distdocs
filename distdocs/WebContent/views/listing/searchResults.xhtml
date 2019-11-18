@@ -21,8 +21,8 @@ xmlns:p="http://primefaces.org/ui">
         padding-left: 25px;
     }
      .emoticone {  
-    width: 24px !important; 
-    font-size: 30px !important; 
+    width: 35px !important; 
+    font-size: 35px !important; 
     color: #0060a0;
     padding-left:10px;
   }  
@@ -38,9 +38,12 @@ xmlns:p="http://primefaces.org/ui">
 	                >
 	    	<p:dataViewListItem>
 	            <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
-					 <p:graphicImage  value="#{listeDocsBean.image}" style="height: 100px; width: 70px;border-radius: 2px" > 
-               		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
-               		</p:graphicImage>	 
+					 <p:commandLink update=":form:image" oncomplete="PF('coverDialog').show()" >
+						 <p:graphicImage  value="#{listeDocsBean.image}" style="height: 100px; width: 70px;border-radius: 2px" > 
+	               		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
+	               		</p:graphicImage>	
+	               		<f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" /> 
+               		</p:commandLink>
 	                <p:outputPanel>
 	                    <h:panelGrid columns="1" cellpadding="5">
 	                        <h:outputText value="Résumé" style="font-weight: bold" />
@@ -48,15 +51,26 @@ xmlns:p="http://primefaces.org/ui">
 	                    </h:panelGrid>
 	                </p:outputPanel>
 	 
-	                <p:commandLink  title="Acheter" 
+	                <p:commandLink  title="#{constanteBean.panierMessage}" 
 			                	action="#{panierBean.panier}" >
-	                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;"/>
+	                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;font-size: 35px !important;width: 35px !important;"/>
 	                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />
 	                </p:commandLink>
 	            </h:panelGrid>
 	            <p:separator />
         	</p:dataViewListItem>
        	</p:dataView>
+       	
+       	 <p:dialog  widgetVar="coverDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+		    	header="Aperçu">
+        	<p:outputPanel id="image" style="text-align:justify;border:0">
+	            <p:panelGrid  columns="1" rendered="#{not empty listeDocsBean.selectedDoc}" columnClasses="label,value">
+	                 <p:graphicImage value="#{listeDocsBean.image}" style="height:600px; width:400px">
+	                    	<f:param name="cover" value="#{listeDocsBean.selectedDoc.premiereCouverture}" />
+	                    </p:graphicImage>
+                </p:panelGrid>
+            </p:outputPanel>
+            </p:dialog>
      </h:form>
 </h:body>
 </html>

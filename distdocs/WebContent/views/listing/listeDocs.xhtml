@@ -63,7 +63,7 @@ xmlns:p="http://primefaces.org/ui">
 			                    <h:outputText styleClass="pi pi-eye emoticone" style="margin:0 auto;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
 			                </p:commandLink>
-			                <p:commandLink  title="Acheter" update=":nbArticles @form :commande" 
+			                <p:commandLink  title="#{constanteBean.panierMessage}" update=":nbArticles @form :commande" 
 			                	action="#{panierBean.panier}" >
 			                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;"/>
 			                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />

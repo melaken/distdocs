@@ -9,12 +9,14 @@ import javax.faces.context.FacesContext;
 
 public class Constante {
 
-	public static final String INDEX_PATH = "/home/lady/distdocs/indexes"; 
-//	ublic static final String INDEX_PATH = "/home/myra/distdocs/indexes"; 
-//	public static final String CHEMIN_DOCS="/home/myra/distdocs/books";
-//	public static final String CHEMIN_IMAGES="/home/myra/distdocs/cover_page";
-	public static final String CHEMIN_DOCS="/home/lady/distdocs/books";
-	public static final String CHEMIN_IMAGES="/home/lady/distdocs/cover_page";
+//	public static final String INDEX_PATH = "/home/lady/distdocs/indexes"; 
+//	public static final String CHEMIN_DOCS="/home/lady/distdocs/books";
+//	public static final String CHEMIN_IMAGES="/home/lady/distdocs/cover_page";
+	public static final String INDEX_PATH = "/home/myra/distdocs/indexes"; 
+	public static final String CHEMIN_DOCS="/home/myra/distdocs/books";
+	public static final String CHEMIN_IMAGES="/home/myra/distdocs/cover_page";
+	
+	public static final String ATTRIB_USER = "user"	;
 	public static final String ROOT = "/distdocs";
 //	public static final String ACCUEIL = ROOT+"/accueil";
 	public static final String ACCUEIL = ROOT+"/index.xhtml";

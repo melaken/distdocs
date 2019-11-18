@@ -1,6 +1,5 @@
 package dao;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -61,6 +60,8 @@ public class DocumentDao {
 		long lastId=0;
 		try{
 		 lastId = ((Integer)em.createNativeQuery("SELECT max(id) from Document").getSingleResult()).longValue();
+		}catch(NullPointerException  e) {
+		}catch(NoResultException e) {
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();

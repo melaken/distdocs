@@ -98,12 +98,15 @@ public class DocsAchetesBean implements Serializable{
 				this.emptyMessage = "Aucun élément ne correspond à votre recherche.";
 				Utilisateur user = (Utilisateur)obj;
 				List<Document> boughtDocs = dao.docAchetesParclient(user.getId());
-				
-				List<Document> allDocs = new RechercheBean().mainSearch(this.chaine,this.docDao);
-				 this.liste = allDocs.stream()
-						  .distinct()
-						  .filter(boughtDocs::contains)
-						  .collect(Collectors.toList());
+				if(chaine == null || chaine.isEmpty())
+					this.liste = boughtDocs;
+				else {
+					List<Document> allDocs = new RechercheBean().mainSearch(this.chaine,this.docDao);
+					 this.liste = allDocs.stream()
+							  .distinct()
+							  .filter(boughtDocs::contains)
+							  .collect(Collectors.toList());
+				}
 				 //reload();
 			}
 		} catch (IndexException e) {
@@ -126,7 +129,7 @@ public class DocsAchetesBean implements Serializable{
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		HttpSession session = (HttpSession) exterNalContext.getSession(false);
-		return session.getAttribute("user");
+		return session.getAttribute(Constante.ATTRIB_USER);
 	}
 	private void reload()throws IOException {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

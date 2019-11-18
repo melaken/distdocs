@@ -24,6 +24,7 @@ public class ConstanteBean {
 	private String menuBar;
 	private String carousel;
 	private String listeDocs;
+	private String panierMessage;
 	
 	@PostConstruct
 	public void init() {
@@ -43,6 +44,7 @@ public class ConstanteBean {
 		menuBar = "/menuBar.xhtml";
 		carousel = "/views/carousel.xhtml";
 		listeDocs = "/views/listing/listeDocs.xhtml";
+		panierMessage = "Mettre dans le panier";
 	}
 
 	public String getAccueil() {
@@ -171,6 +173,14 @@ public class ConstanteBean {
 
 	public void setListeDocs(String listeDocs) {
 		this.listeDocs = listeDocs;
+	}
+
+	public String getPanierMessage() {
+		return panierMessage;
+	}
+
+	public void setPanierMessage(String panierMessage) {
+		this.panierMessage = panierMessage;
 	}
 	
 }

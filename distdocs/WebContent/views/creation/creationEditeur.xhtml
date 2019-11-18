@@ -103,7 +103,8 @@ xmlns:p="http://primefaces.org/ui">
 	   			</h:panelGrid>
 	        	<h:messages globalOnly="true" errorClass="erreur" />
 				<f:facet name="footer" align="center" >
-	   	    		<p:commandButton value="Enregistrer" action="#{editeurBean.creerEditeur}" icon="pi pi-save" 
+	   	    		<p:commandButton value="Enregistrer" action="#{editeurBean.creerEditeur}" onfocus="$('p:inputText').blur()"
+	   	    		icon="pi pi-save" 
 	   	    		/>
 	   	    </f:facet>
    	    </h:panelGrid>

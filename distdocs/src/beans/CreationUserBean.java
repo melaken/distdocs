@@ -65,13 +65,7 @@ public class CreationUserBean implements Serializable{
 	}
 	private void showSuccessMessage() {
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
-			ExternalContext  exterNalContext = facesContext.getExternalContext();
-		      try {
-				exterNalContext.redirect("../../index.xhtml");
-			} catch (IOException e) {
-				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
-				e.printStackTrace();
-			}
+		 Constante.redirect(facesContext, Constante.ACCUEIL, MODULE);
 		
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès de l'inscription !!!", "Vous pouvez à présent vous connecter.");
         PrimeFaces.current().dialog().showMessageDynamic(message);
