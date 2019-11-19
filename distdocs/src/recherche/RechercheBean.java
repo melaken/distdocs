@@ -54,8 +54,11 @@ public class RechercheBean implements Serializable{
 			if(text != null && !text.isEmpty()) {
 				liste = LuceneReadIndexFromFile.rechercher(text);
 				for(Document d : liste) {
+					try {
 					entities.Document doc = dao.trouver(Long.parseLong(d.get("fileName")));
 					res.add(doc);
+					}catch(DAOException e) {
+					}
 				}
 			}
 			return res;

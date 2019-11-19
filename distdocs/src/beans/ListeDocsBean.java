@@ -15,6 +15,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.inject.Named;
+import javax.persistence.OrderBy;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -22,7 +23,6 @@ import org.primefaces.model.StreamedContent;
 import dao.DAOException;
 import dao.DocumentDao;
 import entities.Document;
-import entities.Utilisateur;
 
 @Named
 @RequestScoped

@@ -45,9 +45,10 @@ xmlns:p="http://primefaces.org/ui">
 			        <h:outputLabel for="date_parution" value="Date de parution" style="font-weight:bold">
 			        	<span class="requis">*</span>
 			        </h:outputLabel>
-			        <p:calendar id="dateParution" value="#{documentBean.dateParution}" showOn="button"  effect="fold"
-			        	required="true" requiredMessage="Date de parution obligatoire">
-			        	<f:ajax event="blur" render="dateParutionMessage" />
+			        <p:calendar id="dateParution" value="#{documentBean.dateParution}" showOn="button"  effect="fold" placeholder="Exemple 18/11/19"
+			        	  >
+			        	<f:ajax event="keyup" render="dateParutionMessage" />
+<!-- 			        	<f:ajax event="blur" render="dateParutionMessage" /> -->
 			        </p:calendar>
 			        <h:message id="dateParutionMessage" for="dateParution" errorClass="erreur" />
 			       </h:panelGrid>
@@ -93,7 +94,9 @@ xmlns:p="http://primefaces.org/ui">
 		        </h:panelGrid>
 				<f:facet name="footer" >
 	   	    		<p:commandButton value="Publier"  icon="pi pi-cloud-upload" 
-	   	    		align="center" ajax="false" action="#{documentBean.upload}" />
+	   	    		align="center" ajax="false" action="#{documentBean.upload}" >
+	   	    		<f:ajax execute="@form" />
+	   	    		</p:commandButton>
 	   	    </f:facet>
 	 		 </h:panelGrid>
 	 	</h:form>

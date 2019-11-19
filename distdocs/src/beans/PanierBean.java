@@ -59,8 +59,8 @@ public class PanierBean implements Serializable{
 	public void init() {
 		selectedDoc = new Document();
 		articles = new ArrayList<>();
-		redirect = "http://youbooklive.alwaysdata.net/payment-success.php";
-		telMarchand = "07921645";
+		redirect = "http://myracenter.homeip.net:3580/distdocs/response";
+		telMarchand = "077921645";
 	}
 	public String getRedirect() {
 		return redirect;

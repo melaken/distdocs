@@ -38,7 +38,8 @@ xmlns:p="http://primefaces.org/ui">
 		<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" style="margin-top:50px"/>
         <p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
         	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
-        		
+        		<p:menuitem value="Publier" outcome="#{constanteBean.upload}" icon="pi pi-upload"
+     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
     			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
     			icon="pi pi-file" style="padding-left:10px"/> 
      			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" style="padding-left:10px"/>

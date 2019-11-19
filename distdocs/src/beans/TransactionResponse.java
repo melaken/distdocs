@@ -32,16 +32,17 @@ public class TransactionResponse extends HttpServlet{
 			throws ServletException, IOException {
 		String xml = null;
 		Response rep = null;
+		System.out.println("in Response");
         try {
                 byte[] xmlData = new byte[request.getContentLength()];
-
+                System.out.println("in Response 1");
                 //Start reading XML Request as a Stream of Bytes
                 InputStream sis = request.getInputStream();
                 BufferedInputStream bis = new BufferedInputStream(sis);
 
                 bis.read(xmlData, 0, xmlData.length);
 
-                
+                System.out.println("in Response 2");
                 if (request.getCharacterEncoding() != null) {
                         xml = new String(xmlData, request.getCharacterEncoding());
                         rep = XMLtoReponseExample(xml);
@@ -49,19 +50,30 @@ public class TransactionResponse extends HttpServlet{
                         xml = new String(xmlData);
                         rep = XMLtoReponseExample(xml);
                 }
+                System.out.println("in Response 3");
                 if(rep !=null && rep.getStatut() == STATUT) {
             		Object obj = dao.getTransactionByRef(rep.getRef());
             		if(obj != null) {
             			Transaction trans = (Transaction)obj;
             			trans.setEtat(Etat.TERMINE.name());
+            			trans.setTelClient(rep.getTelClient());
             			dao.update(trans);
             		}
-            		request.getRequestDispatcher(Constante.SUCCESS).forward(request, response);	
+            		 System.out.println("in Response 4");
+            		 this.getServletContext().getRequestDispatcher(Constante.SUCCESS).forward(request, response);	
+            		 System.out.println("in Response 5");
                 }
-                else request.getRequestDispatcher(Constante.ECHEC).forward(request, response);
+                else {
+                	 System.out.println("in Response 6");
+                	 this.getServletContext().getRequestDispatcher(Constante.ECHEC).forward(request, response);
+                	System.out.println("in Response 7");
+                }
                 
         } catch (Throwable ex) {
+        	System.out.println("in Response 8");
         	ex.printStackTrace();
+        	this.getServletContext().getRequestDispatcher(Constante.ECHEC).forward(request, response);
+        	 System.out.println("in Response 9");
         }
 	}
 	private Response XMLtoReponseExample(String buffer) throws Exception {

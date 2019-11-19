@@ -56,6 +56,7 @@ public class DocumentBean implements Serializable{
 	private Part file;
 	@NotNull(message = "Image vide")
 	private Part cover;
+	@NotNull(message = "Date de parution obligatoire")
 	private java.util.Date dateParution;
 	
 	@PostConstruct
@@ -139,7 +140,7 @@ public class DocumentBean implements Serializable{
 		      //createImage("JPG",fich,id+"_cover.jpg");
 		      System.out.println("Everything is ok");
 		      
-		      Constante.redirect(FacesContext.getCurrentInstance(), "../../index.xhtml", MODULE);
+		      Constante.redirect(FacesContext.getCurrentInstance(), Constante.ACCUEIL+"?faces-redirect=true", MODULE);
 	    	}else {
 	    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN," ", "Veuillez vous connecter");
 	            PrimeFaces.current().dialog().showMessageDynamic(message);

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -44,9 +45,10 @@ public class DocumentDao {
 		}
 		return doc;
 	}
+	
 	public List<Document> lister() throws DAOException{
 		List<Document> liste= new ArrayList<>();
-		Query request = em.createQuery("select d from Document d");
+		Query request = em.createQuery("select d from Document d order by d.id DESC");
 		try {
 			 liste = request.getResultList();
 		}catch(Throwable e) {

@@ -16,7 +16,7 @@ public class Response {
     @XmlElement(name = "STATUT")
     private Integer statut;
     @XmlElement(name = "TEL_CLIENT")
-    private Integer telClient;
+    private String telClient;
 
     public String getRef() {
         return ref;
@@ -42,11 +42,11 @@ public class Response {
         this.statut = statut;
     }
 
-    public Integer getTelClient() {
+    public String getTelClient() {
         return telClient;
     }
 
-    public void setTelClient(Integer telClient) {
+    public void setTelClient(String telClient) {
         this.telClient = telClient;
     }
 
