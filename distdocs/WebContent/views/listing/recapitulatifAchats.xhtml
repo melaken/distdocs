@@ -63,12 +63,13 @@ xmlns:p="http://primefaces.org/ui">
 		<h:outputText  id="total" value="#{panierBean.total}	FCFA"/>
 	</div>
 	<div align="right" style="font-weight:bold;margin-top:10px;margin-bottom:10px;padding-left:5px">
-		<p:commandButton action="#{panierBean.choisirPaiement}" value="Commander" 
+		<p:commandButton action="#{panierBean.choisirPaiement}" value="Commander" icon="pi pi-chevron-right"
 			rendered="#{panierBean.total > 0 and sessionScope['user'] != null }" style="margin-right:20px;">
 			<f:setPropertyActionListener value="#{sessionScope['user'].id}" target="#{panierBean.clientId}" />
 		</p:commandButton>
-		<p:commandButton action="#{panierBean.continuerAchat}" value="Continuer les achats" style="margin-right:20px;"/>
-		<p:commandButton  action="#{panierBean.annulerAchat}" value="Annuler" style="margin-right:20px;"/>
+		<p:commandButton action="#{panierBean.continuerAchat}" value="Continuer les achats" icon="pi pi-shopping-cart"
+			style="margin-right:20px;"/>
+		<p:commandButton  action="#{panierBean.annulerAchat}" value="Annuler" icon="pi pi-undo" style="margin-right:20px;"/>
 	</div>
 	</h:body>
 </html>

@@ -65,7 +65,8 @@ xmlns:p="http://primefaces.org/ui">
      				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
     			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
     			icon="pi pi-file" style="padding-left:10px"/> 
-     			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" style="padding-left:10px"/>
+     			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listUserTransactions}" 
+     				style="padding-left:10px"/>
      			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>
      			<p:separator /> 
      			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" type="button" icon="pi pi-sign-out" style="padding-left:10px;"

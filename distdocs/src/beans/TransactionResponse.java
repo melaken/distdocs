@@ -34,7 +34,18 @@ public class TransactionResponse extends HttpServlet{
 		Response rep = null;
 		System.out.println("in Response");
         try {
+        		if(request.getParameter("ref") != null && request.getParameter("statut") != null 
+        				&& Integer.parseInt(request.getParameter("statut")) == STATUT) {
+        			Object obj = dao.getTransactionByRef(request.getParameter("ref"));
+	        			System.out.println("in Response 4");
+        			if(obj != null) {
+	        			this.getServletContext().getRequestDispatcher(Constante.SUCCESS).forward(request, response);	
+	        			System.out.println("in Response 5");
+        			}else	this.getServletContext().getRequestDispatcher(Constante.ECHEC).forward(request, response);
+	           		 
+        		}else {
                 byte[] xmlData = new byte[request.getContentLength()];
+                System.out.println("xmlData "+xmlData);
                 System.out.println("in Response 1");
                 //Start reading XML Request as a Stream of Bytes
                 InputStream sis = request.getInputStream();
@@ -48,6 +59,7 @@ public class TransactionResponse extends HttpServlet{
                         rep = XMLtoReponseExample(xml);
                 } else {
                         xml = new String(xmlData);
+                        System.out.println("xml "+xml);
                         rep = XMLtoReponseExample(xml);
                 }
                 System.out.println("in Response 3");
@@ -59,16 +71,13 @@ public class TransactionResponse extends HttpServlet{
             			trans.setTelClient(rep.getTelClient());
             			dao.update(trans);
             		}
-            		 System.out.println("in Response 4");
-            		 this.getServletContext().getRequestDispatcher(Constante.SUCCESS).forward(request, response);	
-            		 System.out.println("in Response 5");
                 }
                 else {
                 	 System.out.println("in Response 6");
                 	 this.getServletContext().getRequestDispatcher(Constante.ECHEC).forward(request, response);
                 	System.out.println("in Response 7");
                 }
-                
+        		}
         } catch (Throwable ex) {
         	System.out.println("in Response 8");
         	ex.printStackTrace();

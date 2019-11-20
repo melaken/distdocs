@@ -25,6 +25,7 @@ public class ConstanteBean {
 	private String carousel;
 	private String listeDocs;
 	private String panierMessage;
+	private String listUserTransactions;
 	
 	@PostConstruct
 	public void init() {
@@ -45,6 +46,7 @@ public class ConstanteBean {
 		carousel = "/views/carousel.xhtml";
 		listeDocs = "/views/listing/listeDocs.xhtml";
 		panierMessage = "Mettre dans le panier";
+		listUserTransactions = "/views/listing/listUserTransactions.xhtml";
 	}
 
 	public String getAccueil() {
@@ -182,5 +184,12 @@ public class ConstanteBean {
 	public void setPanierMessage(String panierMessage) {
 		this.panierMessage = panierMessage;
 	}
-	
+
+	public String getListUserTransactions() {
+		return listUserTransactions;
+	}
+
+	public void setListUserTransactions(String listUserTransactions) {
+		this.listUserTransactions = listUserTransactions;
+	}
 }

@@ -105,7 +105,7 @@ public class ConnexionBean implements Serializable{
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
 		exterNalContext.invalidateSession();
 		try {
-			exterNalContext.redirect("index.xhtml");
+			Constante.redirect(facesContext, Constante.ACCUEIL, MODULE);
 //			reload();
 			System.out.println("disconnected");
 		} catch (Throwable e) {

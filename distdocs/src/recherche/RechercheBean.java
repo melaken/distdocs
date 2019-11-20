@@ -68,7 +68,10 @@ public class RechercheBean implements Serializable{
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		//ExternalContext exc = facesContext.getExternalContext();
 		try {
-			this.results = mainSearch(this.chaine,this.docDao);
+			if(this.chaine == null || this.chaine.isEmpty())
+				this.results = docDao.lister();
+			else
+				this.results = mainSearch(this.chaine,this.docDao);
 			System.out.println("before redirect "+results.size());
 			Constante.redirect(facesContext, Constante.SEARCH, MODULE);
 			System.out.println("after redirect "+results.size());

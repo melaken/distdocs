@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta charset="utf-8"/>
+  		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+  		<h:outputStylesheet library="default" name="css/form.css" />
+  		<h:outputStylesheet library="default" name="css/style.css" />
+  		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+  		<h:outputStylesheet name="components.css" library="primefaces"/>
+</h:head>
+<h:body>
+	<h:form>  
+    <p:growl id="messages"/>
+ 	
+ 	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
+        <f:facet name="left">
+        </f:facet>
+        <f:facet name="right" style="margin-right:20px;">
+		<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" 
+			style="margin-top:50px"/>
+				 
+        <p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
+        	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
+        		
+        		<p:menuitem value="Publier" outcome="#{constanteBean.upload}" icon="pi pi-upload"
+     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
+    			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
+    			icon="pi pi-file" style="padding-left:10px"/> 
+     			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listUserTransactions}" 
+     				style="padding-left:10px"/>
+     			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>
+     			<p:separator /> 
+     			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" type="button" icon="pi pi-sign-out" style="padding-left:10px;"
+     			rendered="#{sessionScope['user'] != null}" update="@form"/> 
+        </p:menuButton>
+        </f:facet>
+    </p:toolbar>
+    <p:sticky target="tb" />
+    </h:form>  
+    
+   <h:form>
+	   <p:tabMenu activeIndex="#{param.i}">
+		    <p:menuitem value="Transactions terminées" icon="pi pi-check-circle" outcome="#{constanteBean.listUserTransactions}" >
+		        <f:param name="i" value="0" />
+		    </p:menuitem>
+		    <p:menuitem value="Transactions en attente de paiement" icon="pi pi-money-bill" outcome="#{constanteBean.listUserTransactions}" >
+		        <f:param name="i" value="1" />
+		    </p:menuitem>
+		     <p:menuitem value="Transactions annulées" icon="pi pi-undo" outcome="#{constanteBean.listUserTransactions}"  >
+		        <f:param name="i" value="2" />
+		    </p:menuitem>
+		</p:tabMenu>
+	</h:form>
+	<h:form rendered="#{param.i == 0 || param.i == null}">
+		<p:dataTable var="trans" value="#{transactionBean.transactionsTermines}" 
+			emptyMessage="Aucune entrée trouvée">
+		    <p:column headerText="Référence">
+		        <h:outputText value="#{trans.reference}" />
+		         <h:inputText value="#{param.i}" rendered="false"/>
+		    </p:column>
+		 
+		    <p:column headerText="Date transaction">
+		        <h:outputText value="#{trans.dateAchat}" />
+		    </p:column>
+		 
+		    <p:column headerText="Montant">
+		        <h:outputText value="#{trans.montant}	FCFA"/>
+		    </p:column>
+		 
+		    <p:column headerText="Moyen de paiement">
+		        <h:outputText value="#{trans.moyenPaiement}" />
+		    </p:column>
+		    <p:column headerText="État">
+		        <h:outputText value="#{trans.etat}" />
+		    </p:column>
+		</p:dataTable>
+	</h:form>
+	<h:form id="initie" rendered="#{param.i == 1}">
+		<p:dataTable var="trans" value="#{transactionBean.transactionsInities}" 
+			emptyMessage="Aucune entrée trouvée">
+		    <p:column headerText="Référence">
+		        <h:outputText value="#{trans.reference}" />
+		         <h:inputText value="#{param.i}" rendered="false"/>
+		    </p:column>
+		 
+		    <p:column headerText="Date transaction">
+		        <h:outputText value="#{trans.dateAchat}" />
+		    </p:column>
+		 
+		    <p:column headerText="Montant">
+		        <h:outputText value="#{trans.montant}	FCFA"/>
+		    </p:column>
+		 
+		    <p:column headerText="Moyen de paiement">
+		        <h:outputText value="#{trans.moyenPaiement}" />
+		    </p:column>
+		    <p:column headerText="État">
+		        <h:outputText value="#{trans.etat}" />
+		    </p:column>
+		</p:dataTable>
+	</h:form>
+	<h:form id="annule" rendered="#{param.i == 2}">
+		<p:dataTable var="trans" value="#{transactionBean.transactionsAnnules}" 
+			emptyMessage="Aucune entrée trouvée">
+		    <p:column headerText="Référence">
+		        <h:outputText value="#{trans.reference}" />
+		         <h:inputText value="#{param.i}" rendered="false"/>
+		    </p:column>
+		 
+		    <p:column headerText="Date transaction">
+		        <h:outputText value="#{trans.dateAchat}" />
+		    </p:column>
+		 
+		    <p:column headerText="Montant">
+		        <h:outputText value="#{trans.montant}	FCFA"/>
+		    </p:column>
+		 
+		    <p:column headerText="Moyen de paiement">
+		        <h:outputText value="#{trans.moyenPaiement}" />
+		    </p:column>
+		    <p:column headerText="État">
+		        <h:outputText value="#{trans.etat}" />
+		    </p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
