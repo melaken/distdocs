@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.DAOException;
 import dao.TransactionDao;
+import entities.Document;
 import entities.Etat;
 import entities.Transaction;
 import entities.Utilisateur;
@@ -31,6 +32,7 @@ public class TransactionBean {
 	private List<Transaction> transactionsTermines;
 	private List<Transaction> transactionsAnnules;
 	private List<Transaction> transactionsInities;
+	private List<Document> userTransArt;
 	
 	public List<Transaction> getListe() {
 		return liste;
@@ -84,6 +86,39 @@ public class TransactionBean {
 			return  (Utilisateur)session.getAttribute(Constante.ATTRIB_USER);
 		}catch(Throwable e) {
 			return null;
+		}
+	}
+	public void annulerTransaction() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		String reference = context.getExternalContext().getRequestParameterMap().get("ref");
+		
+		 Object obj =  transDao.getTransactionByRef(reference);
+		 if(obj != null) {
+			 Transaction trans = (Transaction)obj;
+			 trans.setEtat(Etat.ANNULE.name());
+			
+			 try {
+				transDao.update(trans);
+				Constante.redirect(context,Constante.listUserTransactions, MODULE);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		 }
+	}
+	public void voirArticles() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		String reference = context.getExternalContext().getRequestParameterMap().get("ref");
+		Utilisateur user = getCurrentUser();
+		userTransArt = new ArrayList<>();
+		
+		if(user != null)
+		try {
+			userTransArt= transDao.findUserTransactionArticles(reference);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

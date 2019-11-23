@@ -15,6 +15,8 @@ public class Transaction {
 	private String reference;
 	@Column(name="date_achat")
 	private Timestamp dateAchat;
+	@Column(name="last_update")
+	private Timestamp lastUpdate;
 	@Column(name="tel_client")
 	private String telClient;
 	@Column(name="moyen_paiement")
@@ -70,4 +72,11 @@ public class Transaction {
 	public void setMontant(float montant) {
 		this.montant = montant;
 	}
+	public Timestamp getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(Timestamp lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+	
 }

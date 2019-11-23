@@ -226,7 +226,9 @@ public class PanierBean implements Serializable{
 	 private Transaction getTransaction() {
 	 	Transaction trans = new Transaction();
 	 	trans.setClientId(this.clientId);
-	 	trans.setDateAchat(new Timestamp(System.currentTimeMillis()));
+	 	Timestamp time = new Timestamp(System.currentTimeMillis());
+	 	trans.setDateAchat(time);
+	 	trans.setLastUpdate(time);
 	 	trans.setMoyenPaiement(this.moyenPaiement);
 	 	trans.setReference(this.reference);
 	 	trans.setMontant(this.total);

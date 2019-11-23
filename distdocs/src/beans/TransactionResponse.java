@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.sql.Timestamp;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -69,6 +70,7 @@ public class TransactionResponse extends HttpServlet{
             			Transaction trans = (Transaction)obj;
             			trans.setEtat(Etat.TERMINE.name());
             			trans.setTelClient(rep.getTelClient());
+            			trans.setLastUpdate(new Timestamp(System.currentTimeMillis()));
             			dao.update(trans);
             		}
                 }

@@ -56,7 +56,7 @@ xmlns:p="http://primefaces.org/ui">
 		    </p:menuitem>
 		</p:tabMenu>
 	</h:form>
-	<h:form rendered="#{param.i == 0 || param.i == null}">
+	<h:form id="termine" rendered="#{param.i == 0 || param.i == null}">
 		<p:dataTable var="trans" value="#{transactionBean.transactionsTermines}" 
 			emptyMessage="Aucune entrée trouvée">
 		    <p:column headerText="Référence">
@@ -101,6 +101,20 @@ xmlns:p="http://primefaces.org/ui">
 		    </p:column>
 		    <p:column headerText="État">
 		        <h:outputText value="#{trans.etat}" />
+		    </p:column>
+		    <p:column headerText="Action">
+		    	<p:commandButton  action="#{transactionBean.annulerTransaction}" value="Annuler transaction" icon="pi pi-undo" style="margin-right:20px;">
+		    		<f:param name="ref" value="#{trans.reference}" />
+		    	</p:commandButton>
+		    	<p:commandButton  action="#{transactionBean.terminerTransaction}" value="Terminer transaction"  style="margin-right:20px;">
+		    		<f:param name="ref" value="#{trans.reference}" />
+		    	</p:commandButton>
+		    </p:column>
+		    <p:column headerText="Articles de la transaction">
+		    <p:linkButton value="Voir"  outcome="#{transactionBean.voirArticles}" icon="pi pi-eye"
+	        	 style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right">
+	        	 <f:param name="ref" value="#{trans.reference}" />
+        	 </p:linkButton>
 		    </p:column>
 		</p:dataTable>
 	</h:form>

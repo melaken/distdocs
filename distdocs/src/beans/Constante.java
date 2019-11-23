@@ -38,6 +38,7 @@ public class Constante {
 	public static final String ECHEC = "/views/results/paymentFailed.xhtml";
 	public static final String SUCCESS = "/views/results/paymentSucceed.xhtml";
 	public static final String SEARCH =ROOT + "/views/listing/searchResults.xhtml";
+	public static final String listUserTransactions = ROOT+"/views/listing/listUserTransactions.xhtml";
 	
 	public static void redirect(FacesContext facesContext, String path, String module) {
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
