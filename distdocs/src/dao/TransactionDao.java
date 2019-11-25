@@ -88,4 +88,31 @@ public class TransactionDao {
 		}
 		return liste;
 	}
+	
+	public List<Object[]> selectUserDocsFromDate(String email, String lastDate) throws DAOException {
+		List<Object[]> liste= new ArrayList<>();
+		Query request;
+		if(lastDate != null && !lastDate.isEmpty()) {
+			request = em.createNativeQuery("select premiere_couverture, da.doc_id, t.date_achat"
+					+ 	" from Document d, DocsAchetes da, Transaction t, Utilisateur u"
+			 		+	" where t.etat='TERMINE' and t.reference = da.reference and da.doc_id = d.id"
+			 		+ 	" and u.email = ? and u.id = t.client_id"
+			 		+	" and t.date_achat and t.date_achat > ?");
+			request.setParameter(2, lastDate.trim());
+		}
+		else
+			request = em.createNativeQuery("select premiere_couverture, da.doc_id, t.date_achat from Document d, DocsAchetes da, Transaction t, Utilisateur u"
+			 		+	" where t.etat='TERMINE' and t.reference = da.reference and da.doc_id = d.id  and u.email = ? and u.id = t.client_id "
+			 		+	" and t.date_achat");
+		request.setParameter(1, email.trim());
+		
+		try {
+			liste = request.getResultList();
+		}catch(Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+			throw new DAOException(e);
+		}
+		return liste;
+	}
 }
