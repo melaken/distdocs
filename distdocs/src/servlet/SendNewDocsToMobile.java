@@ -1,7 +1,10 @@
-package beans;
+package servlet;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.json.JSONObject;
 
+import beans.Constante;
 import dao.DAOException;
 import dao.TransactionDao;
 
@@ -22,7 +26,10 @@ public class SendNewDocsToMobile extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	@EJB
 	TransactionDao dao;
-	
+	//nb de stream à en voyés au mobile(premiere_cover et document)
+	private int nb_stream=2;
+	//nb colonnes retournés de la bd
+	private int db_cols = 3;
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
@@ -39,7 +46,23 @@ public class SendNewDocsToMobile extends HttpServlet{
 			try {
 				List<Object[]> liste = dao.selectUserDocsFromDate(email, lastDate);
 				JSONObject obj = new JSONObject();
-				obj.put("docs", liste);
+				
+				List<Object[]> results =  new ArrayList<>();
+				for(Object[] tab : liste) {
+					Object[] row = new Object[db_cols+nb_stream];
+					for(int i=0;i<db_cols;i++) {
+						row[i]=tab[i];
+					}
+					File cover = new File(Constante.CHEMIN_IMAGES,row[0]+"");
+					File doc = new File(Constante.CHEMIN_DOCS,row[1]+"");
+					
+					row[3]=new FileInputStream(cover);
+					row[4]= new FileInputStream(doc);
+					
+					results.add(row);
+				}
+				System.out.println("size "+results.size());
+				obj.put("docs", results);
 				out.println( obj);
 				
 				 
@@ -50,4 +73,5 @@ public class SendNewDocsToMobile extends HttpServlet{
 		
 		out.close();
 	}
+	
 }

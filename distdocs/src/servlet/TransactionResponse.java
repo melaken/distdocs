@@ -1,4 +1,4 @@
-package beans;
+package servlet;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -16,6 +16,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
+import beans.Constante;
 import dao.TransactionDao;
 import entities.Etat;
 import entities.Response;
