@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import entities.Document;
 import entities.Transaction;
 
-@Stateful
+@Stateless
 public class TransactionDao {
 
 	private final String MODULE = TransactionDao.class.getName();

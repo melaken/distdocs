@@ -92,6 +92,8 @@ public class Utilisateur {
 	public void setDateCreation(Timestamp dateCreation) {
 		this.dateCreation = dateCreation;
 	}
-	
+	public String toString() {
+		return "nom = "+nom+" prenom = "+prenom+" userType = "+userType+" dateCreation = "+dateCreation+" email = "+email;
+	}
 	
 }

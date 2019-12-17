@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.json.JSONObject;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import beans.Constante;
 import dao.DAOException;
 import dao.TransactionDao;
@@ -26,7 +29,7 @@ public class SendNewDocsToMobile extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	@EJB
 	TransactionDao dao;
-	//nb de stream à en voyés au mobile(premiere_cover et document)
+	//nb de stream à envoyés au mobile(premiere_cover et document)
 	private int nb_stream=2;
 	//nb colonnes retournés de la bd
 	private int db_cols = 3;
@@ -56,8 +59,8 @@ public class SendNewDocsToMobile extends HttpServlet{
 					File cover = new File(Constante.CHEMIN_IMAGES,row[0]+"");
 					File doc = new File(Constante.CHEMIN_DOCS,row[1]+"");
 					
-					row[3]=new FileInputStream(cover);
-					row[4]= new FileInputStream(doc);
+					row[3] = Base64.encode(Files.readAllBytes(cover.toPath()));
+//					row[4] = Base64.encode(Files.readAllBytes(doc.toPath()));
 					
 					results.add(row);
 				}
@@ -65,7 +68,7 @@ public class SendNewDocsToMobile extends HttpServlet{
 				obj.put("docs", results);
 				out.println( obj);
 				
-				 
+//				 response
 			} catch (DAOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
