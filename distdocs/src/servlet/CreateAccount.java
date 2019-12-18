@@ -42,7 +42,7 @@ public class CreateAccount  extends HttpServlet{
 			}else {
 				Utilisateur user = setUser(noms,prenoms,email,password);
 				System.out.println(user);
-				//utilisateurDao.creer(user);
+				utilisateurDao.creer(user);
 				success = true;
 			}
 		} catch (DAOException e) {
@@ -62,6 +62,7 @@ public class CreateAccount  extends HttpServlet{
 		user.setNom(noms);
 		user.setDateCreation(new Timestamp(System.currentTimeMillis()));
 		user.setUserType(UserType.CLIENT.name());
+		user.setNumTel("123456789");
 		return user;
 		
 	}
