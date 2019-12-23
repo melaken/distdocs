@@ -57,6 +57,7 @@ public class GetAllDocs extends HttpServlet{
 			File image = new File(Constante.CHEMIN_IMAGES, d.getPremiereCouverture());
 			byte[] bytes = Files.readAllBytes(image.toPath());
 			obj[2] = Base64.encode(bytes);
+			obj[3] = d.getDateParution();
 			
 			results.add(obj);
 			
