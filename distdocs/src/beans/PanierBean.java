@@ -59,8 +59,8 @@ public class PanierBean implements Serializable{
 	public void init() {
 		selectedDoc = new Document();
 		articles = new ArrayList<>();
-		redirect = "http://myracenter.homeip.net:3580/distdocs/response";
-		telMarchand = "077921645";
+		redirect = Constante.url_redirect;
+		telMarchand = Constante.tel_marchand;
 	}
 	public String getRedirect() {
 		return redirect;

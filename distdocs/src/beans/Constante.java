@@ -39,6 +39,10 @@ public class Constante {
 	public static final String SUCCESS = "/views/results/paymentSucceed.xhtml";
 	public static final String SEARCH =ROOT + "/views/listing/searchResults.xhtml";
 	public static final String listUserTransactions = ROOT+"/views/listing/listUserTransactions.xhtml";
+	public static final String url_api_rest = "https://mypvit.com/mypvitapi.kk";
+	public static final String tel_marchand = "077921645";
+	public static final String url_redirect = "http://myracenter.homeip.net:3580/distdocs/response";
+	public static final String moyen_airtel = "AIRTEL MONEY";
 	
 	public static void redirect(FacesContext facesContext, String path, String module) {
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
