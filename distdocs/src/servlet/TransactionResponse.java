@@ -26,7 +26,7 @@ import entities.Transaction;
 public class TransactionResponse extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
-	private static final int STATUT = 200;
+//	private static final int STATUT = 200;
 	@EJB
 	TransactionDao dao;
 	
@@ -37,7 +37,7 @@ public class TransactionResponse extends HttpServlet{
 		System.out.println("in Response");
         try {
         		if(request.getParameter("ref") != null && request.getParameter("statut") != null 
-        				&& Integer.parseInt(request.getParameter("statut")) == STATUT) {
+        				&& Integer.parseInt(request.getParameter("statut")) == Constante.STATUT) {
         			Object obj = dao.getTransactionByRef(request.getParameter("ref"));
 	        			System.out.println("in Response 4");
         			if(obj != null) {
@@ -65,7 +65,7 @@ public class TransactionResponse extends HttpServlet{
                         rep = XMLtoReponseExample(xml);
                 }
                 System.out.println("in Response 3");
-                if(rep !=null && rep.getStatut() == STATUT) {
+                if(rep !=null && rep.getStatut() == Constante.STATUT) {
             		Object obj = dao.getTransactionByRef(rep.getRef());
             		if(obj != null) {
             			Transaction trans = (Transaction)obj;

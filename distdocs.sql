@@ -39,5 +39,5 @@ alter table DocsAchetes add constraint fk4 FOREIGN KEY(doc_id) REFERENCES Docume
 alter table DocsAchetes add constraint fk5 FOREIGN KEY(client_id) REFERENCES Utilisateur(id);
 alter table DocsAchetes add constraint fk6 FOREIGN KEY(reference) REFERENCES Transaction(reference);
 
-create table Token(token varchar(30) primary key, date_jour datetime not null);
+create table Token(id int(11) AUTO_INCREMENT primary key, token TEXT(1000) not null, date_jour datetime not null);
 

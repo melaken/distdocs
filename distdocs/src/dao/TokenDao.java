@@ -31,7 +31,7 @@ public class TokenDao {
 		}
 	}
 	
-	public String getLatestToken() {
+	public Token getLatestToken() {
 	List<Token> liste= new ArrayList<>();
 		Query request = em.createQuery("select t from Token t order by t.dateJour DESC");
 		try {
@@ -41,8 +41,17 @@ public class TokenDao {
 			e.printStackTrace();
 		}
 		if(liste.size()==0)
-			return "";
+			return null;
 		else
-			return liste.get(0).getToken();
+			return liste.get(0);
+	}
+	
+	public void update(Token token) {
+		try {
+			em.merge(token);
+		}catch(Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
 	}
 }

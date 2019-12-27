@@ -1,7 +1,10 @@
 package servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -11,13 +14,14 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.ejb.EJB;
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.net.ssl.HttpsURLConnection;
+import org.primefaces.json.JSONObject;
 
 import beans.Constante;
 import dao.DAOException;
@@ -30,7 +34,8 @@ import entities.Etat;
 import entities.Transaction;
 import entities.Utilisateur;
 
-@WebServlet(urlPatterns = { "/shoppingCartFromMobile"})
+
+@WebServlet(urlPatterns = {"/shoppingCartFromMobile"})
 public class ShoppingCartFromMobile extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	@EJB
@@ -57,8 +62,7 @@ public class ShoppingCartFromMobile extends HttpServlet{
 		String subStr = docs.substring(1, docs.length()-1);
 		System.out.println("subStr "+subStr);
 		String[] docIds = subStr.split(",");
-		for(String s : docIds)
-			System.out.println(""+s);
+		
 		Utilisateur user = null;
 		try {
 			user = userDao.trouver(email.trim());
@@ -73,7 +77,9 @@ public class ShoppingCartFromMobile extends HttpServlet{
 			try {
 				transDao.creer(trans);
 				daDao.storeDocsAchetes(liste);
-				sendPost(tel_client,Constante.tel_marchand,montant,ref,tokenDao.getLatestToken());
+				StringBuffer token = new StringBuffer(tokenDao.getLatestToken().getToken());
+				System.out.println("token "+token);
+				sendPost(tel_client,Constante.tel_marchand,montant,ref,token.toString());
 			} catch (DAOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -88,6 +94,7 @@ public class ShoppingCartFromMobile extends HttpServlet{
 			byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
 			URL obj = new URL(Constante.url_api_rest);
 			HttpsURLConnection conn = (HttpsURLConnection) obj.openConnection();
+		
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			conn.setDoOutput(true);
@@ -101,18 +108,32 @@ public class ShoppingCartFromMobile extends HttpServlet{
 
 			if (responseCode == HttpURLConnection.HTTP_OK) { //success
 				System.out.println("HTTP_OK success");
-//				BufferedReader in = new BufferedReader(new InputStreamReader(
-//						conn.getInputStream()));
-//				String inputLine;
-//				StringBuffer response = new StringBuffer();
-//
-//				while ((inputLine = in.readLine()) != null) {
-//					response.append(inputLine);
-//				}
-//				in.close();
-//
-//				// print result
-//				System.out.println(response.toString());
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						conn.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+
+				String str = response.toString().trim();
+				String rep = str.substring(str.indexOf('{'),str.indexOf('}')+1);
+				
+				try {
+					
+					JSONObject jsonObject = new JSONObject(rep);
+					System.out.println("JSONObject status "+jsonObject.get("status"));
+					System.out.println("JSONObject response_code "+jsonObject.get("response_code"));
+					
+		        } catch (Throwable e) {
+		        	e.printStackTrace();
+		        }
+				
+				// print result
+				System.out.println("str "+str);
+				System.out.println("rep "+rep.trim());
 			} else {
 				System.out.println("POST request not worked");
 			}
