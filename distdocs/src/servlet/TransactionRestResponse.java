@@ -39,49 +39,39 @@ public class TransactionRestResponse extends HttpServlet{
 		RestResponse rep = null;
 		System.out.println("in Response");
 		try {
-			if(Integer.parseInt(request.getParameter("statut")) == Constante.STATUT) {
-				Object obj = dao.getTransactionByRef(request.getParameter("ref"));
+			byte[] xmlData = new byte[request.getContentLength()];
+			System.out.println("xmlData "+xmlData);
+			System.out.println("in Response 1");
+			//Start reading XML Request as a Stream of Bytes
+			InputStream sis = request.getInputStream();
+			BufferedInputStream bis = new BufferedInputStream(sis);
+
+			bis.read(xmlData, 0, xmlData.length);
+
+			System.out.println("in Response 2");
+			if (request.getCharacterEncoding() != null) {
+				xml = new StringBuffer(new String(xmlData, request.getCharacterEncoding()));
+				rep = XMLtoReponseExample(xml);
+			} else {
+				xml = new StringBuffer(new String(xmlData));
+				System.out.println("xml "+xml);
+				rep = XMLtoReponseExample(xml);
+			}
+			System.out.println("in Response 3");
+			if(rep !=null && rep.getStatut() == Constante.STATUT) {
+				Object obj = dao.getTransactionByRef(rep.getRef());
 				if(obj != null) {
-					byte[] xmlData = new byte[request.getContentLength()];
-					System.out.println("xmlData "+xmlData);
-					System.out.println("in Response 1");
-					//Start reading XML Request as a Stream of Bytes
-					InputStream sis = request.getInputStream();
-					BufferedInputStream bis = new BufferedInputStream(sis);
-	
-					bis.read(xmlData, 0, xmlData.length);
-	
-					System.out.println("in Response 2");
-					if (request.getCharacterEncoding() != null) {
-						xml = new StringBuffer(new String(xmlData, request.getCharacterEncoding()));
-						rep = XMLtoReponseExample(xml);
-					} else {
-						xml = new StringBuffer(new String(xmlData));
-						System.out.println("xml "+xml);
-						rep = XMLtoReponseExample(xml);
-					}
-					System.out.println("in Response 3");
-					if(rep !=null && rep.getStatut() == Constante.STATUT) {
-	//					if(obj != null) {
-							Transaction trans = (Transaction)obj;
-							trans.setEtat(Etat.TERMINE.name());
-							trans.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-							dao.update(trans);
-							storeToken(rep.getToken());
-					}else{
-						echecTransaction();
-					}
+					Transaction trans = (Transaction)obj;
+					trans.setEtat(Etat.TERMINE.name());
+					trans.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+					dao.update(trans);
+					storeToken(rep.getToken());
 				}
-				else {
-					echecTransaction();
-				}
-			}else {
-				echecTransaction();
 			}
 		} catch (Throwable ex) {
 			System.out.println("in Response 8");
 			ex.printStackTrace();
-//			this.getServletContext().getRequestDispatcher(Constante.ECHEC).forward(request, response);
+			//			this.getServletContext().getRequestDispatcher(Constante.ECHEC).forward(request, response);
 			System.out.println("in Response 9");
 		}
 	}
@@ -90,8 +80,8 @@ public class TransactionRestResponse extends HttpServlet{
 		JAXBContext jaxbContext = JAXBContext.newInstance(RestResponse.class);
 
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		StringReader reader = new StringReader( buffer.toString());
-		StreamSource stream = new StreamSource( reader ) ;
+		StringReader reader = new StringReader(buffer.toString());
+		StreamSource stream = new StreamSource(reader) ;
 		return (RestResponse) jaxbUnmarshaller.unmarshal(stream);
 	}
 	private void storeToken(String str_token) {
@@ -99,9 +89,5 @@ public class TransactionRestResponse extends HttpServlet{
 		token.setToken(str_token);
 		token.setDateJour(new Timestamp(System.currentTimeMillis()));
 		tokenDao.update(token);
-	}
-
-	private void echecTransaction() {
-		
 	}
 }

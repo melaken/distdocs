@@ -44,7 +44,7 @@ public class DocsAchetesDao {
 					+ "from Document d,Transaction t, DocsAchetes da "
 					+ " where t.reference = da.reference and d.id = da.doc_id " 
 					+ "and t.etat = ? and  t.client_id = ? order by t.date_achat desc");
-			q.setParameter(1,Etat.INITIE.name() );
+			q.setParameter(1,Etat.TERMINE.name() );
 			q.setParameter(2,clientId );
 			List<Object[]> temp = q.getResultList();
 			System.out.println("size tmp = "+temp.size());

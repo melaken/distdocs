@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import entities.Document;
+import entities.Etat;
 import entities.Transaction;
 
 @Stateless
@@ -19,7 +20,7 @@ public class TransactionDao {
 	private final String MODULE = TransactionDao.class.getName();
 	@PersistenceContext(unitName = "distdocs_PU")
 	private EntityManager em;
-	
+
 	public void creer(Transaction trans) throws DAOException{
 		try {
 			System.out.println(trans.toString());
@@ -29,14 +30,14 @@ public class TransactionDao {
 			e.printStackTrace();
 			throw new DAOException(e);
 		}
-		
+
 	}
 	public Object getTransactionByRef(String ref){
 		Query request = em.createQuery("select t from Transaction t where t.reference = :ref");
 		request.setParameter("ref", ref);
 		Object obj=null;
 		try {
-			 obj = request.getSingleResult();
+			obj = request.getSingleResult();
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
@@ -52,14 +53,14 @@ public class TransactionDao {
 			e.printStackTrace();
 			throw new DAOException(e);
 		}
-		
+
 	}
 	public List<Transaction> userTransactions(long clientId) throws DAOException{
 		List<Transaction> liste= new ArrayList<>();
 		Query request = em.createQuery("select t from Transaction t where t.clientId = :clientId order by t.dateAchat DESC");
 		request.setParameter("clientId", clientId);
 		try {
-			 liste = request.getResultList();
+			liste = request.getResultList();
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
@@ -74,13 +75,13 @@ public class TransactionDao {
 		request.setParameter(1, ref);
 		try {
 			List<Object[]> temp = request.getResultList();
-			 for(Object[] obj : temp) {
-					Document doc = new Document();
-					doc.setId(Long.parseLong(obj[0].toString()));
-					doc.setPremiereCouverture(obj[1].toString());
-//					System.out.println("doc "+doc.toString());
-					liste.add(doc);
-				}
+			for(Object[] obj : temp) {
+				Document doc = new Document();
+				doc.setId(Long.parseLong(obj[0].toString()));
+				doc.setPremiereCouverture(obj[1].toString());
+				//					System.out.println("doc "+doc.toString());
+				liste.add(doc);
+			}
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
@@ -88,24 +89,24 @@ public class TransactionDao {
 		}
 		return liste;
 	}
-	
+
 	public List<Object[]> selectUserDocsFromDate(String email, String lastDate) throws DAOException {
 		List<Object[]> liste= new ArrayList<>();
 		Query request;
 		if(lastDate != null && !lastDate.isEmpty()) {
-			request = em.createNativeQuery("select premiere_couverture, da.doc_id, t.date_achat"
+			request = em.createNativeQuery("select premiere_couverture, da.doc_id, t.last_update"
 					+ 	" from Document d, DocsAchetes da, Transaction t, Utilisateur u"
-			 		+	" where t.etat='TERMINE' and t.reference = da.reference and da.doc_id = d.id"
-			 		+ 	" and u.email = ? and u.id = t.client_id"
-			 		+	" and t.date_achat and t.date_achat > ?");
+					+	" where t.etat='TERMINE' and t.reference = da.reference and da.doc_id = d.id"
+					+ 	" and u.email = ? and u.id = t.client_id"
+					+	" and t.last_update > ?");
 			request.setParameter(2, lastDate.trim());
 		}
 		else
 			request = em.createNativeQuery("select premiere_couverture, da.doc_id, t.date_achat from Document d, DocsAchetes da, Transaction t, Utilisateur u"
-			 		+	" where t.etat='TERMINE' and t.reference = da.reference and da.doc_id = d.id  and u.email = ? and u.id = t.client_id "
-			 		+	" and t.date_achat");
+					+	" where t.etat='TERMINE' and t.reference = da.reference and da.doc_id = d.id  and u.email = ? and u.id = t.client_id "
+					+	" and t.date_achat");
 		request.setParameter(1, email.trim());
-		
+
 		try {
 			liste = request.getResultList();
 		}catch(Throwable e) {
@@ -114,5 +115,25 @@ public class TransactionDao {
 			throw new DAOException(e);
 		}
 		return liste;
+	}
+
+	public List<String> checkTransactions(String [] refs) {
+
+		List<String> results = new ArrayList<>();
+		try {
+			for(String ref : refs) {
+				Query request = em.createQuery("select t from Transaction t where t.reference = :ref");
+				request.setParameter("ref", ref);
+				Object obj = request.getSingleResult();
+				if(obj != null && ((Transaction)obj).getEtat() == Etat.TERMINE.name()) {
+					results.add(((Transaction)obj).getReference());
+				}
+			}
+		}catch(Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+			//throw new DAOException(e);
+		}
+		return results;
 	}
 }

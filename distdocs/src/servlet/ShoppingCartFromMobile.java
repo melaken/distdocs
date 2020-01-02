@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -38,6 +39,8 @@ import entities.Utilisateur;
 @WebServlet(urlPatterns = {"/shoppingCartFromMobile"})
 public class ShoppingCartFromMobile extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+	private static final String  STATUS ="SUCCESS";
+	private static final String RESPONSE_CODE="100";
 	@EJB
 	private TransactionDao transDao;
 	@EJB
@@ -75,11 +78,19 @@ public class ShoppingCartFromMobile extends HttpServlet{
 			Transaction trans = setTransaction(user.getId(),tel_client, Constante.tel_marchand, montant, ref);
 			List<DocsAchetes> liste = docsAchetes(ref, user.getId(), docIds) ;
 			try {
-				transDao.creer(trans);
-				daDao.storeDocsAchetes(liste);
+				
 				StringBuffer token = new StringBuffer(tokenDao.getLatestToken().getToken());
-				System.out.println("token "+token);
-				sendPost(tel_client,Constante.tel_marchand,montant,ref,token.toString());
+				
+				JSONObject jsonObject = sendPost(tel_client,Constante.tel_marchand,montant,ref,token.toString());
+				
+				System.out.println("JSONObject "+jsonObject);
+				
+				if(jsonObject.getString("status").equals(STATUS)) {
+					transDao.creer(trans);
+					daDao.storeDocsAchetes(liste);
+				}
+				PrintWriter out = response.getWriter();
+				out.println(jsonObject);
 			} catch (DAOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -87,7 +98,8 @@ public class ShoppingCartFromMobile extends HttpServlet{
 		}
 	}
 
-	private void sendPost(String tel_client,String tel_marchand,float montant,String reference,String token) {
+	private JSONObject sendPost(String tel_client,String tel_marchand,float montant,String reference,String token) {
+		JSONObject jsonObject = new JSONObject();
 		try {
 			String urlParameters="tel_marchand="+tel_marchand+"&tel_client="+tel_client+"&montant="+montant+
 					"&ref="+reference+"&token="+token;
@@ -121,26 +133,14 @@ public class ShoppingCartFromMobile extends HttpServlet{
 				String str = response.toString().trim();
 				String rep = str.substring(str.indexOf('{'),str.indexOf('}')+1);
 				
-				try {
-					
-					JSONObject jsonObject = new JSONObject(rep);
-					System.out.println("JSONObject status "+jsonObject.get("status"));
-					System.out.println("JSONObject response_code "+jsonObject.get("response_code"));
-					
-		        } catch (Throwable e) {
-		        	e.printStackTrace();
-		        }
+				jsonObject = new JSONObject(rep);
 				
-				// print result
-				System.out.println("str "+str);
-				System.out.println("rep "+rep.trim());
-			} else {
-				System.out.println("POST request not worked");
 			}
 		}catch(Throwable ex) {
 			System.out.println(ex.getMessage());
 			ex.printStackTrace();
 		}
+		return jsonObject;
 	}
 	private String genererRef() {
 		String ref = null;
