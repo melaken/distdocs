@@ -1,5 +1,6 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import dao.DAOException;
@@ -21,7 +23,7 @@ import entities.Utilisateur;
 
 @Named
 @RequestScoped
-public class TransactionBean {
+public class TransactionBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private final String MODULE = TransactionBean.class.getName();
@@ -32,8 +34,15 @@ public class TransactionBean {
 	private List<Transaction> transactionsTermines;
 	private List<Transaction> transactionsAnnules;
 	private List<Transaction> transactionsInities;
-	private List<Document> userTransArt;
+	private Transaction transToTerminate;
 	
+	
+	public Transaction getTransToTerminate() {
+		return transToTerminate;
+	}
+	public void setTransToTerminate(Transaction transToTerminate) {
+		this.transToTerminate = transToTerminate;
+	}
 	public List<Transaction> getListe() {
 		return liste;
 	}
@@ -89,8 +98,8 @@ public class TransactionBean {
 		}
 	}
 	public void annulerTransaction() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		String reference = context.getExternalContext().getRequestParameterMap().get("ref");
+		FacesContext fc = FacesContext.getCurrentInstance();
+		String reference = fc.getExternalContext().getRequestParameterMap().get("ref");
 		
 		 Object obj =  transDao.getTransactionByRef(reference);
 		 if(obj != null) {
@@ -99,7 +108,7 @@ public class TransactionBean {
 			
 			 try {
 				transDao.update(trans);
-				Constante.redirect(context,Constante.listUserTransactions, MODULE);
+				Constante.redirect(fc,((HttpServletRequest) fc.getExternalContext().getRequest()).getRequestURI(), MODULE);
 			} catch (DAOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -107,12 +116,22 @@ public class TransactionBean {
 			
 		 }
 	}
-	public void voirArticles() {
+	public void terminerTransaction() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		String reference = context.getExternalContext().getRequestParameterMap().get("ref");
-		Utilisateur user = getCurrentUser();
-		userTransArt = new ArrayList<>();
 		
+		transToTerminate = transDao.getTransactionByRef(reference);
+		System.out.println("trans "+transToTerminate);
+		Constante.redirect(context,Constante.termTransFromPayment+"?ref="+reference+"&faces-redirect=true", MODULE);
+		System.out.println("trans "+transToTerminate);
+	}
+	public List<Document> voirArticles(String reference) {
+//		FacesContext context = FacesContext.getCurrentInstance();
+//		String reference = context.getExternalContext().getRequestParameterMap().get("ref");
+		Utilisateur user = getCurrentUser();
+		List<Document> userTransArt = new ArrayList<>();
+		
+		System.out.println("reference "+reference);
 		if(user != null)
 		try {
 			userTransArt= transDao.findUserTransactionArticles(reference);
@@ -120,5 +139,14 @@ public class TransactionBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return userTransArt;
 	}
+	 public void updateTransactionWithPaymentMethod() {
+			 try {
+				transDao.update(transToTerminate);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	 }
 }

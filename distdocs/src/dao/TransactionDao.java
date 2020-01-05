@@ -32,17 +32,17 @@ public class TransactionDao {
 		}
 
 	}
-	public Object getTransactionByRef(String ref){
+	public Transaction getTransactionByRef(String ref){
 		Query request = em.createQuery("select t from Transaction t where t.reference = :ref");
 		request.setParameter("ref", ref);
-		Object obj=null;
+		Transaction trans=null;
 		try {
-			obj = request.getSingleResult();
+			trans =(Transaction)request.getSingleResult();
 		}catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
 		}
-		return obj ;
+		return trans ;
 	}
 	public void update(Transaction trans) throws DAOException{
 		try {
@@ -70,8 +70,9 @@ public class TransactionDao {
 	}
 	public List<Document> findUserTransactionArticles(String ref) throws DAOException{
 		List<Document> liste= new ArrayList<>();
-		Query request = em.createNativeQuery("select * from Transaction t,DocssAchetes da, Document doc"
-				+ " where t.ref = ? and t.reference = da.reference and da.doc_id = d.id");
+		Query request = em.createNativeQuery("select doc.id, doc.premiere_couverture, doc.prix "+
+				"from DocsAchetes da, Document doc"
+				+ " where da.reference = ? and da.doc_id = doc.id");
 		request.setParameter(1, ref);
 		try {
 			List<Object[]> temp = request.getResultList();
@@ -79,6 +80,7 @@ public class TransactionDao {
 				Document doc = new Document();
 				doc.setId(Long.parseLong(obj[0].toString()));
 				doc.setPremiereCouverture(obj[1].toString());
+				doc.setPrix(Float.parseFloat(obj[2].toString()));
 				//					System.out.println("doc "+doc.toString());
 				liste.add(doc);
 			}

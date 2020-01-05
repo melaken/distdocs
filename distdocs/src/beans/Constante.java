@@ -44,6 +44,7 @@ public class Constante {
 	public static final String url_redirect = "http://myracenter.homeip.net:3580/distdocs/response";
 	public static final String moyen_airtel = "AIRTEL MONEY";
 	public static final int STATUT = 200;
+	public static final String termTransFromPayment = ROOT + "/views/listing/terminerTransaction.xhtml";
 	
 	public static void redirect(FacesContext facesContext, String path, String module) {
 		ExternalContext  exterNalContext = facesContext.getExternalContext();

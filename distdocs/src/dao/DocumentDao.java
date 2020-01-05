@@ -84,4 +84,15 @@ public class DocumentDao {
 		}
 		return liste;
 	}
+	public long nbDocs() {
+		long nb = 0;
+		try {
+			Query q = em.createNativeQuery("select count(*) from Document ");
+			nb = (Long)q.getSingleResult();
+		}catch(Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return nb;
+	}
 }

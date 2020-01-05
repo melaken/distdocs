@@ -19,10 +19,11 @@ xmlns:p="http://primefaces.org/ui">
 </style>
 	</h:head>
 	<h:body>
+	<h:outputText value="#{transactionBean.transToTerminate.moyenPaiement}"></h:outputText>
 		<h3 style="margin-top:10px">Sélectionnez votre moyen de paiement</h3>
 		<h:form style="text-align:center">
 		<p:panel id="panel" style="border:0;margin-left:400px">
-			<p:selectOneRadio id="customRadio" value="#{panierBean.moyenPaiement}" layout="custom" 
+			<p:selectOneRadio id="customRadio" value="#{transactionBean.transToTerminate.moyenPaiement}" layout="custom" 
 				update=":payer" style="margin-left:300px">
 			    <f:selectItem itemLabel="Image1" itemValue="Airtel Money" />
 			    <f:selectItem itemLabel="Image2" itemValue="Paypal" itemDisabled="true"/>
@@ -37,20 +38,21 @@ xmlns:p="http://primefaces.org/ui">
     	</p:panel>
     	<p:commandButton id="payer"  value="Payer"  update=":envoi:moyen" 
 	        	icon="pi pi-check" oncomplete="PF('dlg').show()"
-	        	disabled="#{panierBean.moyenPaiement == null}" >
+	        	disabled="#{transactionBean.transToTerminate.moyenPaiement == null}" >
 	        </p:commandButton>
     </h:form>
+    
     
 		 <p:dialog modal="true" id="dialog" resizable="false" widgetVar="dlg" header="Informations sur le paiement" 
 		 	showEffect="clip" closable="false">
 	 	 <h:form id="envoi">
         	<p:panelGrid columns="2" id="display" columnClasses="label,value">
 	            <h:outputText value="Montant" />
-	            <h:outputText value="#{panierBean.total} FCFA" />
+	            <h:outputText value="#{transactionBean.transToTerminate.montant} FCFA" />
 	            <h:outputText value="Moyen de paiement" />
-	            <h:outputText id="moyen" value="#{panierBean.moyenPaiement}" />
+	            <h:outputText id="moyen" value="#{transactionBean.transToTerminate.moyenPaiement}" />
 <!-- 	            <p:button value="Annuler" onclick="PF('dlg').hide();" /> -->
-	            <p:commandButton value="Valider" actionListener="#{panierBean.updateTransactionWithPaymentMethod()}"
+	            <p:commandButton value="Valider" actionListener="#{transactionBean.updateTransactionWithPaymentMethod()}"
 	            	onclick="document.getElementById('send').click()"/>
 
             </p:panelGrid>
@@ -59,10 +61,10 @@ xmlns:p="http://primefaces.org/ui">
           <p:panelGrid >
           <form method="POST" action="https://mypvit.com/airtelmoneypvit.kk">
 	            <input type="submit" id="send" name="payer" style="display:none"/>
-            	<input type="text" name="tel_marchand" value="#{panierBean.telMarchand}" style="display:none"/>
-	          <input type="text" name="montant" value="#{panierBean.total}" style="display:none"/>
-	          <input type="text" name="ref" value="#{panierBean.reference}" style="display:none"/>
-	          <input type="text" name="redirect" value="#{panierBean.redirect}" style="display:none"/>
+            	<input type="text" name="tel_marchand" value="#{constanteBean.telMarchand}" style="display:none"/>
+	          <input type="text" name="montant" value="#{transactionBean.transToTerminate.montant}" style="display:none"/>
+	          <input type="text" name="ref" value="#{transactionBean.transToTerminate.reference}" style="display:none"/>
+	          <input type="text" name="redirect" value="#{constanteBean.urlRedirect}" style="display:none"/>
            </form>
            </p:panelGrid>
 	</h:body>

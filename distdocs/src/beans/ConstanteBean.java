@@ -26,6 +26,11 @@ public class ConstanteBean {
 	private String listeDocs;
 	private String panierMessage;
 	private String listUserTransactions;
+	private String articlesPerTrans;
+	private String telMarchand ;
+	private String urlRedirect ;
+	private String stats;
+
 	
 	@PostConstruct
 	public void init() {
@@ -46,7 +51,39 @@ public class ConstanteBean {
 		carousel = "/views/carousel.xhtml";
 		listeDocs = "/views/listing/listeDocs.xhtml";
 		panierMessage = "Mettre dans le panier";
-		listUserTransactions = "/views/listing/listUserTransactions.xhtml";
+		listUserTransactions = "/views/listing/listUserTransactions.xhtml?i=0";
+		articlesPerTrans = "/views/listing/articlesPerTransaction.xhtml";
+		telMarchand = "077921645";
+		urlRedirect = "http://myracenter.homeip.net:3580/distdocs/response";
+		stats = "/views/statistics/stats.xhtml?i=0";
+	}
+
+
+	public String getTelMarchand() {
+		return telMarchand;
+	}
+
+
+	public void setTelMarchand(String telMarchand) {
+		this.telMarchand = telMarchand;
+	}
+
+
+	public String getUrlRedirect() {
+		return urlRedirect;
+	}
+
+
+	public void setUrlRedirect(String urlRedirect) {
+		this.urlRedirect = urlRedirect;
+	}
+
+
+	public String getArticlesPerTrans() {
+		return articlesPerTrans;
+	}
+	public void setArticlesPerTrans(String articlesPerTrans) {
+		this.articlesPerTrans = articlesPerTrans;
 	}
 
 	public String getAccueil() {
@@ -191,5 +228,8 @@ public class ConstanteBean {
 
 	public void setListUserTransactions(String listUserTransactions) {
 		this.listUserTransactions = listUserTransactions;
+	}
+	public String getStats() {
+		return stats;
 	}
 }

@@ -31,9 +31,10 @@ xmlns:p="http://primefaces.org/ui">
      				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
     			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
     			icon="pi pi-file" style="padding-left:10px"/> 
-     			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listUserTransactions}" 
-     				style="padding-left:10px"/>
+     			<p:menuitem value="Mes transactions"  outcome="#{constanteBean.listUserTransactions}" 
+     				icon="pi pi-money-bill" style="padding-left:10px"/>
      			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>
+     			<p:menuitem value="Statistiques"  outcome="#{constanteBean.stats}" icon="pi pi-chart-bar" style="padding-left:10px"/>
      			<p:separator /> 
      			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" type="button" icon="pi pi-sign-out" style="padding-left:10px;"
      			rendered="#{sessionScope['user'] != null}" update="@form"/> 
@@ -103,15 +104,18 @@ xmlns:p="http://primefaces.org/ui">
 		        <h:outputText value="#{trans.etat}" />
 		    </p:column>
 		    <p:column headerText="Action">
-		    	<p:commandButton  action="#{transactionBean.annulerTransaction}" value="Annuler transaction" icon="pi pi-undo" style="margin-right:20px;">
+		    	<p:commandButton value="Annuler transaction" action="#{transactionBean.annulerTransaction}" 
+		    	icon="pi pi-undo" style="margin-right:20px;background-color:#0060a0;">
 		    		<f:param name="ref" value="#{trans.reference}" />
 		    	</p:commandButton>
-		    	<p:commandButton  action="#{transactionBean.terminerTransaction}" value="Terminer transaction"  style="margin-right:20px;">
+		    	
+		    	<p:commandButton  action="#{transactionBean.terminerTransaction}" value="Terminer transaction"  
+		    		style="margin-right:20px;background-color:#0060a0;">
 		    		<f:param name="ref" value="#{trans.reference}" />
 		    	</p:commandButton>
 		    </p:column>
 		    <p:column headerText="Articles de la transaction">
-		    <p:linkButton value="Voir"  outcome="#{transactionBean.voirArticles}" icon="pi pi-eye"
+		    <p:linkButton value="Voir" outcome="#{constanteBean.articlesPerTrans}" icon="pi pi-eye"
 	        	 style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right">
 	        	 <f:param name="ref" value="#{trans.reference}" />
         	 </p:linkButton>

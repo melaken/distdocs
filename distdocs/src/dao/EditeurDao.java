@@ -51,6 +51,20 @@ public class EditeurDao {
 			}
 			return editeur;
 		}
+		public Editeur trouver(int id){
+			Editeur editeur = null;
+			Query requete = em.createQuery("SELECT e FROM Editeur e WHERE e.id=:id");
+			requete.setParameter("id", id);
+			try {
+				editeur = (Editeur) requete.getSingleResult();
+			} catch (NoResultException e) {
+				return null;
+			} catch (Exception e) {
+				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+				e.printStackTrace();
+			}
+			return editeur;
+		}
 		public List<Editeur> lister() throws DAOException{
 			List<Editeur> liste= new ArrayList<>();
 			Query request = em.createQuery("select u from Utilisateur u");

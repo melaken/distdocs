@@ -49,6 +49,20 @@ public class UtilisateurDao {
 		}
 		return utilisateur;
 	}
+	public Utilisateur trouver(int id){
+		Utilisateur utilisateur = null;
+		Query requete = em.createQuery("SELECT u FROM Utilisateur u WHERE u.id=:id");
+		requete.setParameter("id", id);
+		try {
+			utilisateur = (Utilisateur) requete.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		} catch (Exception e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return utilisateur;
+	}
 	public List<Utilisateur> lister() throws DAOException{
 		List<Utilisateur> liste= new ArrayList<>();
 		Query request = em.createQuery("select u from Utilisateur u");
