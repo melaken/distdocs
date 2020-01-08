@@ -1,106 +1,123 @@
 <!DOCTYPE html>
-<html lang="en"
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:p="http://primefaces.org/ui">
-   <h:head>
-   		<meta charset="utf-8" />
-		<title>Poster un contenu</title>
-		<h:outputStylesheet library="default" name="css/form.css" />
-		<h:outputStylesheet library="default" name="css/form.css" />
-		<style>
-		body{
-			background-color:#e0e0e0;
-		}
-	</style>
-	</h:head>
-	<h:body>
-	    <ui:insert name = "nav" >
-	      <ui:include src = "#{constanteBean.menuBar}" />
-	   </ui:insert>
-	   <div  align="center"> 
-	 	<h:form enctype="multipart/form-data">
-	 		<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
-	 		 <f:facet name="header">Informations sur le contenu à publier</f:facet>
-	 		 <h:panelGrid columns="2" >
-	 		 	<h:outputLabel for="docType" value="Type de contenu à publier" style="font-weight:bold" />
-		   			<p:selectOneMenu id="docType"  value="#{documentBean.doc.docType}" style="width:180px">
-			            <f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
-			            <f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
-			            <f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
-		        	</p:selectOneMenu>
-	        	</h:panelGrid>
-		        <h:panelGrid columns="2" >
-			        <h:outputLabel for="prix" value="Prix" style="font-weight:bold" >
-			        	<span class="requis">*</span>
-			        </h:outputLabel>
-			        <p:inputNumber id="prix" value="#{documentBean.doc.prix}" minValue="0.0" emptyValue="empty">
-			        	<f:ajax event="blur" render="prixMessage" />
-			        </p:inputNumber>
-			        <h:message id="prixMessage" for="prix" errorClass="erreur" />
-		        </h:panelGrid>
-		        <h:panelGrid columns="2" >
-			        <h:outputLabel for="date_parution" value="Date de parution" style="font-weight:bold">
-			        	<span class="requis">*</span>
-			        </h:outputLabel>
-			        <p:calendar id="dateParution" value="#{documentBean.dateParution}" showOn="button"  effect="fold" placeholder="Exemple 18/11/19"
-			        	  >
-			        	<f:ajax event="keyup" render="dateParutionMessage" />
-<!-- 			        	<f:ajax event="blur" render="dateParutionMessage" /> -->
-			        </p:calendar>
-			        <h:message id="dateParutionMessage" for="dateParution" errorClass="erreur" />
-			       </h:panelGrid>
-			       <h:panelGrid columns="2" >
-				        <h:outputLabel for="numero_edition" value="Numéro édition" style="font-weight:bold">
-				       	 <span class="requis">*</span>
-				        </h:outputLabel>
-				        <p:inputText id="numero_edition" value="#{documentBean.doc.numeroEdition}" >
-				        	<f:ajax event="blur" render="numero_editionMessage" />
-				        </p:inputText>
-				        <h:message id="numero_editionMessage" for="numero_edition" errorClass="erreur" />
-		        </h:panelGrid>
-		        <h:panelGrid columns="2" >
-			        <h:outputLabel for="file" value="Contenu à publier" style="font-weight:bold" >
-			        	<span class="requis">*</span>
-			        </h:outputLabel>
-			        <h:inputFile  id="file"  mode="simple" skinSimple="true" value="#{documentBean.file}"
-			        	requiredMesssage="Veuillez sélectionnez le document à publier" >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="utf-8" />
+	<title>Poster un contenu</title>
+	<h:outputStylesheet library="default" name="css/form.css" />
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="charts/charts.css" library="primefaces" />
+	<style>
+body {
+	background-color: #e0e0e0;
+}
+</style>
+</h:head>
+<h:body>
+	<ui:insert name="nav">
+		<ui:include src="#{constanteBean.menuBarWithoutSearch}" />
+	</ui:insert>
+	<div align="center">
+		<h:form enctype="multipart/form-data">
+			<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
+				<f:facet name="header">Informations sur le contenu à publier</f:facet>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="docType" value="Type de contenu à publier"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="docType" value="#{documentBean.doc.docType}"
+						style="width:180px">
+						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="prix" value="Prix" style="font-weight:bold">
+						<span class="requis">*</span>
+					</h:outputLabel>
+					<p:inputNumber id="prix" value="#{documentBean.doc.prix}"
+						minValue="0.0" emptyValue="empty">
+						<f:ajax event="blur" render="prixMessage" />
+					</p:inputNumber>
+					<h:message id="prixMessage" for="prix" errorClass="erreur" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="date_parution" value="Date de parution"
+						style="font-weight:bold">
+						<span class="requis">*</span>
+					</h:outputLabel>
+					<p:calendar id="dateParution" value="#{documentBean.dateParution}"
+						showOn="button" effect="fold" placeholder="Exemple 18/11/19">
+						<f:ajax event="keyup" render="dateParutionMessage" />
+						<!-- 			        	<f:ajax event="blur" render="dateParutionMessage" /> -->
+					</p:calendar>
+					<h:message id="dateParutionMessage" for="dateParution"
+						errorClass="erreur" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="numero_edition" value="Numéro édition"
+						style="font-weight:bold">
+						<span class="requis">*</span>
+					</h:outputLabel>
+					<p:inputText id="numero_edition"
+						value="#{documentBean.doc.numeroEdition}">
+						<f:ajax event="blur" render="numero_editionMessage" />
+					</p:inputText>
+					<h:message id="numero_editionMessage" for="numero_edition"
+						errorClass="erreur" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="file" value="Contenu à publier"
+						style="font-weight:bold">
+						<span class="requis">*</span>
+					</h:outputLabel>
+					<h:inputFile id="file" mode="simple" skinSimple="true"
+						value="#{documentBean.file}"
+						requiredMesssage="Veuillez sélectionnez le document à publier">
 						<f:ajax event="blur" render="fileMessage" />
-						<f:validator validatorId="fileValidator"/>
+						<f:validator validatorId="fileValidator" />
 					</h:inputFile>
 					<h:message id="fileMessage" for="file" errorClass="erreur" />
 				</h:panelGrid>
-				<h:panelGrid columns="2" >
-					<h:outputLabel for="cover" value="Image à afficher pour la publicité" style="font-weight:bold" >
+				<h:panelGrid columns="2">
+					<h:outputLabel for="cover"
+						value="Image à afficher pour la publicité"
+						style="font-weight:bold">
 						<span class="requis">*</span>
-			        </h:outputLabel>
-			        <h:inputFile  id="cover"  mode="simple" skinSimple="true" value="#{documentBean.cover}"
-			        	requiredMesssage="Veuillez sélectionnez une couverture pour votre document" >
+					</h:outputLabel>
+					<h:inputFile id="cover" mode="simple" skinSimple="true"
+						value="#{documentBean.cover}"
+						requiredMesssage="Veuillez sélectionnez une couverture pour votre document">
 						<f:ajax event="blur" render="coverMessage" />
-						<f:validator validatorId="imageValidator"/>
+						<f:validator validatorId="imageValidator" />
 					</h:inputFile>
 					<h:message id="coverMessage" for="cover" errorClass="erreur" />
 				</h:panelGrid>
-				<h:panelGrid columns="2" >
-					<h:outputLabel for="resume" value="Résumé" style="font-weight:bold" >
+				<h:panelGrid columns="2">
+					<h:outputLabel for="resume" value="Résumé" style="font-weight:bold">
 						<span class="requis">*</span>
-			        </h:outputLabel>
-			        <p:inputTextarea rows="6" cols="33" id="resume" value="#{documentBean.doc.resume}" >
-			        	<f:ajax event="blur" render="resumeMessage" />
-			        </p:inputTextarea>
-			        <h:message id="resumeMessage" for="resume" errorClass="erreur" />
-		        </h:panelGrid>
-				<f:facet name="footer" >
-	   	    		<p:commandButton value="Publier"  icon="pi pi-cloud-upload" 
-	   	    		align="center" ajax="false" action="#{documentBean.upload}" >
-	   	    		<f:ajax execute="@form" />
-	   	    		</p:commandButton>
-	   	    </f:facet>
-	 		 </h:panelGrid>
-	 	</h:form>
-	 	</div>
-	
-	</h:body>
+					</h:outputLabel>
+					<p:inputTextarea rows="6" cols="33" id="resume"
+						value="#{documentBean.doc.resume}">
+						<f:ajax event="blur" render="resumeMessage" />
+					</p:inputTextarea>
+					<h:message id="resumeMessage" for="resume" errorClass="erreur" />
+				</h:panelGrid>
+				<f:facet name="footer">
+					<p:commandButton value="Publier" icon="pi pi-cloud-upload"
+						align="center" ajax="false" action="#{documentBean.upload}">
+						<f:ajax execute="@form" />
+					</p:commandButton>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</div>
+
+</h:body>
 </html>

@@ -1,65 +1,44 @@
 <!DOCTYPE html>
-<html lang="fr"
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:p="http://primefaces.org/ui">
-	<h:head>
-		<title>Articles</title>
-		<h:outputStylesheet name="components.css" library="primefaces"/>
-		<h:outputStylesheet name="galleria/galleria.css" library="primefaces"/>
-		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
-		<h:outputStylesheet library="default" name="css/style.css" />
-		<h:outputStylesheet library="default" name="css/form.css" />
-	</h:head>
-	<style>
-		body{
-			background-color:#e0e0e0;
-		}
-		
-	</style>
-	<h:body>
-		<h:form>  
-    <p:growl id="messages"/>
- 	
- 	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
-        <f:facet name="left">
-        </f:facet>
-        <f:facet name="right" style="margin-right:20px;">
-		<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" style="margin-top:50px"/>
-        <p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
-        	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
-        		<p:menuitem value="Publier" outcome="#{constanteBean.upload}" icon="pi pi-upload"
-     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
-    			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
-    			icon="pi pi-file" style="padding-left:10px"/> 
-     			<p:menuitem value="Mes transactions"  outcome="#{constanteBean.listUserTransactions}"
-     				icon="pi pi-money-bill" style="padding-left:10px"/>
-     			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>
-     			<p:separator /> 
-     			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" type="button" icon="pi pi-sign-out" style="padding-left:10px;"
-     			rendered="#{sessionScope['user'] != null}" update="@form"/> 
-        </p:menuButton>
-        </f:facet>
- 
-    </p:toolbar>
-    <p:sticky target="tb" />
-</h:form>
-	   <h:form id="form">
-		    
-		     <p:dataTable var="doc" value="#{transactionBean.voirArticles(param['ref'])}" id="listeDocs" style="margin-top:10px"
-			   	emptyMessage="#{docsAchetesBean.emptyMessage}">
-			    <p:column headerText="Article">
-		              <p:graphicImage  value="#{listeDocsBean.image}" style="height: 100px; width: 70px;border-radius: 2px" > 
-		          		 <f:param name="cover" value="#{doc.premiereCouverture}" />
-           			</p:graphicImage> 
-			    </p:column>
-			    <p:column headerText="Prix">
-			        <h:outputText value="#{doc.prix}	FCFA" />
-			    </p:column>
-			</p:dataTable>
-		    
-		   </h:form>
-	</h:body>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Articles</title>
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="galleria/galleria.css" library="primefaces" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet library="default" name="css/form.css" />
+</h:head>
+<style>
+body {
+	background-color: #e0e0e0;
+}
+</style>
+<h:body>
+	<ui:insert name="nav">
+		<ui:include src="#{constanteBean.menuBarWithoutSearch}" />
+	</ui:insert>
+	<h:form id="form">
+
+		<p:dataTable var="doc"
+			value="#{transactionBean.voirArticles(param['ref'])}" id="listeDocs"
+			style="margin-top:10px"
+			emptyMessage="#{docsAchetesBean.emptyMessage}">
+			<p:column headerText="Article">
+				<p:graphicImage value="#{listeDocsBean.image}"
+					style="height: 100px; width: 70px;border-radius: 2px">
+					<f:param name="cover" value="#{doc.premiereCouverture}" />
+				</p:graphicImage>
+			</p:column>
+			<p:column headerText="Prix">
+				<h:outputText value="#{doc.prix}	FCFA" />
+			</p:column>
+		</p:dataTable>
+
+	</h:form>
+</h:body>
 </html>

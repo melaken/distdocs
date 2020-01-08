@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form rendered="#{param.i == 0}">
+		<p:panel header="Critères des statistiques"
+			style="margin-bottom:10px;">
+			<h:panelGrid columns="4" cellpadding="5" style="margin-bottom:10px">
+				<h:panelGrid columns="2">
+					<h:outputLabel for="debutStatsTrans" value="Début période ciblée"
+						style="font-weight:bold" />
+					<p:calendar id="debutStatsTrans"
+						value="#{statsTransactionBean.debutStatsTrans}" showOn="button"
+						effect="fold" placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="finStatsTrans" value="Fin période ciblée"
+						style="font-weight:bold" />
+					<p:calendar id="finStatsTrans"
+						value="#{statsTransactionBean.finStatsTrans}" showOn="button"
+						effect="fold" placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="nbClients" value="Nombre de clients"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="nbClients"
+						value="#{statsTransactionBean.nbCl}" style="width:40px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{staticticsBean.nbClients}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:commandButton value="Générer stats"
+						action="#{statsTransactionBean.createStatsTrans}"
+						icon="pi pi-chart-bar" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+		</p:panel>
+	</h:form>
+	<p:chart id="statsTrans" type="pie"
+		model="#{statsTransactionBean.statsTrans}" rendered="#{param.i == 0}"
+		responsive="true" style="height:300px" />
+	<br />
+	<br />
+	<p:chart type="bar" model="#{statsTransactionBean.transPerClient}"
+		rendered="#{param.i == 0}" responsive="true"
+		style="text-size:14px;height:300px" />
+	<br />
+	<br />
+</h:body>
+</html>

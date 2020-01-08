@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	</h:head>
+	<h:body>
+	<h:form>
+		<p:growl id="messages" />
+
+		<p:toolbar id="tb"
+			style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
+			<f:facet name="left">
+			</f:facet>
+			<f:facet name="right" style="margin-right:20px;">
+				<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil"
+					icon="pi pi-home" rendered="#{sessionScope['user'] != null}"
+					style="margin-top:50px" />
+
+				<p:menuButton value="#{sessionScope['user'].nom}"
+					style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
+					icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
+
+					<p:menuitem value="Publier" outcome="#{constanteBean.upload}"
+						icon="pi pi-upload" style="padding-left:10px"
+						rendered="#{sessionScope['user'].userType == 'EDITEUR'}" />
+					<p:menuitem value="Ma bibliothèque"
+						outcome="#{constanteBean.biblio}" icon="pi pi-file"
+						style="padding-left:10px" />
+					<p:menuitem value="Mes transactions"
+						outcome="#{constanteBean.listUserTransactions}"
+						icon="pi pi-money-bill" style="padding-left:10px" />
+					<p:menuitem value="Paramètres" icon="pi pi-cog"
+						style="padding-left:10px" />
+					<p:menuitem value="Statistiques" outcome="#{constanteBean.stats}"
+						icon="pi pi-chart-bar" style="padding-left:10px"
+						rendered="#{sessionScope['user'].userType != 'CLIENT'}" />
+					<p:separator />
+					<p:menuitem value="Déconnexion" action="#{connexionBean.logout}"
+						type="button" icon="pi pi-sign-out" style="padding-left:10px;"
+						rendered="#{sessionScope['user'] != null}" update="@form" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+		<p:sticky target="tb" />
+
+	</h:form>
+	</h:body>
+</html>

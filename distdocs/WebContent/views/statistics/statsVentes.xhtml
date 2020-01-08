@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form rendered="#{param.i == 1}">
+		<p:panel header="Critères des statistiques"
+			style="margin-bottom:10px;">
+			<h:panelGrid columns="5" cellspacing="20">
+				<h:panelGrid columns="2">
+					<h:outputText for="debutdaByUser" value="Début période ciblée"
+						style="font-weight:bold;" />
+					<p:calendar id="debutdaByUser" value="#{statsVentesBean.dateDebut}"
+						style="width:60px" showOn="button" effect="fold"
+						placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="findaByUser" value="Fin période ciblée"
+						style="font-weight:bold;" />
+					<p:calendar id="findaByUser" value="#{statsVentesBean.dateFin}"
+						style="margin-left:1px" showOn="button" effect="fold"
+						placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="nbClients" value="Nombre de clients"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="nbClients" value="#{statsVentesBean.nbCl}"
+						style="width:40px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{staticticsBean.nbClients}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2" rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}">
+					<h:outputText for="editeur" value="Éditeur"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="editeur" value="#{statsVentesBean.editeur}"
+						style="width:100px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
+							itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:commandButton value="Générer stats"
+						action="#{statsVentesBean.generateStats}" icon="pi pi-chart-bar"
+						align="center" ajax="false" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+		</p:panel>
+	</h:form>
+	<p:chart type="pie" model="#{statsVentesBean.daByUser}"
+		rendered="#{param.i == 1}" responsive="true" style="height:300px" />
+	<br />
+	<br />
+	<p:chart type="bar" model="#{statsVentesBean.docSoldByPublisher}"
+		rendered="#{param.i == 1}" responsive="true" style="height:300px" />
+	<br />
+	<br />
+</h:body>
+</html>

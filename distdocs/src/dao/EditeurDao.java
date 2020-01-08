@@ -65,15 +65,14 @@ public class EditeurDao {
 			}
 			return editeur;
 		}
-		public List<Editeur> lister() throws DAOException{
+		public List<Editeur> lister(){
 			List<Editeur> liste= new ArrayList<>();
-			Query request = em.createQuery("select u from Utilisateur u");
+			Query request = em.createQuery("select u from Editeur u");
 			try {
 				 liste = request.getResultList();
 			}catch(Exception e) {
 				Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 				e.printStackTrace();
-				throw new DAOException(e);
 			}
 			return liste;
 		}
