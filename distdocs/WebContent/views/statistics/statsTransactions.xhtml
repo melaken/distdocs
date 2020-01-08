@@ -12,21 +12,21 @@
 			style="margin-bottom:10px;">
 			<h:panelGrid columns="4" cellpadding="5" style="margin-bottom:10px">
 				<h:panelGrid columns="2">
-					<h:outputLabel for="debutStatsTrans" value="Début période ciblée"
+					<h:outputText for="debutStatsTrans" value="Début période ciblée"
 						style="font-weight:bold" />
 					<p:calendar id="debutStatsTrans"
 						value="#{statsTransactionBean.debutStatsTrans}" showOn="button"
 						effect="fold" placeholder="Exemple 18/11/19" />
 				</h:panelGrid>
 				<h:panelGrid columns="2">
-					<h:outputLabel for="finStatsTrans" value="Fin période ciblée"
+					<h:outputText for="finStatsTrans" value="Fin période ciblée"
 						style="font-weight:bold" />
 					<p:calendar id="finStatsTrans"
 						value="#{statsTransactionBean.finStatsTrans}" showOn="button"
 						effect="fold" placeholder="Exemple 18/11/19" />
 				</h:panelGrid>
 				<h:panelGrid columns="2">
-					<h:outputLabel for="nbClients" value="Nombre de clients"
+					<h:outputText for="nbClients" value="Nombre de clients"
 						style="font-weight:bold" />
 					<p:selectOneMenu id="nbClients"
 						value="#{statsTransactionBean.nbCl}" style="width:40px">

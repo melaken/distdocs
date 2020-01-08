@@ -32,10 +32,32 @@ body {
 	<p:dataTable var="doc" value="#{panierBean.articles}" id="listeDocs"
 		style="margin-top:10px" emptyMessage="Aucun article dans votre panier">
 		<p:column headerText="Article">
-			<p:graphicImage value="#{listeDocsBean.image}"
-				style="height: 100px; width: 70px;border-radius: 2px">
-				<f:param name="cover" value="#{doc.premiereCouverture}" />
-			</p:graphicImage>
+			<h:form id="formListe">
+<!-- 				<p:commandLink update="formListe:image" -->
+<!-- 					onclick="PF('coverDialog').show()"> -->
+					<p:graphicImage value="#{listeDocsBean.image}" onclick="PF('coverDialog').show()"
+						style="height: 100px; width: 70px;border-radius: 2px">
+						<f:param name="cover" value="#{doc.premiereCouverture}" />
+					</p:graphicImage>
+<!-- 					<f:setPropertyActionListener value="#{doc}" -->
+<!-- 						target="#{listeDocsBean.selectedDoc}" /> -->
+<!-- 				</p:commandLink> -->
+				<p:dialog id="dialog" widgetVar="coverDialog" modal="true"
+					showEffect="fade" hideEffect="fade" resizable="false"
+					header="Aperçu">
+					<p:outputPanel id="image" style="text-align:justify;border:0">
+						<p:panelGrid columns="1"
+							rendered="#{not empty listeDocsBean.selectedDoc}"
+							columnClasses="label,value">
+							<p:graphicImage value="#{listeDocsBean.image}"
+								style="height:600px; width:400px">
+								<f:param name="cover"
+									value="#{doc.premiereCouverture}" />
+							</p:graphicImage>
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
 		</p:column>
 		<p:column headerText="Prix">
 			<h:outputText value="#{doc.prix}	FCFA" />

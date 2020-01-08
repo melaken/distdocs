@@ -17,6 +17,11 @@ xmlns:p="http://primefaces.org/ui">
         text-align:center;
         font-color:#0060a0;
     }
+    .dateParution{
+    font-size: 15px;
+        text-align:center;
+        font-color:#0060a0;
+    }
        .emoticone {  
     width: 24px !important; 
     font-size: 30px !important; 
@@ -37,8 +42,48 @@ xmlns:p="http://primefaces.org/ui">
 	        	<p:linkButton value="Commander" id="commande" outcome="#{constanteBean.recap}"
 		        	rendered="#{panierBean.articles.size() > 0}"/>
 		    </div>
-		    
     	</div>
+    	
+    	<h:form >
+		<p:panel header="Trier document par "
+			style="margin-bottom:10px;">
+			<h:panelGrid columns="4" cellpadding="15" cellspacing="1" style="margin-bottom:10px">
+				<h:panelGrid columns="2">
+					<h:outputText for="dateParution" value="Date de parution"
+						style="font-weight:bold" />
+					<p:calendar id="dateParution"
+						value="#{listeDocsBean.dateParution}" showOn="button"
+						effect="fold" placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="docType" value="Type de contenu"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="docType" value="#{listeDocsBean.docType}"
+						style="width:180px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2" >
+					<h:outputText for="editeur" value="Éditeur"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="editeur" value="#{listeDocsBean.editeur}"
+						style="width:100px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
+							itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:commandButton value="Trier"  action="#{listeDocsBean.trier}" ajax ="true" update="formListe"/>
+				</h:panelGrid>
+			</h:panelGrid>
+
+		</p:panel>
+	</h:form>
+    	
 		<h:form id="formListe" >
 			<p:growl id="msg"  showDetail="true" sticky="true" />
 			 <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px;width:200px;"
@@ -57,6 +102,7 @@ xmlns:p="http://primefaces.org/ui">
 		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
                 		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
                 		</p:graphicImage> 
+                		<h:outputText value="#{doc.dateParution}" styleClass="label dateParution"/>
                 		<h:outputText value="#{doc.prix}  FCFA" styleClass="label value"/>
                 		<f:facet name="footer">
 			                <p:commandLink update=":formListe:image" oncomplete="PF('coverDialog').show()" title="Agrandir">
