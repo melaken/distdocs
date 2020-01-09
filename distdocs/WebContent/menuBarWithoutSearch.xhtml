@@ -33,6 +33,8 @@ xmlns:p="http://primefaces.org/ui">
 					<p:menuitem value="Mes transactions"
 						outcome="#{constanteBean.listUserTransactions}"
 						icon="pi pi-money-bill" style="padding-left:10px" />
+						<p:menuitem value="Transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listAllTransactions}" 
+     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'ADMIN'}"/>
 					<p:menuitem value="Paramètres" icon="pi pi-cog"
 						style="padding-left:10px" />
 					<p:menuitem value="Statistiques" outcome="#{constanteBean.stats}"

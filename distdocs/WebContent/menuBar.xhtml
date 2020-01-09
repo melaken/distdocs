@@ -67,6 +67,8 @@ xmlns:p="http://primefaces.org/ui">
     			icon="pi pi-file" style="padding-left:10px"/> 
      			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listUserTransactions}" 
      				style="padding-left:10px"/>
+     				<p:menuitem value="Transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listAllTransactions}" 
+     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'ADMIN'}"/>
      			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>
      			<p:menuitem value="Statistiques"  outcome="#{constanteBean.stats}" icon="pi pi-chart-bar" style="padding-left:10px"
      				rendered="#{sessionScope['user'].userType == 'ADMIN' or sessionScope['user'].userType =='EDITEUR'}"/>

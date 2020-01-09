@@ -55,10 +55,10 @@ public class TransactionDao {
 		}
 
 	}
-	public List<Transaction> userTransactions(long clientId) throws DAOException{
+	public List<Transaction> listTransactions() throws DAOException{
 		List<Transaction> liste= new ArrayList<>();
-		Query request = em.createQuery("select t from Transaction t where t.clientId = :clientId order by t.dateAchat DESC");
-		request.setParameter("clientId", clientId);
+		Query request = em.createQuery("select t from Transaction t order by t.dateAchat DESC");
+
 		try {
 			liste = request.getResultList();
 		}catch(Throwable e) {

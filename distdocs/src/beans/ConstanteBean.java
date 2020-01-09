@@ -31,6 +31,7 @@ public class ConstanteBean {
 	private String urlRedirect ;
 	private String stats;
 	private String menuBarWithoutSearch;
+	private String listAllTransactions;
 
 	
 	@PostConstruct
@@ -58,6 +59,7 @@ public class ConstanteBean {
 		urlRedirect = "http://myracenter.homeip.net:3580/distdocs/response";
 		stats = "/views/statistics/stats.xhtml?i=1";
 		menuBarWithoutSearch="/menuBarWithoutSearch.xhtml";
+		listAllTransactions = "/views/listing/listAllTransactions.xhtml?i=0";
 	}
 
 
@@ -147,6 +149,9 @@ public class ConstanteBean {
 		return panierMessage;
 	}
 
+	public String getListAllTransactions() {
+		return listAllTransactions;
+	}
 
 	public String getListUserTransactions() {
 		return listUserTransactions;

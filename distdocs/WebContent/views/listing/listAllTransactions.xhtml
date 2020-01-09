@@ -5,9 +5,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
+	<title>Toutes les transactions</title>	
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Mes transactions</title>
 	<h:outputStylesheet library="default" name="css/form.css" />
 	<h:outputStylesheet library="default" name="css/style.css" />
 	<h:outputStylesheet name="primeicons/primeicons.css"
@@ -22,16 +22,16 @@
 	<h:form>
 		<p:tabMenu activeIndex="#{param.i}">
 			<p:menuitem value="Transactions terminées" icon="pi pi-check-circle"
-				outcome="#{constanteBean.listUserTransactions}">
+				outcome="#{constanteBean.listAllTransactions}">
 				<f:param name="i" value="0" />
 			</p:menuitem>
 			<p:menuitem value="Transactions en attente de paiement"
 				icon="pi pi-money-bill"
-				outcome="#{constanteBean.listUserTransactions}">
+				outcome="#{constanteBean.listAllTransactions}">
 				<f:param name="i" value="1" />
 			</p:menuitem>
 			<p:menuitem value="Transactions annulées" icon="pi pi-undo"
-				outcome="#{constanteBean.listUserTransactions}">
+				outcome="#{constanteBean.listAllTransactions}">
 				<f:param name="i" value="2" />
 			</p:menuitem>
 		</p:tabMenu>
@@ -56,8 +56,7 @@
 						placeholder="Exemple 18/11/19" />
 				</h:panelGrid>
 				<h:panelGrid columns="1">
-					
-					<p:commandButton  value="Trier" action ="#{transactionBean.trier}" >
+					<p:commandButton value="Trier" action ="#{transactionBean.trierAll}" >
 						<f:param name="id" value="#{param.i}"/>
 						</p:commandButton>
 				</h:panelGrid>
@@ -65,10 +64,10 @@
 
 		</p:panel>
 	</h:form>
-	
+		
 	<h:form id="termine" rendered="#{param.i == 0 || param.i == null}">
 		<p:dataTable var="trans"
-			value="#{transactionBean.transactionsTermines}"
+			value="#{transactionBean.allTransactionsTermines}"
 			emptyMessage="Aucune entrée trouvée">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />
@@ -93,13 +92,12 @@
 	</h:form>
 	<h:form id="initie" rendered="#{param.i == 1}">
 		<p:dataTable var="trans"
-			value="#{transactionBean.transactionsInities}"
+			value="#{transactionBean.allTransactionsInities}"
 			emptyMessage="Aucune entrée trouvée">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />
 				<h:inputText value="#{param.i}" rendered="false" />
 			</p:column>
-
 			<p:column headerText="Date transaction">
 				<h:outputText value="#{trans.dateAchat}" />
 			</p:column>
@@ -117,15 +115,10 @@
 			<p:column headerText="Action">
 				<p:commandButton value="Annuler transaction"
 					action="#{transactionBean.annulerTransaction}" icon="pi pi-undo"
-					style="margin-right:20px;background-color:#0060a0;">
+					style="margin-right:20px;background-color:#0060a0;width:150px">
 					<f:param name="ref" value="#{trans.reference}" />
 				</p:commandButton>
 
-				<p:commandButton action="#{transactionBean.terminerTransaction}"
-					value="Terminer transaction"
-					style="margin-right:20px;background-color:#0060a0;">
-					<f:param name="ref" value="#{trans.reference}" />
-				</p:commandButton>
 			</p:column>
 			<p:column headerText="Articles de la transaction">
 				<p:linkButton value="Voir"
@@ -138,7 +131,7 @@
 	</h:form>
 	<h:form id="annule" rendered="#{param.i == 2}">
 		<p:dataTable var="trans"
-			value="#{transactionBean.transactionsAnnules}"
+			value="#{transactionBean.allTransactionsAnnules}"
 			emptyMessage="Aucune entrée trouvée">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />

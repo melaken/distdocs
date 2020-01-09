@@ -145,10 +145,5 @@ public class ListeDocsBean implements Serializable{
 			java.sql.Date dt = new java.sql.Date(dateParution.getTime());
 			liste = liste.parallelStream().filter(d -> d.getDateParution().equals(dt)).collect(Collectors.toList());
 		}
-//		reload();
-	}
-	private void reload() {
-		FacesContext fc = FacesContext.getCurrentInstance();
-		Constante.redirect(fc, ((HttpServletRequest) fc.getExternalContext().getRequest()).getRequestURI(), MODULE);
 	}
 }
