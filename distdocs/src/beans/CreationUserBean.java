@@ -70,4 +70,5 @@ public class CreationUserBean implements Serializable{
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès de l'inscription !!!", "Vous pouvez à présent vous connecter.");
         PrimeFaces.current().dialog().showMessageDynamic(message);
     }
+	
 }

@@ -5,7 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Toutes les transactions</title>	
+	<title>Toutes les transactions</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<h:outputStylesheet library="default" name="css/form.css" />
@@ -36,10 +36,9 @@
 			</p:menuitem>
 		</p:tabMenu>
 	</h:form>
-	
+
 	<h:form>
-		<p:panel header="Critères de sélection"
-			style="margin-bottom:10px;">
+		<p:panel header="Critères de sélection" style="margin-bottom:10px;">
 			<h:panelGrid columns="5" cellspacing="20">
 				<h:panelGrid columns="2">
 					<h:outputText for="dateDebut" value="Début période ciblée"
@@ -56,24 +55,24 @@
 						placeholder="Exemple 18/11/19" />
 				</h:panelGrid>
 				<h:panelGrid columns="1">
-					<p:commandButton value="Trier" action ="#{transactionBean.trierAll}" >
-						<f:param name="id" value="#{param.i}"/>
-						</p:commandButton>
+					<p:commandButton value="Trier" action="#{transactionBean.trierAll}">
+						<f:param name="id" value="#{param.i}" />
+					</p:commandButton>
 				</h:panelGrid>
 			</h:panelGrid>
 
 		</p:panel>
 	</h:form>
-		
+
 	<h:form id="termine" rendered="#{param.i == 0 || param.i == null}">
-		<p:dataTable var="trans"
-			value="#{transactionBean.allTransactionsTermines}"
-			emptyMessage="Aucune entrée trouvée">
+		<p:dataTable var="trans" value="#{transactionBean.allTransactionsTermines}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />
-				<h:inputText value="#{param.i}" rendered="false" />
 			</p:column>
-
+			<p:column headerText="Email utilisateur">
+				<h:outputText value="#{utilisateurBean.trouver(trans.clientId)}" />
+			</p:column>
 			<p:column headerText="Date transaction">
 				<h:outputText value="#{trans.dateAchat}" />
 			</p:column>
@@ -88,15 +87,22 @@
 			<p:column headerText="État">
 				<h:outputText value="#{trans.etat}" />
 			</p:column>
+			<p:column headerText="Articles de la transaction">
+				<p:linkButton value="Voir" outcome="#{constanteBean.articlesPerTrans}" icon="pi pi-eye"
+					style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right;align:center">
+					<f:param name="ref" value="#{trans.reference}" />
+				</p:linkButton>
+			</p:column>
 		</p:dataTable>
 	</h:form>
 	<h:form id="initie" rendered="#{param.i == 1}">
-		<p:dataTable var="trans"
-			value="#{transactionBean.allTransactionsInities}"
-			emptyMessage="Aucune entrée trouvée">
+		<p:dataTable var="trans" value="#{transactionBean.allTransactionsInities}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />
-				<h:inputText value="#{param.i}" rendered="false" />
+			</p:column>
+			<p:column headerText="Email utilisateur">
+				<h:outputText value="#{utilisateurBean.trouver(trans.clientId)}" />
 			</p:column>
 			<p:column headerText="Date transaction">
 				<h:outputText value="#{trans.dateAchat}" />
@@ -115,12 +121,12 @@
 			<p:column headerText="Action">
 				<p:commandButton value="Annuler transaction"
 					action="#{transactionBean.annulerTransaction}" icon="pi pi-undo"
-					style="margin-right:20px;background-color:#0060a0;width:150px">
+					style="background-color:#0060a0;width:150px">
 					<f:param name="ref" value="#{trans.reference}" />
 				</p:commandButton>
 
 			</p:column>
-			<p:column headerText="Articles de la transaction">
+			<p:column headerText="Articles de la transaction" style="text-align:center">
 				<p:linkButton value="Voir"
 					outcome="#{constanteBean.articlesPerTrans}" icon="pi pi-eye"
 					style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right">
@@ -130,14 +136,14 @@
 		</p:dataTable>
 	</h:form>
 	<h:form id="annule" rendered="#{param.i == 2}">
-		<p:dataTable var="trans"
-			value="#{transactionBean.allTransactionsAnnules}"
-			emptyMessage="Aucune entrée trouvée">
+		<p:dataTable var="trans" value="#{transactionBean.allTransactionsAnnules}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />
-				<h:inputText value="#{param.i}" rendered="false" />
 			</p:column>
-
+			<p:column headerText="Email utilisateur">
+				<h:outputText value="#{utilisateurBean.trouver(trans.clientId)}" />
+			</p:column>
 			<p:column headerText="Date transaction">
 				<h:outputText value="#{trans.dateAchat}" />
 			</p:column>
@@ -151,6 +157,12 @@
 			</p:column>
 			<p:column headerText="État">
 				<h:outputText value="#{trans.etat}" />
+			</p:column>
+			<p:column headerText="Articles de la transaction" style="text-align:center">
+				<p:linkButton value="Voir" outcome="#{constanteBean.articlesPerTrans}" icon="pi pi-eye"
+					style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right;text-align:center">
+					<f:param name="ref" value="#{trans.reference}" />
+				</p:linkButton>
 			</p:column>
 		</p:dataTable>
 	</h:form>

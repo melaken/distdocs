@@ -1,7 +1,9 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,7 +14,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import entities.Editeur;
-import entities.Utilisateur;
 
 @Stateless
 public class EditeurDao {
@@ -75,5 +76,17 @@ public class EditeurDao {
 				e.printStackTrace();
 			}
 			return liste;
+		}
+		
+		public Map<Long,Editeur> listerEditeur(){
+			
+			Map<Long,Editeur> map = new HashMap<Long,Editeur>();
+			List<Editeur> liste = lister();
+			
+			for(Editeur e : liste)
+				map.put(e.getId(), e);
+			
+			return map;
+			
 		}
 }

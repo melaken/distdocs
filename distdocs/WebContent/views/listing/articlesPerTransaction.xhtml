@@ -27,7 +27,7 @@ body {
 		<p:dataTable var="doc"
 			value="#{transactionBean.voirArticles(param['ref'])}" id="listeDocs"
 			style="margin-top:10px"
-			emptyMessage="#{docsAchetesBean.emptyMessage}">
+			emptyMessage="Aucune entrée trouvée">
 			<p:column headerText="Article">
 				<p:graphicImage value="#{listeDocsBean.image}"
 					style="height: 100px; width: 70px;border-radius: 2px">

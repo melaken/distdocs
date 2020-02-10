@@ -144,7 +144,7 @@ public class StatsTransactionBean implements Serializable{
 		series.setLabel(label);
 		int i= 0;
 		for(Object[] obj : liste) {
-			if(obj[2].toString().equals(etat) && ((Long)obj[0]) > 0)  {
+			if(obj[2].toString().equals(etat) && ((Long)obj[0]) >= 0)  {
 				series.set(userDao.trouver((Integer)obj[1]).getEmail()+"", (Long)obj[0]);
 				i++;
 			}

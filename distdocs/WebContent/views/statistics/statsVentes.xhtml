@@ -10,7 +10,7 @@
 	<h:form rendered="#{param.i == 1}">
 		<p:panel header="Critères des statistiques"
 			style="margin-bottom:10px;">
-			<h:panelGrid columns="5" cellspacing="20">
+			<h:panelGrid columns="5" >
 				<h:panelGrid columns="2">
 					<h:outputText for="debutdaByUser" value="Début période ciblée"
 						style="font-weight:bold;" />
@@ -42,6 +42,17 @@
 						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
 						<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
 							itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="docType" value="Type de contenu"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="docType" value="#{statsVentesBean.docType}"
+						style="width:180px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true"/>
+						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
 					</p:selectOneMenu>
 				</h:panelGrid>
 				<h:panelGrid columns="1">

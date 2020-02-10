@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Statististiques</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<h:outputStylesheet library="default" name="css/form.css" />
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="charts/charts.css" library="primefaces" />
+
+	<h:outputScript name="charts/charts.js" library="primefaces" />
+	<style>
+input[type=radio] {
+	margin-left: 1px;
+}
+</style>
+</h:head>
+<h:body>
+	<h:form rendered="#{param.i == 1}">
+		<p:growl>
+			<p:autoUpdate />
+		</p:growl>
+		<!-- 		<h:panelGrid columns="2"> -->
+		<p:panel header="Indicateurs" style="margin-bottom:10px;">
+			<p:selectOneRadio id="customRadio" layout="grid" columns="1" value="#{statsVentesBean.indicateur}"
+				 >
+				<f:selectItem itemLabel="Chiffres d'affaires" itemValue="CA"/>
+				<f:selectItem itemLabel="Nombre de ventes" itemValue="NBV" />
+<!-- 				<p:ajax event="change" update="caBar docSoldByPublisher"/> -->
+			</p:selectOneRadio>
+		</p:panel>
+		<p:panel header="Axes d'analyse" style="margin-bottom:10px;">
+			<h:panelGrid columns="5">
+				<h:panelGrid columns="2">
+					<h:outputText for="debutdaByUser" value="Début période ciblée"
+						style="font-weight:bold;" />
+					<p:calendar id="debutdaByUser" value="#{statsVentesBean.dateDebut}" style="width:60px"
+						showOn="button" effect="fold" placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="findaByUser" value="Fin période ciblée"
+						style="font-weight:bold;" />
+					<p:calendar id="findaByUser" value="#{statsVentesBean.dateFin}" style="margin-left:1px"
+						showOn="button" effect="fold" placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="docType" value="Type de contenu"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="docType" value="#{statsVentesBean.docType}" style="width:180px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="editeur" value="Éditeur"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="editeur" value="#{statsVentesBean.editeur}" style="width:100px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{staticticsBean.editeurs}" var="edit" itemValue="#{edit.id}" 
+							itemLabel="#{edit.maisonEdition}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:commandButton value="Générer stats" action="#{statsVentesBean.analyser}" icon="pi pi-chart-bar"
+						align="center" ajax="false" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</p:panel>
+		<!-- 			</h:panelGrid> -->
+	</h:form>
+	
+	<br />
+	<p:chart id="caBar" type="bar" model="#{statsVentesBean.caBar}"
+		rendered="#{param.i == 1 and statsVentesBean.indicateur == 'CA'}" responsive="true" style="height:300px" />
+		<br />
+	<br />
+	<p:chart id="docSoldByPublisher" type="bar" model="#{statsVentesBean.docSoldByPublisher}"
+		rendered="#{param.i == 1 and statsVentesBean.indicateur == 'NBV'}" responsive="true" style="height:300px" />
+	<br />
+</h:body>
+</html>

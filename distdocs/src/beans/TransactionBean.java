@@ -109,6 +109,9 @@ public class TransactionBean implements Serializable{
 	private void selectUserTransactionsTermines() {
 		listerTransactions();
 		Utilisateur user = getCurrentUser();
+		System.out.println("getCurrentUser "+user);
+		if(user!=null)
+			System.out.println("getCurrentUser "+user.getId());
 		this.transactionsTermines = user != null ? liste.parallelStream().filter(e -> e.getEtat().equals(Etat.TERMINE.name())
 				&& e.getClientId()==user.getId())
 				.collect(Collectors.toList()) : new ArrayList<>();
@@ -116,6 +119,7 @@ public class TransactionBean implements Serializable{
 	private void selectUserTransactionsAnnules() {
 		listerTransactions();
 		Utilisateur user = getCurrentUser();
+		
 		transactionsAnnules = user != null ? liste.parallelStream().filter(e -> e.getEtat().equals(Etat.ANNULE.name())
 				&& e.getClientId()==user.getId())
 				.collect(Collectors.toList()) : new ArrayList<>();;
@@ -172,11 +176,9 @@ public class TransactionBean implements Serializable{
 		System.out.println("trans "+transToTerminate);
 	}
 	public List<Document> voirArticles(String reference) {
-		Utilisateur user = getCurrentUser();
 		List<Document> userTransArt = new ArrayList<>();
 
 		System.out.println("reference "+reference);
-		if(user != null)
 			try {
 				userTransArt= transDao.findUserTransactionArticles(reference);
 			} catch (DAOException e) {

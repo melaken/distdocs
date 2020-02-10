@@ -67,9 +67,8 @@
 	</h:form>
 	
 	<h:form id="termine" rendered="#{param.i == 0 || param.i == null}">
-		<p:dataTable var="trans"
-			value="#{transactionBean.transactionsTermines}"
-			emptyMessage="Aucune entrée trouvée">
+		<p:dataTable var="trans" value="#{transactionBean.transactionsTermines}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />
 				<h:inputText value="#{param.i}" rendered="false" />
@@ -89,12 +88,18 @@
 			<p:column headerText="État">
 				<h:outputText value="#{trans.etat}" />
 			</p:column>
+			<p:column headerText="Articles de la transaction">
+				<p:linkButton value="Voir"
+					outcome="#{constanteBean.articlesPerTrans}" icon="pi pi-eye"
+					style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right">
+					<f:param name="ref" value="#{trans.reference}" />
+				</p:linkButton>
+			</p:column>
 		</p:dataTable>
 	</h:form>
 	<h:form id="initie" rendered="#{param.i == 1}">
-		<p:dataTable var="trans"
-			value="#{transactionBean.transactionsInities}"
-			emptyMessage="Aucune entrée trouvée">
+		<p:dataTable var="trans" value="#{transactionBean.transactionsInities}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />
 				<h:inputText value="#{param.i}" rendered="false" />
@@ -137,9 +142,8 @@
 		</p:dataTable>
 	</h:form>
 	<h:form id="annule" rendered="#{param.i == 2}">
-		<p:dataTable var="trans"
-			value="#{transactionBean.transactionsAnnules}"
-			emptyMessage="Aucune entrée trouvée">
+		<p:dataTable var="trans" value="#{transactionBean.transactionsAnnules}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
 			<p:column headerText="Référence">
 				<h:outputText value="#{trans.reference}" />
 				<h:inputText value="#{param.i}" rendered="false" />
@@ -158,6 +162,13 @@
 			</p:column>
 			<p:column headerText="État">
 				<h:outputText value="#{trans.etat}" />
+			</p:column>
+			<p:column headerText="Articles de la transaction">
+				<p:linkButton value="Voir"
+					outcome="#{constanteBean.articlesPerTrans}" icon="pi pi-eye"
+					style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right">
+					<f:param name="ref" value="#{trans.reference}" />
+				</p:linkButton>
 			</p:column>
 		</p:dataTable>
 	</h:form>
