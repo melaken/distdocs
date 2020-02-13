@@ -23,6 +23,56 @@ public class StatisticsDao {
 	private final String MODULE = StatisticsDao.class.getName();
 	private final String date_condition = "CAST(date_achat AS DATE) <= ? and CAST(date_achat AS DATE) >= ? ";
 
+
+	public List<Object[]> nbDocsVendusParEditeur(java.sql.Date debut,java.sql.Date fin) {
+		List<Object[]> results = new ArrayList<>();
+		String str= null;
+		Query req = null;
+
+		if(fin != null && debut != null) {
+			str = "select count(da.doc_id) nb, doc.editeur from Transaction t,DocsAchetes da, Document doc "
+					+" where doc.id = da.doc_id and da.reference = t.reference and t.etat=?  "
+					+" and "+date_condition
+					+" group by doc.editeur "
+					+" order by nb desc ";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, debut);
+		}else if(fin == null && debut == null){
+			str = "select count(da.doc_id) nb, doc.editeur from Transaction t,DocsAchetes da, Document doc "
+					+" where doc.id = da.doc_id and da.reference = t.reference and t.etat=?  "
+					+" group by doc.editeur "
+					+" order by nb desc ";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+		}else if(fin != null) {
+			str = "select count(da.doc_id) nb, doc.editeur from Transaction t,DocsAchetes da, Document doc "
+					+" where doc.id = da.doc_id and da.reference = t.reference and t.etat=?  "
+					+" and CAST(date_achat AS DATE) <= ?"
+					+" group by doc.editeur "
+					+" order by nb desc ";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+		}else if(debut != null) {
+			str = "select count(da.doc_id) nb, doc.editeur from Transaction t,DocsAchetes da, Document doc "
+					+" where doc.id = da.doc_id and da.reference = t.reference and t.etat=?  "
+					+" and CAST(date_achat AS DATE) >= ? "
+					+" group by doc.editeur "
+					+" order by nb desc ";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, debut);
+		}
+		try {
+			results = req.getResultList();
+		}catch(Throwable e){
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return results;
+	}
 	public List<Object[]> nbDocsVendusParEditeur(java.sql.Date debut,java.sql.Date fin,Long editeurId,String doctype) {
 		List<Object[]> results = new ArrayList<>();
 		String str= null;
@@ -209,7 +259,7 @@ public class StatisticsDao {
 							+" order by nb desc ";
 					req = em.createNativeQuery(str);
 					req.setParameter(1, Etat.TERMINE.name());
-					req.setParameter(3, debut);
+					req.setParameter(2, debut);
 				}
 			}
 		}
@@ -434,41 +484,174 @@ public class StatisticsDao {
 		}
 		return results;
 	}
-	public Long nbDocsVendus(java.sql.Date debut, java.sql.Date fin) {
+	public Long nbDocsVendus(java.sql.Date debut, java.sql.Date fin,Long editeurId,String doctype) {
 		String str= null;
 		Query req = null;
 		long nb = 0;
+		if(editeurId !=null) {
+			if(doctype != null && !doctype.isEmpty()) {
+				if(debut != null && fin != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+" and "+date_condition
+							+" group by editeur, doc_type"
+							+" having editeur=? and doc_type=?";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, debut);
+					req.setParameter(4, editeurId);
+					req.setParameter(5, doctype);
+				}else if(debut == null && fin == null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+" group by editeur, doc_type"
+							+" having editeur=? and doc_type=?";
 
-		if(debut != null && fin != null) {
-			str = "select count(doc_id) from Transaction t,DocsAchetes da"
-					+" where da.reference = t.reference and t.etat=?  "
-					+" and "+date_condition;
-			req = em.createNativeQuery(str);
-			req.setParameter(1, Etat.TERMINE.name());
-			req.setParameter(2, fin);
-			req.setParameter(3, debut);
-		}else if(debut == null && fin == null) {
-			str = "select count(doc_id) from Transaction t,DocsAchetes da"
-					+" where da.reference = t.reference and t.etat=?  ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, editeurId);
+					req.setParameter(3, doctype);
 
-			req = em.createNativeQuery(str);
-			req.setParameter(1, Etat.TERMINE.name());
+				}else if(fin != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+" and CAST(date_achat AS DATE) <= ?"
+							+" group by editeur, doc_type"
+							+" having editeur=? and doc_type=?";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, editeurId);
+					req.setParameter(4, doctype);
 
-		}else if(fin != null) {
-			str = "select count(doc_id) from Transaction t,DocsAchetes da"
-					+" where da.reference = t.reference and t.etat=?  "
-					+"and CAST(date_achat AS DATE) <= ?";
-			req = em.createNativeQuery(str);
-			req.setParameter(1, Etat.TERMINE.name());
-			req.setParameter(2, fin);
-
-		}else if(debut != null) {
-			str = "select count(doc_id) from Transaction t,DocsAchetes da"
-					+" where da.reference = t.reference and t.etat=?  "
-					+"and CAST(date_achat AS DATE) >= ? ";
-			req = em.createNativeQuery(str);
-			req.setParameter(1, Etat.TERMINE.name());
-			req.setParameter(2, debut);
+				}else if(debut != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+"and CAST(date_achat AS DATE) >= ? "
+							+" group by editeur, doc_type"
+							+" having editeur=? and doc_type=?";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, debut);
+					req.setParameter(3, editeurId);
+					req.setParameter(4, doctype);
+				}
+			}else {
+				if(fin != null && debut != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+" and "+date_condition
+							+" group by doc.editeur "
+							+" having editeur = ? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, debut);
+					req.setParameter(4, editeurId);
+				}else if(fin == null && debut == null){
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+" group by doc.editeur "
+							+" having editeur = ?  ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, editeurId);
+				}else if(fin != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+"and CAST(date_achat AS DATE) <= ?"
+							+" group by doc.editeur "
+							+" having editeur = ? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, editeurId);
+				}else if(debut != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+"and CAST(date_achat AS DATE) >= ? "
+							+" group by doc.editeur "
+							+" having editeur = ? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, debut);
+					req.setParameter(3, editeurId);
+				}
+			}
+		}
+		else {
+			if(doctype != null && !doctype.isEmpty()) {
+				if(fin != null && debut != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+" and "+date_condition
+							+" group by doc_type "
+							+" having doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, debut);
+					req.setParameter(4, doctype);
+				}else if(fin == null && debut == null){
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+" group by doc_type "
+							+" having doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, doctype);
+				}else if(fin != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+"and CAST(date_achat AS DATE) <= ?"
+							+" group by doc_type "
+							+" having doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, doctype);
+				}else if(debut != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da, Document doc"
+							+" where da.reference = t.reference and t.etat=? and doc.id = da.doc_id "
+							+"and CAST(date_achat AS DATE) >= ? "
+							+" group by doc_type "
+							+" having doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, debut);
+					req.setParameter(3, doctype);
+				}
+			}else {
+				if(fin != null && debut != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da"
+							+" where da.reference = t.reference and t.etat=?  "
+							+" and "+date_condition;
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, debut);
+				}else if(fin == null && debut == null){
+					str = "select count(doc_id) from Transaction t,DocsAchetes da"
+							+" where da.reference = t.reference and t.etat=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+				}else if(fin != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da"
+							+" where da.reference = t.reference and t.etat=? "
+							+" and CAST(date_achat AS DATE) <= ?";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+				}else if(debut != null) {
+					str = "select count(doc_id) from Transaction t,DocsAchetes da"
+							+" where da.reference = t.reference and t.etat=?  "
+							+" and CAST(date_achat AS DATE) >= ? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, debut);
+				}
+			}
 		}
 		try {
 			nb = (Long)req.getSingleResult();
@@ -542,14 +725,14 @@ public class StatisticsDao {
 				req.setParameter(3, debut);
 
 			}else if(fin == null && debut == null){
-				str= "select count(*) nb, da.client_id from Transaction t,DocsAchetes da, Document doc "
+				str= "select count(*) nb, da.client_id,doc_type from Transaction t,DocsAchetes da, Document doc "
 						+"where doc.id = da.doc_id and da.reference = t.reference and t.etat=? "
 						+"group by da.client_id,doc_type "
 						+"order by nb desc";
 				req = em.createNativeQuery(str);
 				req.setParameter(1, Etat.TERMINE.name());
 			}else if(fin != null) {
-				str= "select count(*) nb, da.client_id from Transaction t,DocsAchetes da, Document doc "
+				str= "select count(*) nb, da.client_id,doc_type  from Transaction t,DocsAchetes da, Document doc "
 						+"where doc.id = da.doc_id and da.reference = t.reference and t.etat=?  "
 						+" and CAST(date_achat AS DATE) <= ? "
 						+"group by da.client_id,doc_type "
@@ -558,7 +741,7 @@ public class StatisticsDao {
 				req.setParameter(1, Etat.TERMINE.name());
 				req.setParameter(2, fin);
 			}else if(debut != null) {
-				str= "select count(*) nb, da.client_id from Transaction t,DocsAchetes da, Document doc "
+				str= "select count(*) nb, da.client_id,doc_type  from Transaction t,DocsAchetes da, Document doc "
 						+"where doc.id = da.doc_id and da.reference = t.reference and t.etat=? "
 						+" and CAST(date_achat AS DATE) >= ? "
 						+"group by da.client_id,doc_type "
@@ -575,6 +758,52 @@ public class StatisticsDao {
 			e.printStackTrace();
 		}
 
+		return results;
+	}
+	public List<Object[]> chiffreAffaires(java.sql.Date debut, java.sql.Date fin) {
+		String str = null;
+		Query req = null;
+		List<Object[]> results = new ArrayList<>();
+
+		if(fin != null && debut != null) {
+			str="SELECT sum(prix), editeur from Transaction t, Document d, DocsAchetes da " 
+					+" where etat=? and t.reference = da.reference  and CAST(date_achat AS DATE) <=? "
+					+" and CAST(date_achat AS DATE) >=? and da.doc_id = d.id "
+					+" group by editeur";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, debut);
+		}else if(fin == null && debut == null){
+			str="SELECT sum(prix), editeur from Transaction t, Document d, DocsAchetes da " 
+					+" where etat=? and t.reference = da.reference and da.doc_id = d.id "
+					+" group by editeur";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+		}else if(fin != null) {
+			str="SELECT sum(prix), editeur from Transaction t, Document d, DocsAchetes da " 
+					+" where etat=? and t.reference = da.reference  and CAST(date_achat AS DATE) <=? "
+					+"  and da.doc_id = d.id "
+					+" group by editeur";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+		}else if(debut != null) {
+			str="SELECT sum(prix), editeur from Transaction t, Document d, DocsAchetes da " 
+					+" where etat=? and t.reference = da.reference  "
+					+" and CAST(date_achat AS DATE) >=? and da.doc_id = d.id "
+					+" group by editeur";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, debut);
+		}
+
+		try {
+			results = req.getResultList();
+		}catch(Throwable e){
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
 		return results;
 	}
 	public List<Object[]> chiffreAffaires(java.sql.Date debut, java.sql.Date fin,Long editeurId,String doctype) {
@@ -759,37 +988,173 @@ public class StatisticsDao {
 		return results;
 	}
 	//ca : chiffre d'affaire
-	public Double caSurUnePeriode(java.sql.Date debut, java.sql.Date fin) {
+	public Double caSurUnePeriode(java.sql.Date debut, java.sql.Date fin,Long editeurId, String doctype) {
 		String str = null;
 		Query req = null;
 		Double montant = new Double(0);
 		List<Object[]> results = new ArrayList<>();
-		if(fin != null && debut != null) {
-			str="SELECT sum(montant) from Transaction " 
-					+" where etat=? and CAST(date_achat AS DATE) <=? "
-					+" and CAST(date_achat AS DATE) >=? ";
-			req = em.createNativeQuery(str);
-			req.setParameter(1, Etat.TERMINE.name());
-			req.setParameter(2, fin);
-			req.setParameter(3, debut);
-		}else if(fin == null && debut == null){
-			str="SELECT sum(montant) from Transaction t" 
-					+" where etat=? ";
-			req = em.createNativeQuery(str);
-			req.setParameter(1, Etat.TERMINE.name());
-		}else if(fin != null) {
-			str="SELECT sum(montant) from Transaction t " 
-					+" where etat=? and CAST(date_achat AS DATE) <=? ";
-			req = em.createNativeQuery(str);
-			req.setParameter(1, Etat.TERMINE.name());
-			req.setParameter(2, fin);
-		}else if(debut != null) {
-			str="SELECT sum(montant) from Transaction t" 
-					+" where etat=? and CAST(date_achat AS DATE) >=?  ";
-			req = em.createNativeQuery(str);
-			req.setParameter(1, Etat.TERMINE.name());
-			req.setParameter(2, debut);
+
+		if(editeurId !=null) {
+			if(doctype != null && !doctype.isEmpty()) {
+				if(fin != null && debut != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and "+date_condition
+							+" group by doc.editeur, doc_type "
+							+" having editeur = ? and doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, debut);
+					req.setParameter(4, editeurId);
+					req.setParameter(5, doctype);
+				}else if(fin == null && debut == null){
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" group by doc.editeur, doc_type "
+							+" having editeur = ? and doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, editeurId);
+					req.setParameter(3, doctype);
+				}else if(fin != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and CAST(date_achat AS DATE) <=? "
+							+" group by doc.editeur, doc_type "
+							+" having editeur = ? and doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, editeurId);
+					req.setParameter(4, doctype);
+				}else if(debut != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and CAST(date_achat AS DATE) >=?  "
+							+" group by doc.editeur, doc_type "
+							+" having editeur = ? and doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, debut);
+					req.setParameter(3, editeurId);
+					req.setParameter(4, doctype);
+				}
+			}else {
+				if(fin != null && debut != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and "+date_condition
+							+" group by doc.editeur "
+							+" having editeur = ?  ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, debut);
+					req.setParameter(4, editeurId);
+				}else if(fin == null && debut == null){
+					str = "SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" group by doc.editeur"
+							+" having editeur = ? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, editeurId);
+				}else if(fin != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and CAST(date_achat AS DATE) <=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, editeurId);
+				}else if(debut != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and CAST(date_achat AS DATE) >=?  "
+							+" group by doc.editeur "
+							+" having editeur = ? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, debut);
+					req.setParameter(3, editeurId);
+				}
+			}
 		}
+		else {
+			if(doctype != null && !doctype.isEmpty()) {
+				if(fin != null && debut != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and "+date_condition
+							+" group by doc_type "
+							+" having  doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, debut);
+					req.setParameter(4, doctype);
+				}else if(fin == null && debut == null){
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" group by doc_type "
+							+" having doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, doctype);
+				}else if(fin != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and CAST(date_achat AS DATE) <=? "
+							+" group by  doc_type "
+							+" having  doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, doctype);
+				}else if(debut != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and CAST(date_achat AS DATE) >=?  "
+							+" group by doc_type "
+							+" having doc_type=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, debut);
+					req.setParameter(3, doctype);
+				}
+			}else {
+				if(fin != null && debut != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and "+date_condition;
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+					req.setParameter(3, debut);
+				}else if(fin == null && debut == null){
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+				}else if(fin != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and CAST(date_achat AS DATE) <=? ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, fin);
+				}else if(debut != null) {
+					str="SELECT sum(prix) from Transaction t,DocsAchetes da, Document doc " 
+							+" where etat=? and t.reference= da.reference and da.doc_id=doc.id "
+							+" and CAST(date_achat AS DATE) >=?  ";
+					req = em.createNativeQuery(str);
+					req.setParameter(1, Etat.TERMINE.name());
+					req.setParameter(2, debut);
+				}
+			}
+		}
+
 		try {
 			montant = (Double)req.getSingleResult();
 		}catch(Throwable e){

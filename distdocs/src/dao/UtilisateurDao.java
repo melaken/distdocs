@@ -1,7 +1,9 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import entities.Editeur;
 import entities.Utilisateur;
 
 @Stateless
@@ -34,7 +37,7 @@ public class UtilisateurDao {
 	}
 
 	// Recherche d'un utilisateur à partir de son adresse email
-	public Utilisateur trouver(String email) throws DAOException{
+	public Utilisateur trouver(String email){
 		Utilisateur utilisateur = null;
 		Query requete = em.createQuery(JPQL_SELECT_PAR_EMAIL);
 		requete.setParameter(PARAM_EMAIL, email);
@@ -45,7 +48,6 @@ public class UtilisateurDao {
 		} catch (Exception e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
-			throw new DAOException(e);
 		}
 		return utilisateur;
 	}
@@ -63,16 +65,16 @@ public class UtilisateurDao {
 		}
 		return utilisateur;
 	}
-	public List<Utilisateur> lister() throws DAOException{
+	public List<Utilisateur> lister() {
 		List<Utilisateur> liste= new ArrayList<>();
 		Query request = em.createQuery("select u from Utilisateur u");
 		try {
-			 liste = request.getResultList();
+			liste = request.getResultList();
 		}catch(Exception e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
-			throw new DAOException(e);
 		}
 		return liste;
 	}
+
 }

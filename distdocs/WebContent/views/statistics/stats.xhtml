@@ -3,7 +3,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<title>Statististiques</title>
 	<meta charset="utf-8" />
@@ -31,6 +32,10 @@
 				rendered="#{sessionScope['user'].userType != 'CLIENT'}">
 				<f:param name="i" value="1" />
 			</p:menuitem>
+			<p:menuitem value="Stats par client" icon="pi pi-money-bill" outcome="#{constanteBean.stats}"
+				rendered="#{sessionScope['user'].userType != 'CLIENT'}">
+				<f:param name="i" value="2" />
+			</p:menuitem>
 		</p:tabMenu>
 	</h:form>
 
@@ -45,12 +50,19 @@
 	<h:panelGroup>
 		<h:panelGroup
 			rendered="#{sessionScope['user'] != null and sessionScope['user'].userType != 'CLIENT'}">
-			<ui:insert name="statsVentes">
+			<ui:insert name="statsVentes1">
 				<ui:include src="statsVentes1.xhtml" />
 			</ui:insert>
 		</h:panelGroup>
 	</h:panelGroup>
-
+	<h:panelGroup>
+		<h:panelGroup
+			rendered="#{sessionScope['user'] != null and sessionScope['user'].userType != 'CLIENT'}">
+			<ui:insert name="statsVentes">
+				<ui:include src="statsVentes.xhtml" />
+			</ui:insert>
+		</h:panelGroup>
+	</h:panelGroup>
 
 </h:body>
 </html>

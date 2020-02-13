@@ -7,7 +7,10 @@
 <h:head>
 </h:head>
 <h:body>
-	<h:form rendered="#{param.i == 1}">
+	<h:form rendered="#{param.i == 2}">
+		<p:growl>
+			<p:autoUpdate />
+		</p:growl>
 		<p:panel header="Critères des statistiques"
 			style="margin-bottom:10px;">
 			<h:panelGrid columns="5" >
@@ -65,12 +68,10 @@
 		</p:panel>
 	</h:form>
 	<p:chart type="pie" model="#{statsVentesBean.daByUser}"
-		rendered="#{param.i == 1}" responsive="true" style="height:300px" />
+		rendered="#{param.i == 2}" responsive="true" style="height:300px" />
 	<br />
 	<br />
-	<p:chart type="bar" model="#{statsVentesBean.docSoldByPublisher}"
-		rendered="#{param.i == 1}" responsive="true" style="height:300px" />
-	<br />
-	<br />
+	<p:chart type="bar" model="#{statsVentesBean.daByUserByDoctype}"
+		rendered="#{param.i == 2}" responsive="true" style="height:300px" />
 </h:body>
 </html>

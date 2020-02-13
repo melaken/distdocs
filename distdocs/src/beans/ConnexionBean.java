@@ -85,7 +85,7 @@ public class ConnexionBean implements Serializable{
 				} catch (IOException e) {
 					Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 					e.printStackTrace();
-				}catch (DAOException e) {
+				}catch (Throwable e) {
 					Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 					e.printStackTrace();
 				}

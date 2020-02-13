@@ -57,7 +57,7 @@ public class ConstanteBean {
 		articlesPerTrans = "/views/listing/articlesPerTransaction.xhtml";
 		telMarchand = "077921645";
 		urlRedirect = "http://myracenter.homeip.net:3580/distdocs/response";
-		stats = "/views/statistics/stats.xhtml?i=1";
+		stats = "/views/statistics/stats.xhtml?i=2";
 		menuBarWithoutSearch="/menuBarWithoutSearch.xhtml";
 		listAllTransactions = "/views/listing/listAllTransactions.xhtml?i=0";
 	}

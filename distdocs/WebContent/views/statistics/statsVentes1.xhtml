@@ -60,7 +60,7 @@ input[type=radio] {
 						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
 					</p:selectOneMenu>
 				</h:panelGrid>
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="2" rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}">
 					<h:outputText for="editeur" value="Éditeur"
 						style="font-weight:bold" />
 					<p:selectOneMenu id="editeur" value="#{statsVentesBean.editeur}" style="width:100px">
@@ -77,14 +77,17 @@ input[type=radio] {
 		</p:panel>
 		<!-- 			</h:panelGrid> -->
 	</h:form>
-	
-	<br />
-	<p:chart id="caBar" type="bar" model="#{statsVentesBean.caBar}"
+	<p:chart type="pie" model="#{statsVentesBean.caPie}"
 		rendered="#{param.i == 1 and statsVentesBean.indicateur == 'CA'}" responsive="true" style="height:300px" />
 		<br />
 	<br />
-	<p:chart id="docSoldByPublisher" type="bar" model="#{statsVentesBean.docSoldByPublisher}"
+	<p:chart type="bar" model="#{statsVentesBean.caBar}"
+		rendered="#{param.i == 1 and statsVentesBean.indicateur == 'CA'}" responsive="true" style="height:300px" />
+	
+	<p:chart type="pie" model="#{statsVentesBean.docSoldByPublisherPie}"
 		rendered="#{param.i == 1 and statsVentesBean.indicateur == 'NBV'}" responsive="true" style="height:300px" />
 	<br />
+	<p:chart type="bar" model="#{statsVentesBean.docSoldByPublisher}"
+		rendered="#{param.i == 1 and statsVentesBean.indicateur == 'NBV'}" responsive="true" style="height:300px" />
 </h:body>
 </html>

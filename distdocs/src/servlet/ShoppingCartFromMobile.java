@@ -67,12 +67,12 @@ public class ShoppingCartFromMobile extends HttpServlet{
 		String[] docIds = subStr.split(",");
 		
 		Utilisateur user = null;
-		try {
+//		try {
 			user = userDao.trouver(email.trim());
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		} catch (DAOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		if(user != null) {
 			String ref = genererRef();
 			Transaction trans = setTransaction(user.getId(),tel_client, Constante.tel_marchand, montant, ref);
