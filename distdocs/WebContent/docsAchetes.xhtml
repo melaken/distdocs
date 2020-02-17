@@ -1,77 +1,109 @@
 <!DOCTYPE html>
-<html lang="fr"
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:p="http://primefaces.org/ui">
-	<h:head>
-		<title>Bibliothèque</title>
-		<h:outputStylesheet name="components.css" library="primefaces"/>
-		<h:outputStylesheet name="galleria/galleria.css" library="primefaces"/>
-		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
-		<h:outputStylesheet library="default" name="css/style.css" />
-		<h:outputStylesheet library="default" name="css/form.css" />
-	</h:head>
-	<style>
-		body{
-			background-color:#e0e0e0;
-		}
-		
-	</style>
-	<h:body>
-		<h:form>  
-    <p:growl id="messages"/>
- 	
- 	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
-        <f:facet name="left">
-       		<p:inputText value="#{docsAchetesBean.chaine}" style="margin-top:15px;margin-left:400px;width:300px;height:20px;" 
-       			placeholder="Rechercher..." />
-       		<p:commandButton title="rechercher" action="#{docsAchetesBean.searchBoughtDocs}" update=":formListe"
-       			icon="pi pi-search" style="margin-top:15px;height:25px;margin-left:0px;" />
-        </f:facet>
-        <f:facet name="middle">
-        <p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;
-        			border-radius: 5px;margin-left:30px;"/><br/> 
-        			</f:facet>
-        <f:facet name="right" style="margin-right:20px;">
-		<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" style="margin-top:50px"/>
-        <p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
-        	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
-        		<p:menuitem value="Publier" outcome="#{constanteBean.upload}" icon="pi pi-upload"
-     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
-    			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
-    			icon="pi pi-file" style="padding-left:10px"/> 
-     			<p:menuitem value="Mes transactions"  outcome="#{constanteBean.listUserTransactions}" 
-     				icon="pi pi-money-bill" style="padding-left:10px"/>
-     			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>
-     			<p:menuitem value="Statistiques"  outcome="#{constanteBean.stats}" icon="pi pi-chart-bar" style="padding-left:10px"/>
-     			<p:separator /> 
-     			<p:menuitem value="Déconnexion" action="#{connexionBean.logout}" type="button" icon="pi pi-sign-out" style="padding-left:10px;"
-     			rendered="#{sessionScope['user'] != null}" update="@form"/> 
-        </p:menuButton>
-        </f:facet>
- 
-    </p:toolbar>
-    <p:sticky target="tb" />
-</h:form>
-	   
-	   <h:form id="formListe">
-		    <p:dataGrid var="doc" value="#{docsAchetesBean.liste}" columns="5" emptyMessage="#{docsAchetesBean.emptyMessage}"
-		        rows="12" paginator="true" style="cellspacing:0px;"
-		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-		        rowsPerPageTemplate="6,12,16">
-<!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
-		            <h:panelGrid columns="1" style="width:200px;height:300px;">
-		            		<p:link  outcome = "#{constanteBean.lecture}" target="_blank">
-                				<p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
-		                		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
-		                		</p:graphicImage> 
-	                			<f:param name="file" value="#{doc.id}" />
-                		</p:link>
-		            </h:panelGrid>
-<!-- 		        </p:panel> -->
-		    </p:dataGrid>
-		   </h:form>
-	</h:body>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Bibliothèque</title>
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="galleria/galleria.css" library="primefaces" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet library="default" name="css/form.css" />
+</h:head>
+<style>
+body {
+	background-color: #e0e0e0;
+}
+</style>
+<h:body>
+	<h:form>
+		<p:growl id="messages" />
+
+		<p:toolbar id="tb"
+			style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
+			<f:facet name="left">
+				<p:inputText value="#{docsAchetesBean.chaine}"
+					style="margin-top:15px;margin-left:400px;width:300px;height:20px;"
+					placeholder="Rechercher..." />
+				<p:commandButton title="rechercher"
+					action="#{docsAchetesBean.searchBoughtDocs}" update=":formListe"
+					icon="pi pi-search"
+					style="margin-top:15px;height:25px;margin-left:0px;" />
+			</f:facet>
+			<f:facet name="middle">
+				<p:graphicImage name="images/books.jpeg"
+					style="height:50px; width:50px;
+        			border-radius: 5px;margin-left:30px;" />
+				<br />
+			</f:facet>
+			<f:facet name="right" style="margin-right:20px;">
+				<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil"
+					icon="pi pi-home" rendered="#{sessionScope['user'] != null}"
+					style="margin-top:50px" />
+				<p:menuButton value="#{sessionScope['user'].nom}"
+					style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
+					icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
+					<p:menuitem value="Publier" outcome="#{constanteBean.upload}"
+						icon="pi pi-upload" style="padding-left:10px"
+						rendered="#{sessionScope['user'].userType == 'EDITEUR'}" />
+					<p:menuitem value="Ma bibliothèque"
+						outcome="#{constanteBean.biblio}" icon="pi pi-file"
+						style="padding-left:10px" />
+					<p:menuitem value="Mes transactions"
+						outcome="#{constanteBean.listUserTransactions}"
+						icon="pi pi-money-bill" style="padding-left:10px" />
+					<p:menuitem value="Paramètres" icon="pi pi-cog"
+						style="padding-left:10px" />
+					<p:menuitem value="Statistiques" outcome="#{constanteBean.stats}"
+						icon="pi pi-chart-bar" style="padding-left:10px" />
+					<p:separator />
+					<p:menuitem value="Déconnexion" action="#{connexionBean.logout}"
+						type="button" icon="pi pi-sign-out" style="padding-left:10px;"
+						rendered="#{sessionScope['user'] != null}" update="@form" />
+				</p:menuButton>
+			</f:facet>
+
+		</p:toolbar>
+		<p:sticky target="tb" />
+	</h:form>
+
+	<h:form id="formListe">
+		<p:dataGrid var="doc" value="#{docsAchetesBean.liste}" columns="5"
+			emptyMessage="#{docsAchetesBean.emptyMessage}" rows="12"
+			paginator="true" style="cellspacing:0px;"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="6,2,16">
+			<h:panelGrid columns="1" style="width:200px;height:300px;">
+				<p:link outcome="#{constanteBean.lecture}" target="_blank">
+					<p:graphicImage value="#{listeDocsBean.image}"
+						style="height: 300px; width: 200px;border-radius: 5px">
+						<f:param name="cover" value="#{doc.premiereCouverture}" />
+					</p:graphicImage>
+					<f:param name="file" value="#{doc.id}" />
+				</p:link>
+				<p:commandLink title="Résumé" update=":formListe:resumeOutput"
+					oncomplete="PF('resumeDialog').show()">
+					<h:outputText value="Résumé" style="margin:0 auto;" />
+					<f:setPropertyActionListener value="#{doc}"
+						target="#{listeDocsBean.selectedDoc}" />
+				</p:commandLink>
+			</h:panelGrid>
+		</p:dataGrid>
+		<p:dialog widgetVar="resumeDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" header="Résumé">
+			<p:outputPanel id="resumeOutput" style="text-align:justify;border:0"
+				border="0">
+				<p:panelGrid columns="1"
+					rendered="#{not empty listeDocsBean.selectedDoc}"
+					columnClasses="label,value" border="0">
+					<h:outputText value="#{listeDocsBean.selectedDoc.resume}"
+						style="text-align:justify" />
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+</h:body>
 </html>

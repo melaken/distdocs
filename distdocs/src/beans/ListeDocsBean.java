@@ -59,7 +59,16 @@ public class ListeDocsBean implements Serializable{
 		return selectedDoc;
 	}
 	public void setSelectedDoc(Document selectedDoc) {
-		this.selectedDoc = selectedDoc;
+		Document doc = selectedDoc;
+		 try {
+			doc = docDao.trouver(selectedDoc.getId());
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 this.selectedDoc = doc;
+		System.out.println("selectedDoc.resume : "+this.selectedDoc.getResume());
+		System.out.println("selectedDoc.id : "+this.selectedDoc.getId());
 	}
 	public List<String> getTenLatestDocs() {
 		return tenLatestDocs;
