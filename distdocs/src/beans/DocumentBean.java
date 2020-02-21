@@ -10,6 +10,7 @@ import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.logging.Level;
@@ -36,6 +37,8 @@ import dao.DAOException;
 import dao.DocumentDao;
 import entities.Document;
 import entities.Utilisateur;
+import recherche.IndexException;
+import recherche.LuceneWriteIndexFromFile;
 
 @Named
 @SessionScoped
@@ -121,23 +124,23 @@ public class DocumentBean implements Serializable{
 		      doc.setEditeur(user.getId());
 		      initialiserDateAjout();
 		      
-//		      File fich = new File(Constante.CHEMIN_DOCS,id+"");
-//		      File fich_cover = new File(Constante.CHEMIN_IMAGES,p_couverture);
+		      File fich = new File(Constante.CHEMIN_DOCS,id+"");
+		      File fich_cover = new File(Constante.CHEMIN_IMAGES,p_couverture);
 
 		      //écritures des fichiers sur le disque
-//		      Files.copy(input, fich.toPath());
-//		      Files.copy(input_cover, fich_cover.toPath());
+		      Files.copy(input, fich.toPath());
+		      Files.copy(input_cover, fich_cover.toPath());
 		      
 		      //indexation du document
-//		      LuceneWriteIndexFromFile.indexer(fich.toPath());
+		      LuceneWriteIndexFromFile.indexer(fich.toPath());
 		      
 		      //enregistrement des infos du doc en BD
-//		      docDao.creer(doc);
+		      docDao.creer(doc);
 		      
 		      //createImage("JPG",fich,id+"_cover.jpg");
 		      System.out.println("Everything is ok");
 		      
-//		      Constante.redirect(FacesContext.getCurrentInstance(), Constante.ACCUEIL+"?faces-redirect=true", MODULE);
+		      Constante.redirect(FacesContext.getCurrentInstance(), Constante.ACCUEIL+"?faces-redirect=true", MODULE);
 	    	}else {
 	    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN," ", "Veuillez vous connecter");
 	            PrimeFaces.current().dialog().showMessageDynamic(message);
@@ -148,9 +151,9 @@ public class DocumentBean implements Serializable{
 	    }catch(DAOException e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, " ", "Une erreur est survenue.");
 	        PrimeFaces.current().dialog().showMessageDynamic(message);
-//		}catch (IndexException e) {
-//			System.out.println("Erreur lors de l'indexation");
-//	    	 e.printStackTrace();
+		}catch (IndexException e) {
+			System.out.println("Erreur lors de l'indexation");
+	    	 e.printStackTrace();
 	    }catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 		      e.printStackTrace();
