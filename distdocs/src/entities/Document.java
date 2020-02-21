@@ -35,6 +35,9 @@ public class Document {
 	private String resume;
 	@Column(name = "premiere_couverture")
 	private String premiereCouverture;
+	private String titre;
+	private String auteurs;
+	
 	public long getId() {
 		return id;
 	}
@@ -94,6 +97,18 @@ public class Document {
 	}
 	public void setPremiereCouverture(String premiereCouverture) {
 		this.premiereCouverture = premiereCouverture;
+	}
+	public String getTitre() {
+		return titre;
+	}
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
+	public String getAuteurs() {
+		return auteurs;
+	}
+	public void setAuteurs(String auteurs) {
+		this.auteurs = auteurs;
 	}
 	@Override
 	public boolean equals(Object d) {

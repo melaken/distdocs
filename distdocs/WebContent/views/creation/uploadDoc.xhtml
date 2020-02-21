@@ -35,6 +35,7 @@ body {
 						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
 						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
 						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
+						 <f:ajax render="titlePanel authorPanel" />
 					</p:selectOneMenu>
 				</h:panelGrid>
 				<h:panelGrid columns="2">
@@ -47,15 +48,14 @@ body {
 					</p:inputNumber>
 					<h:message id="prixMessage" for="prix" errorClass="erreur" />
 				</h:panelGrid>
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="2" id="dateParutionPanel">
 					<h:outputLabel for="date_parution" value="Date de parution"
-						style="font-weight:bold">
+						style="font-weight:bold" >
 						<span class="requis">*</span>
 					</h:outputLabel>
 					<p:calendar id="dateParution" value="#{documentBean.dateParution}"
-						showOn="button" effect="fold" placeholder="Exemple 18/11/19">
+						showOn="button" effect="fold" placeholder="Exemple 18/11/19" rendered="#{documentBean.doc.docType != 'LIVRE'}">
 						<f:ajax event="keyup" render="dateParutionMessage" />
-						<!-- 			        	<f:ajax event="blur" render="dateParutionMessage" /> -->
 					</p:calendar>
 					<h:message id="dateParutionMessage" for="dateParution"
 						errorClass="erreur" />
@@ -85,6 +85,25 @@ body {
 					</h:inputFile>
 					<h:message id="fileMessage" for="file" errorClass="erreur" />
 				</h:panelGrid>
+				<h:panelGrid columns="2" id="titlePanel" >
+					<h:outputLabel for="titre" rendered="#{documentBean.doc.docType == 'LIVRE'}" value="Titre du livre"
+						style="font-weight:bold">
+						<span class="requis">*</span>
+					</h:outputLabel>
+					<p:inputText id="titre" rendered="#{documentBean.doc.docType == 'LIVRE'}"
+						value="#{documentBean.doc.titre}" requiredMesssage="Veuillez renseigner le titre du livre">
+					</p:inputText>
+				</h:panelGrid>
+				<h:panelGrid columns="2" id="authorPanel" >
+					<h:outputLabel for="author" rendered="#{documentBean.doc.docType == 'LIVRE'}" value="Auteur(s)"
+						style="font-weight:bold" placeholder="Veuillez séparer les auteurs par une virgule">
+						<span class="requis">*</span>
+					</h:outputLabel>
+					<p:inputText id="author" rendered="#{documentBean.doc.docType == 'LIVRE'}"
+						value="#{documentBean.doc.auteurs}"
+						requiredMesssage="Veuillez renseigner les auteurs">
+					</p:inputText>
+				</h:panelGrid>
 				<h:panelGrid columns="2">
 					<h:outputLabel for="cover"
 						value="Image à afficher pour la publicité"
@@ -93,7 +112,7 @@ body {
 					</h:outputLabel>
 					<h:inputFile id="cover" mode="simple" skinSimple="true"
 						value="#{documentBean.cover}"
-						requiredMesssage="Veuillez sélectionnez une couverture pour votre document">
+						requiredMesssage="Veuillez sélectionner une couverture pour votre document">
 						<f:ajax event="blur" render="coverMessage" />
 						<f:validator validatorId="imageValidator" />
 					</h:inputFile>

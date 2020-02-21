@@ -8,7 +8,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 public class Constante {
-//
 	public static final String INDEX_PATH = "/home/lady/distdocs/indexes"; 
 	public static final String CHEMIN_DOCS="/home/lady/distdocs/books";
 	public static final String CHEMIN_IMAGES="/home/lady/distdocs/cover_page";

@@ -16,7 +16,7 @@ alter table Editeur add constraint fk1 FOREIGN KEY(id) REFERENCES Utilisateur(id
 
 create Table Document(id int(11) auto_increment, nom varchar(200) not null, date_ajout datetime not null,
 	date_parution date not null, doc_type varchar(15) not null, prix float(11) not null, numero_edition varchar(30), editeur int(11) not null,
-	resume varchar(255), premiere_couverture varchar(40) not null, titre varchar(100),
+	resume varchar(255), premiere_couverture varchar(40) not null, titre varchar(100),auteurs varchar(255)
 	primary key(id)
 	)ENGINE = INNODB;
 

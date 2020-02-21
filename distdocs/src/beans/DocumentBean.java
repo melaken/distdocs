@@ -10,9 +10,6 @@ import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.logging.Level;
@@ -20,7 +17,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -39,11 +36,9 @@ import dao.DAOException;
 import dao.DocumentDao;
 import entities.Document;
 import entities.Utilisateur;
-import recherche.IndexException;
-import recherche.LuceneWriteIndexFromFile;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class DocumentBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -112,35 +107,37 @@ public class DocumentBean implements Serializable{
 	    	if(!verifyCompulsoryFields())
 	    		throw new ValidationException("Erreur validation");
 	    	if(user != null) {
+	    		System.out.println("title "+doc.getTitre()+" auteurs "+doc.getAuteurs()+"dateP "+dateParution);
 		    	InputStream input = file.getInputStream();
 		    	InputStream input_cover = cover.getInputStream();
 		    	
 		    	//System.out.println("LastId "+docDao.lastInsertId());
 		      doc.setNom(file.getSubmittedFileName());
 		      doc.setDateParution(new java.sql.Date(dateParution.getTime()));
-		      long id = docDao.lastInsertId()+1;System.out.println("doc_id in upload() "+id);
+		      long id = docDao.lastInsertId()+1;
+		      System.out.println("doc_id in upload() "+id);
 		      String p_couverture=id+"_cover";
 		      doc.setPremiereCouverture(p_couverture);
 		      doc.setEditeur(user.getId());
 		      initialiserDateAjout();
 		      
-		      File fich = new File(Constante.CHEMIN_DOCS,id+"");
-		      File fich_cover = new File(Constante.CHEMIN_IMAGES,p_couverture);
+//		      File fich = new File(Constante.CHEMIN_DOCS,id+"");
+//		      File fich_cover = new File(Constante.CHEMIN_IMAGES,p_couverture);
 
 		      //écritures des fichiers sur le disque
-		      Files.copy(input, fich.toPath());
-		      Files.copy(input_cover, fich_cover.toPath());
+//		      Files.copy(input, fich.toPath());
+//		      Files.copy(input_cover, fich_cover.toPath());
 		      
 		      //indexation du document
-		      LuceneWriteIndexFromFile.indexer(fich.toPath());
+//		      LuceneWriteIndexFromFile.indexer(fich.toPath());
 		      
 		      //enregistrement des infos du doc en BD
-		      docDao.creer(doc);
+//		      docDao.creer(doc);
 		      
 		      //createImage("JPG",fich,id+"_cover.jpg");
 		      System.out.println("Everything is ok");
 		      
-		      Constante.redirect(FacesContext.getCurrentInstance(), Constante.ACCUEIL+"?faces-redirect=true", MODULE);
+//		      Constante.redirect(FacesContext.getCurrentInstance(), Constante.ACCUEIL+"?faces-redirect=true", MODULE);
 	    	}else {
 	    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN," ", "Veuillez vous connecter");
 	            PrimeFaces.current().dialog().showMessageDynamic(message);
@@ -151,9 +148,9 @@ public class DocumentBean implements Serializable{
 	    }catch(DAOException e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, " ", "Une erreur est survenue.");
 	        PrimeFaces.current().dialog().showMessageDynamic(message);
-		}catch (IndexException e) {
-			System.out.println("Erreur lors de l'indexation");
-	    	 e.printStackTrace();
+//		}catch (IndexException e) {
+//			System.out.println("Erreur lors de l'indexation");
+//	    	 e.printStackTrace();
 	    }catch(Throwable e) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
 		      e.printStackTrace();

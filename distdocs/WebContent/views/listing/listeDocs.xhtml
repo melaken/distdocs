@@ -1,148 +1,210 @@
 <!DOCTYPE html>
-<html lang="fr"
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:p="http://primefaces.org/ui">
-	<h:head>
-		<title>kiosque numérique</title>
-		<h:outputStylesheet library="default" name="css/style.css" />
-		<h:outputStylesheet name="components.css" library="primefaces"/>
-		<h:outputStylesheet name="galleria/galleria.css" library="primefaces"/>
-		<style type="text/css">
-    .value {
-        font-weight: bold;
-        font-size: 20px;
-        text-align:center;
-        font-color:#0060a0;
-    }
-    .dateParution{
-    font-size: 15px;
-        text-align:center;
-        font-color:#0060a0;
-    }
-       .emoticone {  
-    width: 24px !important; 
-    font-size: 30px !important; 
-    color: #0060a0;
-    padding-left:10px;
-  }  
-    body .ui-staticmessage.ui-message {
-        width: 25%;
-        height:20px;
-    }
-</style>
-	</h:head>
-		<div class="ui-g">
-		    <div class="ui-g-12 ui-md-3">
-		        <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px"
-		        	detail="#{panierBean.articles.size()} article(s) dans le panier."
-		        	rendered="#{panierBean.articles.size() > 0}"/>
-	        	<p:linkButton value="Commander" id="commande" outcome="#{constanteBean.recap}"
-		        	rendered="#{panierBean.articles.size() > 0}"/>
-		    </div>
-    	</div>
-    	
-    	<h:form >
-		<p:panel header="Trier document par "
-			style="margin-bottom:10px;">
-			<h:panelGrid columns="4" cellpadding="15" cellspacing="1" style="margin-bottom:10px">
-				<h:panelGrid columns="2">
-					<h:outputText for="dateParution" value="Date de parution"
-						style="font-weight:bold" />
-					<p:calendar id="dateParution"
-						value="#{listeDocsBean.dateParution}" showOn="button"
-						effect="fold" placeholder="Exemple 18/11/19" />
-				</h:panelGrid>
-				<h:panelGrid columns="2">
-					<h:outputText for="docType" value="Type de contenu"
-						style="font-weight:bold" />
-					<p:selectOneMenu id="docType" value="#{listeDocsBean.docType}"
-						style="width:180px">
-						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
-						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
-						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
-						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
-					</p:selectOneMenu>
-				</h:panelGrid>
-				<h:panelGrid columns="2" >
-					<h:outputText for="editeur" value="Éditeur"
-						style="font-weight:bold" />
-					<p:selectOneMenu id="editeur" value="#{listeDocsBean.editeur}"
-						style="width:100px">
-						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
-						<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
-							itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
-					</p:selectOneMenu>
-				</h:panelGrid>
-				<h:panelGrid columns="1">
-					<p:commandButton value="Trier"  action="#{listeDocsBean.trier}" ajax ="true" update="formListe"/>
-				</h:panelGrid>
-			</h:panelGrid>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>kiosque numérique</title>
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="galleria/galleria.css" library="primefaces" />
+	<style type="text/css">
+.value {
+	font-weight: bold;
+	font-size: 20px;
+	text-align: center;
+	font-color: #0060a0;
+}
 
-		</p:panel>
-	</h:form>
-    	
-		<h:form id="formListe" >
-			<p:growl id="msg"  showDetail="true" sticky="true" />
-			 <p:staticMessage id="nbArticles" severity="info" style="margin-bottom:10px;width:200px;"
-	        	detail="#{panierBean.articles.size()} article(s) dans le panier."
-	        	rendered="#{panierBean.articles.size() > 0}"/>
-        	<p:linkButton value="Commander" id="commande" outcome="#{constanteBean.recap}"
-	        	 rendered="#{panierBean.articles.size() > 0}"
-	        	 style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right"/>
-			
-		    <p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5" emptyMessage="Aucun document à afficher"
-		        rows="12" paginator="true" id="liste" style="cellspacing:0px;"
-		        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-		        rowsPerPageTemplate="6,12,16">
-<!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
-		            <h:panelGrid columns="1" style="width:200px;height:300px;text-align:center;">
-		                <p:graphicImage  value="#{listeDocsBean.image}" style="height: 300px; width: 200px;border-radius: 5px" > 
-                		 	<f:param name="cover" value="#{doc.premiereCouverture}" />
-                		</p:graphicImage> 
-                		<h:outputText value="#{doc.dateParution}" styleClass="label dateParution"/>
-                		<h:outputText value="#{doc.prix}  FCFA" styleClass="label value"/>
-                		<f:facet name="footer">
-			                <p:commandLink update=":formListe:image" oncomplete="PF('coverDialog').show()" title="Agrandir">
-			                    <h:outputText styleClass="pi pi-eye emoticone" style="margin:0 auto;"/>
-			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
-			                </p:commandLink>
-			                <p:commandLink  title="#{constanteBean.panierMessage}" update=":nbArticles @form :commande" 
-			                	action="#{panierBean.panier}" >
-			                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;"/>
-			                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />
-			                </p:commandLink>
-			                <p:commandLink  title="Résumé" update=":formListe:resumeOutput" oncomplete="PF('resumeDialog').show()">
-			                    <h:outputText styleClass="pi pi-bookmark emoticone" style="margin:0 auto;"/>
-			                    <f:setPropertyActionListener value="#{doc}" target="#{listeDocsBean.selectedDoc}" />
-			                </p:commandLink>
-			                
-		                </f:facet>
-		            </h:panelGrid>
-<!-- 		        </p:panel> -->
-		    </p:dataGrid>
-		    <p:dialog  widgetVar="coverDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"
-		    	header="Aperçu">
-	        	<p:outputPanel id="image" style="text-align:justify;border:0">
-		            <p:panelGrid  columns="1" rendered="#{not empty listeDocsBean.selectedDoc}" columnClasses="label,value">
-		                 <p:graphicImage value="#{listeDocsBean.image}" style="height:600px; width:400px">
-		                    	<f:param name="cover" value="#{listeDocsBean.selectedDoc.premiereCouverture}" />
-		                    </p:graphicImage>
-	                </p:panelGrid>
-               	</p:outputPanel>
-            </p:dialog>
-            <p:dialog  widgetVar="resumeDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"
-            	header="Résumé">
-	        	<p:outputPanel id="resumeOutput" style="text-align:justify;border:0" border="0">
-		            <p:panelGrid  columns="1" rendered="#{not empty listeDocsBean.selectedDoc}" columnClasses="label,value"
-		            	border="0">
-		                <h:outputText value="#{listeDocsBean.selectedDoc.resume}"  style="text-align:justify"/>
-		                
-	                </p:panelGrid>
-               	</p:outputPanel>
-            </p:dialog>
-    </h:form>
-    
+.dateParution {
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	font-color: #0060a0;
+}
+
+.emoticone {
+	width: 24px !important;
+	font-size: 30px !important;
+	color: #0060a0;
+	padding-left: 10px;
+}
+
+body .ui-staticmessage.ui-message {
+	width: 25%;
+	height: 20px;
+}
+</style>
+</h:head>
+<div class="ui-g">
+	<div class="ui-g-12 ui-md-3">
+		<p:staticMessage id="nbArticles" severity="info"
+			style="margin-bottom:10px"
+			detail="#{panierBean.articles.size()} article(s) dans le panier."
+			rendered="#{panierBean.articles.size() > 0}" />
+		<p:linkButton value="Commander" id="commande"
+			outcome="#{constanteBean.recap}"
+			rendered="#{panierBean.articles.size() > 0}" />
+	</div>
+</div>
+
+<h:form id="criteria">
+	<p:panel header="Trier document par " style="margin-bottom:10px;">
+		<h:panelGrid columns="7" cellpadding="15" cellspacing="1"
+			style="margin-bottom:10px">
+			<h:panelGrid columns="2" id="dateParutionPanel">
+				<h:outputText for="dateParution" value="Date de parution"
+					style="font-weight:bold"
+					rendered="#{listeDocsBean.docType == 'JOURNAL'}" />
+				<p:calendar id="dateParution"
+					rendered="#{listeDocsBean.docType == 'JOURNAL'}"
+					value="#{listeDocsBean.dateParution}" showOn="button" effect="fold"
+					placeholder="Exemple 18/11/19" />
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="monthPanel">
+				<h:outputText for="month" value="Mois de parution" style="font-weight:bold" 
+				rendered="#{listeDocsBean.docType == 'MAGAZINE'}"/>
+				<p:datePicker id="month" view="month" value="#{listeDocsBean.month}"
+					pattern="MM/yyyy" yearNavigator="true" yearRange="2000:2030" 
+					rendered="#{listeDocsBean.docType == 'MAGAZINE'}">
+					
+					</p:datePicker>
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<h:outputText for="docType" value="Type de contenu"
+					style="font-weight:bold" />
+				<p:selectOneMenu id="docType" value="#{listeDocsBean.docType}"
+					style="width:180px">
+					<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+					<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+					<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+					<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
+					<f:ajax render="titlePanel authorPanel dateParutionPanel monthPanel" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="titlePanel">
+				<h:outputText for="titre"
+					rendered="#{listeDocsBean.docType == 'LIVRE'}"
+					value="Titre du livre" style="font-weight:bold">
+				</h:outputText>
+				<p:inputText id="titre"
+					rendered="#{listeDocsBean.docType == 'LIVRE'}" 
+					value="#{listeDocsBean.titre}">
+				</p:inputText>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="authorPanel">
+				<h:outputText for="author"
+					rendered="#{listeDocsBean.docType == 'LIVRE'}" value="Auteur(s)"
+					style="font-weight:bold">
+				</h:outputText>
+				<p:inputText id="author"
+					rendered="#{listeDocsBean.docType == 'LIVRE'}"
+					value="#{listeDocsBean.auteurs}" >
+				</p:inputText>
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<h:outputText for="editeur" value="Éditeur" style="font-weight:bold" />
+				<p:selectOneMenu id="editeur" value="#{listeDocsBean.editeur}"
+					style="width:100px">
+					<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
+						itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="1">
+				<p:commandButton value="Trier" action="#{listeDocsBean.trier}"
+					ajax="true" update="formListe">
+					<f:ajax execute="month"/>
+					</p:commandButton>
+			</h:panelGrid>
+		</h:panelGrid>
+
+	</p:panel>
+</h:form>
+
+<h:form id="formListe">
+	<p:growl id="msg" showDetail="true" sticky="true" />
+	<p:staticMessage id="nbArticles" severity="info"
+		style="margin-bottom:10px;width:200px;"
+		detail="#{panierBean.articles.size()} article(s) dans le panier."
+		rendered="#{panierBean.articles.size() > 0}" />
+	<p:linkButton value="Commander" id="commande"
+		outcome="#{constanteBean.recap}"
+		rendered="#{panierBean.articles.size() > 0}"
+		style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right" />
+
+	<p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5"
+		emptyMessage="Aucun document à afficher" rows="12" paginator="true"
+		id="liste" style="cellspacing:0px;"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="6,12,16">
+		<!-- 		        <p:panel style="text-align:center;margin:0px;border:0;" padding="0"> -->
+		<h:panelGrid columns="1"
+			style="width:200px;height:300px;text-align:center;">
+			<p:graphicImage value="#{listeDocsBean.image}"
+				style="height: 300px; width: 200px;border-radius: 5px">
+				<f:param name="cover" value="#{doc.premiereCouverture}" />
+			</p:graphicImage>
+			<h:outputText value="#{listeDocsBean.getNomEditeur(doc.editeur)}"
+				styleClass="label dateParution" />
+			<h:outputText value="#{doc.dateParution}"
+				styleClass="label dateParution" />
+			<h:outputText value="#{doc.prix}  FCFA" styleClass="label value" />
+			<f:facet name="footer">
+				<p:commandLink update=":formListe:image"
+					oncomplete="PF('coverDialog').show()" title="Agrandir">
+					<h:outputText styleClass="pi pi-eye emoticone"
+						style="margin:0 auto;" />
+					<f:setPropertyActionListener value="#{doc}"
+						target="#{listeDocsBean.selectedDoc}" />
+				</p:commandLink>
+				<p:commandLink title="#{constanteBean.panierMessage}"
+					update=":nbArticles @form :commande" action="#{panierBean.panier}">
+					<h:outputText styleClass="pi pi-shopping-cart emoticone"
+						style="margin:0 auto;" />
+					<f:setPropertyActionListener value="#{doc}"
+						target="#{panierBean.selectedDoc}" />
+				</p:commandLink>
+				<p:commandLink title="Résumé" update=":formListe:resumeOutput"
+					oncomplete="PF('resumeDialog').show()">
+					<h:outputText styleClass="pi pi-bookmark emoticone"
+						style="margin:0 auto;" />
+					<f:setPropertyActionListener value="#{doc}"
+						target="#{listeDocsBean.selectedDoc}" />
+				</p:commandLink>
+
+			</f:facet>
+		</h:panelGrid>
+		<!-- 		        </p:panel> -->
+	</p:dataGrid>
+	<p:dialog widgetVar="coverDialog" modal="true" showEffect="fade"
+		hideEffect="fade" resizable="false" header="Aperçu">
+		<p:outputPanel id="image" style="text-align:justify;border:0">
+			<p:panelGrid columns="1"
+				rendered="#{not empty listeDocsBean.selectedDoc}"
+				columnClasses="label,value">
+				<p:graphicImage value="#{listeDocsBean.image}"
+					style="height:600px; width:400px">
+					<f:param name="cover"
+						value="#{listeDocsBean.selectedDoc.premiereCouverture}" />
+				</p:graphicImage>
+			</p:panelGrid>
+		</p:outputPanel>
+	</p:dialog>
+	<p:dialog widgetVar="resumeDialog" modal="true" showEffect="fade"
+		hideEffect="fade" resizable="false" header="Résumé">
+		<p:outputPanel id="resumeOutput" style="text-align:justify;border:0"
+			border="0">
+			<p:panelGrid columns="1"
+				rendered="#{not empty listeDocsBean.selectedDoc}"
+				columnClasses="label,value" border="0">
+				<h:outputText value="#{listeDocsBean.selectedDoc.resume}"
+					style="text-align:justify" />
+
+			</p:panelGrid>
+		</p:outputPanel>
+	</p:dialog>
+</h:form>
+
 </html>
