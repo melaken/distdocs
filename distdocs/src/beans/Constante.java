@@ -11,9 +11,12 @@ public class Constante {
 	public static final String INDEX_PATH = "/home/lady/distdocs/indexes"; 
 	public static final String CHEMIN_DOCS="/home/lady/distdocs/books";
 	public static final String CHEMIN_IMAGES="/home/lady/distdocs/cover_page";
+	public static final String CHEMIN_LOGO="/home/lady/distdocs/logos";
+	
 //	public static final String INDEX_PATH = "/home/myra/distdocs/indexes"; 
 //	public static final String CHEMIN_DOCS="/home/myra/distdocs/books";
 //	public static final String CHEMIN_IMAGES="/home/myra/distdocs/cover_page";
+//	public static final String CHEMIN_LOGO="/home/myra/distdocs/logos";
 	
 	public static final String ATTRIB_USER = "user"	;
 	public static final String ROOT = "/distdocs";
@@ -37,6 +40,7 @@ public class Constante {
 	public static final int STATUT = 200;
 	public static final String termTransFromPayment = ROOT + "/views/listing/terminerTransaction.xhtml";
 	public static final String allTransactions = ROOT+"/views/listing/listAllTransactions.xhtml";
+	public static final String revues =ROOT+"/views/listing/revues.xhtml?i=0";
 	
 	public static void redirect(FacesContext facesContext, String path, String module) {
 		ExternalContext  exterNalContext = facesContext.getExternalContext();

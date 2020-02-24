@@ -32,6 +32,8 @@ public class ConstanteBean {
 	private String stats;
 	private String menuBarWithoutSearch;
 	private String listAllTransactions;
+	private String createRevue;
+	private String revues;
 
 	
 	@PostConstruct
@@ -60,9 +62,18 @@ public class ConstanteBean {
 		stats = "/views/statistics/stats.xhtml?i=2";
 		menuBarWithoutSearch="/menuBarWithoutSearch.xhtml";
 		listAllTransactions = "/views/listing/listAllTransactions.xhtml?i=0";
+		createRevue="/views/creation/creationRevue.xhtml?i=1";
+		revues="/views/listing/revues.xhtml?i=0";
 	}
 
 
+	public String getCreateRevue() {
+		return createRevue;
+	}
+
+	public String getRevues() {
+		return revues;
+	}
 	public String getTelMarchand() {
 		return telMarchand;
 	}

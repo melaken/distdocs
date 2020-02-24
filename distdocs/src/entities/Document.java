@@ -37,6 +37,8 @@ public class Document {
 	private String premiereCouverture;
 	private String titre;
 	private String auteurs;
+	@Column(name = "id_revue")
+	private Long idRevue;
 	
 	public long getId() {
 		return id;
@@ -109,6 +111,12 @@ public class Document {
 	}
 	public void setAuteurs(String auteurs) {
 		this.auteurs = auteurs;
+	}
+	public Long getIdRevue() {
+		return idRevue;
+	}
+	public void setIdRevue(Long idRevue) {
+		this.idRevue = idRevue;
 	}
 	@Override
 	public boolean equals(Object d) {

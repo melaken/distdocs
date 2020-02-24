@@ -14,14 +14,21 @@ create table Editeur(id int(11), maison_edition VARCHAR(60),
 alter table Editeur add constraint cons_check2 check( doc_type in('MAGAZINE','JOURNAL','LIVRE'));
 alter table Editeur add constraint fk1 FOREIGN KEY(id) REFERENCES Utilisateur(id);
 
+create table Revue(id int(11) auto_increment, doc_type varchar(15) not null, nom varchar(200) not null, editeur int(11) not null, 
+	logo varchar(50) not null,
+	primary key(id));
+alter table Revue add constraint cons_check_pap check (doc_type in('MAGAZINE','JOURNAL'));
+alter table Revue add constraint fk_pap FOREIGN KEY(editeur) REFERENCES Editeur(id);
+
 create Table Document(id int(11) auto_increment, nom varchar(200) not null, date_ajout datetime not null,
 	date_parution date not null, doc_type varchar(15) not null, prix float(11) not null, numero_edition varchar(30), editeur int(11) not null,
-	resume varchar(255), premiere_couverture varchar(40) not null, titre varchar(100),auteurs varchar(255)
+	resume varchar(255), premiere_couverture varchar(40) not null, titre varchar(100),auteurs varchar(255),id_revue int(11), 
 	primary key(id)
 	)ENGINE = INNODB;
 
 alter table Document add constraint cons_check3 check (doc_type in('MAGAZINE','JOURNAL','LIVRE'));
 alter table Document add constraint fk2 FOREIGN KEY(editeur) REFERENCES Editeur(id);
+alter table Document add constraint fk_rev FOREIGN KEY(id_revue) references Revue(id);
 
 create table Transaction(reference varchar(20),client_id int(11) not null, date_achat datetime, etat varchar(20) not null,
 	tel_client varchar(20), moyen_paiement varchar(30), montant float(11), last_update datetime,

@@ -143,8 +143,13 @@ public class ListeDocsBean implements Serializable{
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			String fileName = context.getExternalContext().getRequestParameterMap().get("cover");
+			String type = context.getExternalContext().getRequestParameterMap().get("type");
 			if(fileName != null && !fileName.isEmpty()) {
-				BufferedImage img = ImageIO.read(new File(Constante.CHEMIN_IMAGES,fileName));
+				BufferedImage img = null;
+				if(type != null && type.equals("logo"))
+					img = ImageIO.read(new File(Constante.CHEMIN_LOGO,fileName));
+				else
+					img = ImageIO.read(new File(Constante.CHEMIN_IMAGES,fileName));
 				int w = img.getWidth(null);
 				int h = img.getHeight(null);
 			

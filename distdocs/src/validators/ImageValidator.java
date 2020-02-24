@@ -21,6 +21,8 @@ public class ImageValidator implements Validator {
 	@Override
 	public void validate(FacesContext ctx,UIComponent comp, Object value) {
 		try {
+			if(value == null)
+				throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, "Aucune image sélectionnée", null));
 			Part file = (Part)value;
 	        	
 			if(file.getSize() <= TAILLE_MIN)

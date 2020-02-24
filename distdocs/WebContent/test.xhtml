@@ -19,22 +19,45 @@ xmlns:p="http://primefaces.org/ui">
 </style>
 	</h:head>
 	<h:body>
-	<h:form><p:commandButton id="store" action="#{panierBean.store}" rendered="false"/></h:form>
-				
-				<form id ="form1" action="https://mypvit.com/airtelmoneypvit.kk" method="POST" 
-					>
-	            	<input type="text" name="tel_marchand" value="07921645" />
-		          <input jsf:id="test" type="text" name="montant" value="200" />
-		          <input type="text" name="ref" value="9876543210st" />
-		          <input type="text" name="redirect" value="http://youbooklive.alwaysdata.net/payment-success.php" />
-	              <input type="button" name="payer" onclick="submitOrder();" value="envoyer"/>
-              </form>
-	              
-	   <script> 
-	   function submitOrder() {
-		   document.getElementById('store').click();
-		    $('#form1').submit();
-		}
-	   </script>
+	<h:form enctype="multipart/form-data" >
+		<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
+			<f:facet name="header">Informations sur la revue</f:facet>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="docType" value="Type de contenu concerné par cette revue"
+					style="font-weight:bold" />
+				<p:selectOneMenu id="docType" value="#{revueBean.revue.docType}"
+					style="width:180px">
+					<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+					<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+				<h:panelGrid columns="2" >
+					<h:outputLabel for="nom" value="Nom" style="font-weight:bold">
+						<span class="requis">*</span>
+					</h:outputLabel>
+		    		<p:inputText id="nom" value="#{revueBean.revue.nom}">
+		    			<f:ajax event="blur" render="nomMessage" />
+					</p:inputText>
+		    		<h:message id="nomMessage" for="nom" errorClass="erreur" />
+		   		</h:panelGrid>
+		   		<h:panelGrid columns="2">
+					<h:outputLabel for="logo" value="Logo" style="font-weight:bold">
+						<span class="requis">*</span>
+					</h:outputLabel>
+					<h:inputFile id="logo" mode="simple" skinSimple="true"
+						value="#{revueBean.logo}" >
+						<f:ajax event="blur" render="logoMessage" />
+						<f:validator validatorId="imageValidator" />
+					</h:inputFile>
+					<h:message id="logoMessage" for="cover" errorClass="erreur" />
+				</h:panelGrid>
+		   		<f:facet name="footer">
+					<p:commandButton value="Créer" icon="pi pi-plus"
+						align="center" ajax="false" action="#{revueBean.creer}">
+						<f:ajax execute="@form" />
+					</p:commandButton>
+				</f:facet>
+		</h:panelGrid>
+	</h:form>
 	</h:body>
 </html>
