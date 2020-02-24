@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Création Révue</title>
+	<h:outputStylesheet library="default" name="css/form.css" />
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="galleria/galleria.css" library="primefaces" />
+</h:head>
+<h:body>
+	<ui:insert name="nav">
+		<ui:include src="#{constanteBean.menuBarWithoutSearch}" />
+	</ui:insert>
+
+	<h:form>
+		<p:tabMenu activeIndex="1">
+			<p:menuitem value="Mes revues" icon="pi pi-file-o"
+				rendered="#{sessionScope['user'].userType == 'EDITEUR'}"
+				outcome="#{constanteBean.revues}">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+			<p:menuitem value="Toutes les revues" icon="pi pi-file-o"
+				rendered="#{sessionScope['user'].userType == 'ADMIN'}"
+				outcome="#{constanteBean.revues}">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+			<p:menuitem value="Créer une nouvelle revue" icon="pi pi-plus-circle"
+				rendered="#{sessionScope['user'].userType == 'EDITEUR'}"
+				outcome="#{constanteBean.createRevue}">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+		</p:tabMenu>
+	</h:form>
+
+	<h:form enctype="multipart/form-data">
+		<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
+			<f:facet name="header">Informations sur la revue</f:facet>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="docType"
+					value="Type de contenu concerné par cette revue"
+					style="font-weight:bold" />
+				<p:selectOneMenu id="docType" value="#{revueBean.revue.docType}"
+					style="width:180px">
+					<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+					<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="nom" value="Nom" style="font-weight:bold">
+					<span class="requis">*</span>
+				</h:outputLabel>
+				<p:inputText id="nom" value="#{revueBean.revue.nom}">
+					<f:ajax event="blur" render="nomMessage" />
+				</p:inputText>
+				<h:message id="nomMessage" for="nom" errorClass="erreur" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="logo" value="Logo" style="font-weight:bold">
+					<span class="requis">*</span>
+				</h:outputLabel>
+				<h:inputFile id="logo" mode="simple" skinSimple="true"
+					value="#{revueBean.logo}">
+					<f:ajax event="blur" render="logoMessage" />
+					<f:validator validatorId="imageValidator" />
+				</h:inputFile>
+				<h:message id="logoMessage" for="logo" errorClass="erreur" />
+			</h:panelGrid>
+			<f:facet name="footer">
+				<p:commandButton value="Créer" icon="pi pi-plus" align="center"
+					ajax="false" action="#{revueBean.creer}">
+					<f:ajax execute="@form" />
+				</p:commandButton>
+			</f:facet>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

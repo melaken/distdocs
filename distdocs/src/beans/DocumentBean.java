@@ -12,9 +12,12 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,7 +38,10 @@ import com.sun.pdfview.PDFPage;
 
 import dao.DAOException;
 import dao.DocumentDao;
+import dao.RevueDao;
 import entities.Document;
+import entities.Revue;
+import entities.UserType;
 import entities.Utilisateur;
 import recherche.IndexException;
 import recherche.LuceneWriteIndexFromFile;
@@ -56,12 +62,23 @@ public class DocumentBean implements Serializable{
 	private Part cover;
 	@NotNull(message = "Date de parution obligatoire")
 	private java.util.Date dateParution;
+	private List<Revue> revues;
+	@EJB
+	private RevueDao revueDao;
 	
 	@PostConstruct
 	public void init() {
 		doc = new Document();
+		listerRevues();
 	}
 
+	public List<Revue> getRevues() {
+		listerRevues();
+		return revues;
+	}
+	public void setRevues(List<Revue> revues) {
+		this.revues = revues;
+	}
 	public Document getDoc() {
 		return doc;
 	}
@@ -93,6 +110,14 @@ public class DocumentBean implements Serializable{
 		this.cover = cover;
 	}
 
+	private void listerRevues() {
+		Utilisateur user = currentUser();
+		if(user != null && user.getUserType().equals(UserType.EDITEUR.name())) {
+			revues = revueDao.lister().parallelStream().filter(r->r.getEditeur()==user.getId() 
+						&& r.getDocType().equals(doc.getDocType()))
+					.collect(Collectors.toList());
+		}
+	}
 	private Utilisateur currentUser() {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext  exterNalContext = facesContext.getExternalContext();
@@ -102,7 +127,9 @@ public class DocumentBean implements Serializable{
     	  return (Utilisateur)user;
       else return null;
 	}
-	 //@Transactional
+	public void revueSelected() {
+		doc.setDocType(revueDao.trouver(doc.getIdRevue().intValue()).getDocType());
+	}
 	public void upload() {
 		Utilisateur user = currentUser();
 		System.out.println("user "+user);

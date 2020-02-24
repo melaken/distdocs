@@ -35,7 +35,16 @@ body {
 						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
 						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
 						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
-						 <f:ajax render="titlePanel authorPanel" />
+						 <f:ajax render="titlePanel authorPanel revuePanel " />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2" id="revuePanel">
+					<h:outputLabel for="revue" value="Revue concernée" rendered="#{documentBean.doc.docType != 'LIVRE'}"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="revue" value="#{documentBean.doc.idRevue}"
+						style="width:180px" rendered="#{documentBean.doc.docType != 'LIVRE'}">
+						<f:selectItems value="#{documentBean.revues}" var="rev" 
+						itemValue="#{rev.id}" itemLabel="#{rev.nom}" />
 					</p:selectOneMenu>
 				</h:panelGrid>
 				<h:panelGrid columns="2">
@@ -54,7 +63,7 @@ body {
 						<span class="requis">*</span>
 					</h:outputLabel>
 					<p:calendar id="dateParution" value="#{documentBean.dateParution}"
-						showOn="button" effect="fold" placeholder="Exemple 18/11/19" rendered="#{documentBean.doc.docType != 'LIVRE'}">
+						showOn="button" effect="fold" placeholder="Exemple 18/11/19" >
 						<f:ajax event="keyup" render="dateParutionMessage" />
 					</p:calendar>
 					<h:message id="dateParutionMessage" for="dateParution"
