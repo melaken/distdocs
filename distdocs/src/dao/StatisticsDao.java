@@ -1387,8 +1387,9 @@ public class StatisticsDao {
 		}
 		return liste;
 	}
+	
 	public List<Object[]> chiffre_affaires(java.sql.Date debut, java.sql.Date fin) {
-		String str = "select prix, doc_type, id_revue, editeur from Document d, DocsAchetes da, Transaction t " 
+		String str = "select sum(prix), doc_type, id_revue, editeur from Document d, DocsAchetes da, Transaction t " 
 					+ " where t.etat = ? AND t.reference = da.reference and da.doc_id = d.id ";
 		Query req = null;
 		if(fin != null && debut != null) {
@@ -1424,8 +1425,93 @@ public class StatisticsDao {
 		
 		return results;
 	}
+	public List<Object[]> nbv(java.sql.Date debut, java.sql.Date fin) {
+		String str = "select count(d.id), doc_type, id_revue, editeur from Document d, DocsAchetes da, Transaction t " 
+					+ " where t.etat = ? AND t.reference = da.reference and da.doc_id = d.id ";
+		Query req = null;
+		if(fin != null && debut != null) {
+			str += "and "+date_condition+" group by id_revue having id_revue is not null";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, debut);
+		}else if(fin == null && debut == null) {
+			str += " group by id_revue having id_revue is not null";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+		}else if(fin != null) {
+			str+=" and CAST(date_achat AS DATE) <=? "+" group by id_revue having id_revue is not null";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+		}else if( debut != null) {
+			str+=" and CAST(date_achat AS DATE) >=? "+" group by id_revue having id_revue is not null";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, debut);
+		}
+		 
+		
+		List<Object[]> results = new ArrayList<>();
+		try {
+			results = req.getResultList();
+		}catch(Throwable e){
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		
+		return results;
+	}
+	
 	public List<Object[]> chiffre_affaires(java.sql.Date debut, java.sql.Date fin,Long editeurId, String docType) {
 		String str = "select sum(prix),id_revue from Document d, DocsAchetes da, Transaction t " 
+					+ " where t.etat = ? AND t.reference = da.reference and da.doc_id = d.id ";
+		Query req = null;
+		if(fin != null && debut != null) {
+			str += " and "+date_condition+" and d.editeur=? and d.doc_type = ? group by d.id_revue "
+					+" having id_revue is not null";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, debut);
+			req.setParameter(4, editeurId);
+			req.setParameter(5, docType);
+		}else if(fin == null && debut == null) {
+			str+=" and d.editeur=? and d.doc_type = ? group by d.id_revue"
+					+" having id_revue is not null";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, editeurId);
+			req.setParameter(3, docType);
+		}else if(fin != null) {
+			str+=" and CAST(date_achat AS DATE) <=? "+" and d.editeur=? and d.doc_type = ? group by d.id_revue"
+					+" having id_revue is not null";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, editeurId);
+			req.setParameter(4, docType);
+		}else if( debut != null) {
+			str+=" and CAST(date_achat AS DATE) >=? "+" and d.editeur=? and d.doc_type = ? group by d.id_revue"
+					+" having id_revue is not null";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, debut);
+			req.setParameter(3, editeurId);
+			req.setParameter(4, docType);
+		}
+		List<Object[]> results = new ArrayList<>();
+		try {
+			results = req.getResultList();
+		}catch(Throwable e){
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		
+		return results;
+	}
+	public List<Object[]> nbv(java.sql.Date debut, java.sql.Date fin,Long editeurId, String docType) {
+		String str = "select count(d.id),id_revue from Document d, DocsAchetes da, Transaction t " 
 					+ " where t.etat = ? AND t.reference = da.reference and da.doc_id = d.id ";
 		Query req = null;
 		if(fin != null && debut != null) {
@@ -1473,6 +1559,7 @@ public class StatisticsDao {
 		
 		return results;
 	}
+	
 	public List<Object[]> chiffre_affaires(java.sql.Date debut, java.sql.Date fin,Long editeurId) {
 		String str = "select sum(prix),id_revue from Document d, DocsAchetes da, Transaction t " 
 					+ " where t.etat = ? AND t.reference = da.reference and da.doc_id = d.id and id_revue is not null";
@@ -1514,6 +1601,48 @@ public class StatisticsDao {
 		
 		return results;
 	}
+	public List<Object[]> nbv(java.sql.Date debut, java.sql.Date fin,Long editeurId) {
+		String str = "select count(d.id),id_revue from Document d, DocsAchetes da, Transaction t " 
+					+ " where t.etat = ? AND t.reference = da.reference and da.doc_id = d.id and id_revue is not null";
+		Query req = null;
+		if(fin != null && debut != null) {
+			str += " and "+date_condition+" and d.editeur=?  group by d.id_revue";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, debut);
+			req.setParameter(4, editeurId);
+		}else if(fin == null && debut == null) {
+			str+=" and d.editeur=?  group by d.id_revue";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, editeurId);
+		}else if(fin != null) {
+			str+=" and CAST(date_achat AS DATE) <=? "+" and d.editeur=? group by d.id_revue";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, editeurId);
+		}else if( debut != null) {
+			str+=" and CAST(date_achat AS DATE) >=? "+" and d.editeur=? group by d.id_revue";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, debut);
+			req.setParameter(3, editeurId);
+		}
+		 
+		
+		List<Object[]> results = new ArrayList<>();
+		try {
+			results = req.getResultList();
+		}catch(Throwable e){
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		
+		return results;
+	}
+	
 	public List<Object[]> chiffre_affaires(java.sql.Date debut, java.sql.Date fin, String docType) {
 		String str = "select sum(prix),editeur from Document d, DocsAchetes da, Transaction t " 
 					+ " where t.etat = ? AND t.reference = da.reference and da.doc_id = d.id";
@@ -1555,4 +1684,46 @@ public class StatisticsDao {
 		
 		return results;
 	}
+	public List<Object[]> nbv(java.sql.Date debut, java.sql.Date fin, String docType) {
+		String str = "select count(d.id),editeur from Document d, DocsAchetes da, Transaction t " 
+					+ " where t.etat = ? AND t.reference = da.reference and da.doc_id = d.id";
+		Query req = null;
+		if(fin != null && debut != null) {
+			str += " and "+date_condition+" and d.doc_type = ? group by d.editeur";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, debut);
+			req.setParameter(4, docType);
+		}else if(fin == null && debut == null) {
+			str+=" and d.doc_type = ? group by d.editeur";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, docType);
+		}else if(fin != null) {
+			str+=" and CAST(date_achat AS DATE) <=? "+" and d.doc_type = ? group by d.editeur";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, fin);
+			req.setParameter(3, docType);
+		}else if( debut != null) {
+			str+=" and CAST(date_achat AS DATE) >=? "+" and d.doc_type = ? group by d.editeur";
+			req = em.createNativeQuery(str);
+			req.setParameter(1, Etat.TERMINE.name());
+			req.setParameter(2, debut);
+			req.setParameter(3, docType);
+		}
+		 
+		
+		List<Object[]> results = new ArrayList<>();
+		try {
+			results = req.getResultList();
+		}catch(Throwable e){
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		
+		return results;
+	}
+	
 }

@@ -238,7 +238,6 @@ input[type=radio] {
 			</p:column>
 		</p:dataTable>
 	</h:form>
-	<br /> <br />
 	<h:form
 		rendered="#{statsVentesBean.indicateur == 'CA' and sessionScope['user'].userType == 'ADMIN' and 
 		statsVentesBean.docType != null and statsVentesBean.editeur != null and statsVentesBean.selectedRevue == null}">
@@ -259,7 +258,6 @@ input[type=radio] {
 			</p:columnGroup>
 		</p:dataTable>
 	</h:form>
-	<br /> <br />
 	<h:form
 		rendered="#{statsVentesBean.indicateur == 'CA' and sessionScope['user'].userType == 'ADMIN' and 
 		statsVentesBean.docType != null and statsVentesBean.editeur == null and statsVentesBean.selectedRevue == null}">
@@ -280,7 +278,6 @@ input[type=radio] {
 			</p:columnGroup>
 		</p:dataTable>
 	</h:form>
-	<br /> <br />
 	<h:form
 		rendered="#{statsVentesBean.indicateur == 'CA' and sessionScope['user'].userType == 'ADMIN' and 
 		statsVentesBean.docType == null and statsVentesBean.editeur != null and statsVentesBean.selectedRevue == null}">
@@ -301,7 +298,6 @@ input[type=radio] {
 			</p:columnGroup>
 		</p:dataTable>
 	</h:form>
-	<br /> <br />
 	<h:form
 		rendered="#{statsVentesBean.indicateur == 'CA' and sessionScope['user'].userType == 'ADMIN' and
 		statsVentesBean.docType == null and statsVentesBean.editeur == null}">
@@ -326,9 +322,9 @@ input[type=radio] {
 	<p:chart type="bar" model="#{statsVentesBean.caBar}"
 		rendered="#{statsVentesBean.indicateur == 'CA' and sessionScope['user'].userType == 'ADMIN'}"
 		responsive="true" style="height:300px" />
-	<br /> <br />
 	<h:form
-		rendered="#{statsVentesBean.indicateur == 'CA' and sessionScope['user'].userType == 'ADMIN'}">
+		rendered="#{statsVentesBean.indicateur == 'CA' and sessionScope['user'].userType == 'ADMIN'
+		and statsVentesBean.docType == null and statsVentesBean.editeur == null}">
 		<p:dataTable var="obj" value="#{statsVentesBean.bigArray}"
 			emptyMessage="Aucune entrée trouvée" style="text-align:center">
 			<p:columnGroup type="header">
@@ -371,10 +367,152 @@ input[type=radio] {
 		</p:dataTable>
 	</h:form>
 	<p:chart type="pie" model="#{statsVentesBean.docSoldByPublisherPie}"
-		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN'}"
+		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN'
+		and statsVentesBean.selectedRevue == null}"
 		responsive="true" style="height:300px" />
+	<h:form
+		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN'
+		 and statsVentesBean.selectedRevue != null}">
+		<p:dataTable var="obj" value="#{statsVentesBean.tabAdminPie}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
+			<p:column headerText="Révue">
+				<h:outputText value="#{statsVentesBean.getNomRevue(obj[2])}" />
+			</p:column>
+
+			<p:column headerText="Nombre de ventes">
+				<h:outputText value="#{obj[0]}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+	<h:form
+		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN' and 
+		statsVentesBean.docType != null and statsVentesBean.editeur != null and statsVentesBean.selectedRevue == null}">
+		<p:dataTable var="obj" value="#{statsVentesBean.tabAdminPie}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
+			<p:column headerText="Révue">
+				<h:outputText value="#{statsVentesBean.getNomRevue(obj[1])}" />
+			</p:column>
+
+			<p:column headerText="Nombre de ventes">
+				<h:outputText value="#{obj[0]}" />
+			</p:column>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="1" style="text-align:right" footerText="TOTAL" />
+					<p:column footerText="#{statsVentesBean.totalNBVPie}" />
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+	</h:form>
+	<h:form
+		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN' and 
+		statsVentesBean.docType != null and statsVentesBean.editeur == null and statsVentesBean.selectedRevue == null}">
+		<p:dataTable var="obj" value="#{statsVentesBean.tabAdminPie}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
+			<p:column headerText="Éditeur">
+				<h:outputText value="#{statsVentesBean.trouver(obj[1]).maisonEdition}" />
+			</p:column>
+
+			<p:column headerText="Nombre de ventes">
+				<h:outputText value="#{obj[0]}" />
+			</p:column>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="1" style="text-align:right" footerText="TOTAL" />
+					<p:column footerText="#{statsVentesBean.totalNBVPie}" />
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+	</h:form>
+	<h:form
+		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN' and 
+		statsVentesBean.docType == null and statsVentesBean.editeur != null and statsVentesBean.selectedRevue == null}">
+		<p:dataTable var="obj" value="#{statsVentesBean.tabAdminPie}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
+			<p:column headerText="Révue">
+				<h:outputText value="#{statsVentesBean.getNomRevue(obj[1])}" />
+			</p:column>
+
+			<p:column headerText="Nombre de ventes">
+				<h:outputText value="#{obj[0]}" />
+			</p:column>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="1" style="text-align:right" footerText="TOTAL" />
+					<p:column footerText="#{statsVentesBean.totalNBVPie}" />
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+	</h:form>
+	<h:form
+		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN' and
+		statsVentesBean.docType == null and statsVentesBean.editeur == null}">
+		<p:dataTable var="obj" value="#{statsVentesBean.tabAdminPie}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
+			<p:column headerText="ÉDITEUR">
+				<h:outputText value="#{statsVentesBean.trouver(obj[1]).maisonEdition}" />
+			</p:column>
+
+			<p:column headerText="Nombre des ventes">
+				<h:outputText value="#{obj[0]}" />
+			</p:column>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="1" style="text-align:right" footerText="TOTAL" />
+					<p:column footerText="#{statsVentesBean.totalNBVPie}" />
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+	</h:form>
+	<br /> <br />
 	<p:chart type="bar" model="#{statsVentesBean.docSoldByPublisher}"
-		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN'}"
+		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN'}
+		and statsVentesBean.docType == null and statsVentesBean.editeur == null}"
 		responsive="true" style="height:300px" />
+	<br /> 
+	<h:form
+		rendered="#{statsVentesBean.indicateur == 'NBV' and sessionScope['user'].userType == 'ADMIN'
+		and statsVentesBean.docType == null and statsVentesBean.editeur == null}">
+		<p:dataTable var="obj" value="#{statsVentesBean.bigArray}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
+			<p:columnGroup type="header">
+				<p:row>
+					<p:column rowspan="2" headerText="Éditeur" />
+					<p:column colspan="3"
+						headerText="Type de contenu" />
+				</p:row>
+				<p:row>
+						<p:column headerText="JOURNAL" />
+						<p:column headerText="LIVRE" />
+						<p:column headerText="MAGAZINE" />
+						<p:column headerText="TOTAL" />
+				</p:row>
+			</p:columnGroup>
+			<p:column>
+				<h:outputText value="#{statsVentesBean.trouver(obj[0]).maisonEdition}" />
+			</p:column>
+			<p:column >
+				<h:outputText value="#{empty obj[1] ? 0 : obj[1]}"/>
+			</p:column>
+			<p:column >
+				<h:outputText value="#{empty obj[2] ? 0 : obj[2]}"/>
+			</p:column>
+			<p:column >
+				<h:outputText value="#{empty obj[3] ? 0 : obj[3]}"/>
+			</p:column>
+			<p:column >
+				<h:outputText value="#{empty obj[4] ? 0 : obj[4]}"/>
+			</p:column>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="1" style="text-align:right" footerText="TOTAL" />
+					<p:column footerText="#{statsVentesBean.totalDocType[0]}" />
+					<p:column footerText="#{statsVentesBean.totalDocType[1]}" />
+					<p:column footerText="#{statsVentesBean.totalDocType[2]}" />
+					<p:column footerText="#{statsVentesBean.totalNBVPie}" />
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+	</h:form>
 </h:body>
 </html>

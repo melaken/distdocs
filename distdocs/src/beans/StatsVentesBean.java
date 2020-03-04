@@ -92,9 +92,9 @@ public class StatsVentesBean implements Serializable{
 	private long totalNBVPie;
 	private long totalNBVBar;
 	private Object[][] bigArray;
-	private Double[] totalDocType;
+	private Number[] totalDocType;
 
-	public Double[] getTotalDocType() {
+	public Number[] getTotalDocType() {
 		return totalDocType;
 	}
 	public Object[][] getBigArray() {
@@ -387,6 +387,51 @@ public class StatsVentesBean implements Serializable{
 		yAxis.setLabel("Nombre de documents");
 		yAxis.setMin(0);
 		yAxis.setMax(statdao.nbDocsVendus(debut, fin,editeurId, docType));
+		
+		ArrayList<Integer> editeurs= new ArrayList<>();
+		for(Object[] obj : liste) {
+			Integer ed = (Integer)obj[1];
+			if(!editeurs.contains(ed)) {
+				editeurs.add(ed);
+			}
+		}
+		int editSize = editeurs.size();
+		System.out.println("editeurs.size() "+editSize);
+		bigArray =  new Object[editeurs.size()][5];
+		int i=0;
+		for(Integer ed : editeurs) {
+			long total = 0;
+			bigArray[i][0] = ed;
+			for(Object[] obj : liste) {
+				if((Integer)obj[1] == ed) {
+					if(obj[2].toString().equals(DocType.JOURNAL.name())) {
+						bigArray[i][1] =  obj[0] ;
+						total += (long)obj[0];
+					}
+					if(obj[2].toString().equals(DocType.LIVRE.name())) {
+						bigArray[i][2] = obj[0];
+						total += (long)obj[0];
+					}
+					if(obj[2].toString().equals(DocType.MAGAZINE.name())) {
+						bigArray[i][3] = obj[0] ;
+						total += (long)obj[0];
+					}
+				}
+			}
+			bigArray[i][4] = total;
+			i++;
+		}
+		 totalDocType = new Number[3];
+
+		//somme doctype 1:journal; 2:Livre; 3:Mag
+		for(int k=1;k<4;k++) {
+			long total = 0;
+			for(int j=0;j<editSize;j++) {
+				total += bigArray[j][k] != null ? (long)bigArray[j][k] : 0;
+			}
+			totalDocType[k-1] = total;
+		}
+		System.out.println("totalDocType "+Arrays.toString(totalDocType));
 	}
 	private void chiffreAffaires() {
 		java.sql.Date debut = dateDebut != null ? new java.sql.Date(dateDebut.getTime()) : null;
@@ -500,25 +545,14 @@ public class StatsVentesBean implements Serializable{
 		caPie.setShowDataLabels(true);
 
 	}
-	private void docSoldByPublisherPie() {
-		docSoldByPublisherPie = new PieChartModel();
-		java.sql.Date debut = dateDebut != null ? new java.sql.Date(dateDebut.getTime()) : null;
-		java.sql.Date fin = dateFin != null ? new java.sql.Date(dateFin.getTime()) : null;
-
-		List<Object[]> liste = statdao.nbDocsVendusParEditeur(debut, fin);
-		System.out.println("in docSoldByPublisherPie size = "+liste.size());
-
-		for(Object[] obj : liste) {
-			docSoldByPublisherPie.set(editDao.trouver((Integer)obj[1]).getMaisonEdition(), (Number)obj[0]);
-		}
-
-		docSoldByPublisherPie.setTitle("Ventes par éditeur");
+	private void docSoldByPublisherPie(String label) {
+		docSoldByPublisherPie.setTitle(label);
 		docSoldByPublisherPie.setLegendPosition("w");
 		docSoldByPublisherPie.setShadow(false);
 		docSoldByPublisherPie.setShowDataLabels(true);
 
 	}
-	private void admin_stats() {
+	private void admin_ca_stats() {
 		caBar = new BarChartModel();
 		caPie = new PieChartModel();
 
@@ -596,18 +630,92 @@ public class StatsVentesBean implements Serializable{
 			}
 		}
 	}
+	private void admin_nbv_stats() {
+		docSoldByPublisher = new BarChartModel();
+		docSoldByPublisherPie = new PieChartModel();
+
+		java.sql.Date debut = dateDebut != null ? new java.sql.Date(dateDebut.getTime()) : null;
+		java.sql.Date fin = dateFin != null ? new java.sql.Date(dateFin.getTime()) : null;
+		Long editeurId = editeur != null && !editeur.isEmpty() ? Long.parseLong(editeur) : null;
+
+		List<Object[]> liste = new ArrayList<>();
+		String label="";
+		
+		if(selectedRevue != null) {
+			liste = statdao.nbv(debut, fin);
+			//nbv de la revue sélectionnée
+			tabAdminPie = liste.parallelStream().filter(r->Long.parseLong(r[2].toString())==selectedRevue)
+					.collect(Collectors.toList());
+			System.out.println("tabAdminPie size = "+tabAdminPie.size()+" selectedRevue = "+selectedRevue);
+		}else {
+			if(docType !=null && editeurId != null ) {
+				//liste des revues de l'éditeur dont le type 'docType' est selectionné
+				liste = statdao.nbv(debut, fin,editeurId,docType);
+				tabAdminPie = liste;
+				long total = 0;
+				for(Object[] obj : liste) {
+					docSoldByPublisherPie.set(revueDao.trouver((Integer)obj[1]).getNom(), (Number)obj[0]);
+					total += (long)obj[0];
+				}
+				label="Nombre de ventes des revues de l'éditeur '"+editDao.trouver(editeurId.intValue()).getMaisonEdition()
+						+"' pour le type de contenu '"+docType+"'";
+				docSoldByPublisherPie(label);
+				totalNBVPie = total;
+			}else if(docType !=null && editeurId == null ) {
+				//nbv des éditeurs ayant vendus le type 'docType' au cours de cette période
+				liste = statdao.nbv(debut, fin,docType);
+				tabAdminPie = liste;
+				long total = 0;
+				for(Object[] obj : liste) {
+					docSoldByPublisherPie.set(editDao.trouver(Integer.parseInt(obj[1].toString())).getMaisonEdition(), (Number)obj[0]);
+					total += (long)obj[0];
+				}
+				label="Nombre de ventes des éditeurs ayant vendus le type de contenu '"+docType+"'";
+				docSoldByPublisherPie(label);
+				totalNBVPie = total;
+			}else if(docType ==null && editeurId != null ) {
+				//nbv des revues de l'éditeur sélectionné
+				liste = statdao.nbv(debut,fin,editeurId);
+				tabAdminPie = liste;
+				System.out.println("No6 editeurId = "+editeurId);
+				long total = 0;
+				for(Object[] obj : liste) {
+					if(obj[1] != null) {
+						docSoldByPublisherPie.set(revueDao.trouver(Integer.parseInt(obj[1].toString())).getNom(), (Number)obj[0]);
+						total += (long)obj[0];
+					}
+
+				}
+				label="Nombre de ventes de l'éditeur '"+editDao.trouver(editeurId.intValue()).getMaisonEdition()+"'"
+						+" groupés par revues";
+				docSoldByPublisherPie(label);
+				totalNBVPie = total;
+			}else if(docType ==null && editeurId == null ) {
+				liste = statdao.nbDocsVendusParEditeur(debut, fin);
+				long total = 0;
+				for(Object[] obj : liste) {
+					docSoldByPublisherPie.set(editDao.trouver((Integer)obj[1]).getMaisonEdition(), (Number)obj[0]);
+					total += (long)obj[0];
+				}
+				label="Chiffres d'affaires par éditeur";
+				createDocsSoldByPublisher();
+				docSoldByPublisherPie(label);
+				tabAdminPie = liste;
+				totalNBVPie = total;
+
+			}
+		}
+	}
 	public void analyser() {
 		System.out.println("indicateur = "+indicateur);
 		Utilisateur user = getCurrentUser();
 		if(user !=null && !user.getUserType().equals(UserType.CLIENT.name())) {
 			if(user.getUserType().equals(UserType.ADMIN.name())) {
 				if(indicateur.equals("CA")) {
-					chiffreAffaires();
-					admin_stats();
+					admin_ca_stats();
 					redirect(Constante.statsVentes1);
 				}else {
-					createDocsSoldByPublisher();
-					docSoldByPublisherPie();
+					admin_nbv_stats();
 					redirect(Constante.statsVentes1);
 				}
 			}else {
