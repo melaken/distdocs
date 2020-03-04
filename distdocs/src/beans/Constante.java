@@ -41,6 +41,9 @@ public class Constante {
 	public static final String termTransFromPayment = ROOT + "/views/listing/terminerTransaction.xhtml";
 	public static final String allTransactions = ROOT+"/views/listing/listAllTransactions.xhtml";
 	public static final String revues =ROOT+"/views/listing/revues.xhtml?i=0";
+	public static final String statsVentes = ROOT +"/views/statistics/statsVentes.xhtml";
+	public static final String statsVentes1 = ROOT +"/views/statistics/statsVentes1.xhtml";
+	public static final String statsTransactions = ROOT +"/views/statistics/statsTransactions.xhtml";
 	
 	public static void redirect(FacesContext facesContext, String path, String module) {
 		ExternalContext  exterNalContext = facesContext.getExternalContext();

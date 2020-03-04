@@ -5,15 +5,43 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
+<title>Statistiques</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<h:outputStylesheet library="default" name="css/form.css" />
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="charts/charts.css" library="primefaces" />
+
+	<h:outputScript name="charts/charts.js" library="primefaces" />
 </h:head>
 <h:body>
-	<h:form rendered="#{param.i == 2}">
+	<ui:insert name = "nav" >
+      <ui:include src = "#{constanteBean.menuBarWithoutSearch}" />
+   </ui:insert>
+	<p:tabMenu activeIndex="1" >
+		<p:menuitem value="Stats des ventes" icon="pi pi-money-bill" outcome="#{constanteBean.statsVentes1}"
+				rendered="#{sessionScope['user'].userType != 'CLIENT'}">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+			<p:menuitem value="Stats par client" icon="pi pi-money-bill" outcome="#{constanteBean.statsVentes}"
+				rendered="#{sessionScope['user'].userType != 'CLIENT'}">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+			<p:menuitem value="Stats des transactions" icon="pi pi-check-circle" outcome="#{constanteBean.statsTransactions}"
+				rendered="#{sessionScope['user'].userType == 'ADMIN'}">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+		</p:tabMenu>
+	<h:form >
 		<p:growl>
 			<p:autoUpdate />
 		</p:growl>
 		<p:panel header="Critères des statistiques"
 			style="margin-bottom:10px;">
-			<h:panelGrid columns="5" >
+			<h:panelGrid columns="5" cellpadding="5">
 				<h:panelGrid columns="2">
 					<h:outputText for="debutdaByUser" value="Début période ciblée"
 						style="font-weight:bold;" />
@@ -68,10 +96,10 @@
 		</p:panel>
 	</h:form>
 	<p:chart type="pie" model="#{statsVentesBean.daByUser}"
-		rendered="#{param.i == 2}" responsive="true" style="height:300px" />
+		responsive="true" style="height:300px" />
 	<br />
 	<br />
 	<p:chart type="bar" model="#{statsVentesBean.daByUserByDoctype}"
-		rendered="#{param.i == 2}" responsive="true" style="height:300px" />
+		responsive="true" style="height:300px" />
 </h:body>
 </html>

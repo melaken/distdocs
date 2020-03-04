@@ -155,6 +155,6 @@ public class StatsTransactionBean implements Serializable{
 	}
 	private void redirect() {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		Constante.redirect(fc, Constante.STATS+"?i=0"+"&faces-redirect=true", MODULE);
+		Constante.redirect(fc, Constante.statsTransactions+"?faces-redirect=true", MODULE);
 	}
 }

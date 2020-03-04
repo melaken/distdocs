@@ -19,45 +19,77 @@ xmlns:p="http://primefaces.org/ui">
 </style>
 	</h:head>
 	<h:body>
-	<h:form enctype="multipart/form-data" >
-		<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
-			<f:facet name="header">Informations sur la revue</f:facet>
-			<h:panelGrid columns="2">
-				<h:outputLabel for="docType" value="Type de contenu concerné par cette revue"
-					style="font-weight:bold" />
-				<p:selectOneMenu id="docType" value="#{revueBean.revue.docType}"
-					style="width:180px">
-					<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
-					<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
-				</p:selectOneMenu>
-			</h:panelGrid>
-				<h:panelGrid columns="2" >
-					<h:outputLabel for="nom" value="Nom" style="font-weight:bold">
-						<span class="requis">*</span>
-					</h:outputLabel>
-		    		<p:inputText id="nom" value="#{revueBean.revue.nom}">
-		    			<f:ajax event="blur" render="nomMessage" />
-					</p:inputText>
-		    		<h:message id="nomMessage" for="nom" errorClass="erreur" />
-		   		</h:panelGrid>
-		   		<h:panelGrid columns="2">
-					<h:outputLabel for="logo" value="Logo" style="font-weight:bold">
-						<span class="requis">*</span>
-					</h:outputLabel>
-					<h:inputFile id="logo" mode="simple" skinSimple="true"
-						value="#{revueBean.logo}" >
-						<f:ajax event="blur" render="logoMessage" />
-						<f:validator validatorId="imageValidator" />
-					</h:inputFile>
-					<h:message id="logoMessage" for="cover" errorClass="erreur" />
+	<h:form >
+		<p:growl>
+			<p:autoUpdate />
+		</p:growl>
+		<p:panel header="Indicateurs" style="margin-bottom:10px;">
+			<p:selectOneRadio id="customRadio" layout="grid" columns="1"
+				value="#{statsVentesBean.indicateur}">
+				<f:selectItem itemLabel="Chiffres d'affaires" itemValue="CA" />
+				<f:selectItem itemLabel="Nombre de ventes" itemValue="NBV" />
+			</p:selectOneRadio>
+		</p:panel>
+		<p:panel header="Axes d'analyse" style="margin-bottom:10px;">
+			<h:panelGrid columns="6">
+				<h:panelGrid columns="2">
+					<h:outputText for="debutdaByUser" value="Début période ciblée"
+						style="font-weight:bold;" />
+					<p:calendar id="debutdaByUser" value="#{statsVentesBean.dateDebut}"
+						style="width:60px" showOn="button" effect="fold"
+						placeholder="Exemple 18/11/19" />
 				</h:panelGrid>
-		   		<f:facet name="footer">
-					<p:commandButton value="Créer" icon="pi pi-plus"
-						align="center" ajax="false" action="#{revueBean.creer}">
-						<f:ajax execute="@form" />
-					</p:commandButton>
-				</f:facet>
-		</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="findaByUser" value="Fin période ciblée"
+						style="font-weight:bold;" />
+					<p:calendar id="findaByUser" value="#{statsVentesBean.dateFin}"
+						style="margin-left:1px" showOn="button" effect="fold"
+						placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2" 
+				rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}">
+					<h:outputText for="docType" value="Type de contenu"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="docType" value="#{statsVentesBean.docType}"
+						style="width:180px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
+						<p:ajax event="change" update="panel" listener="#{statsVentesBean.docTypeListener}" render="panel"/>
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2" id="panel" 
+				rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}"
+				>
+					<h:outputText for="revue" value="Revue" style="font-weight:bold" 
+					rendered="#{statsVentesBean.docType == 'MAGAZINE' or statsVentesBean.docType == 'JOURNAL' or statsVentesBean.editeur != null}"/>
+					<p:selectOneMenu id="revue" value="#{statsVentesBean.selectedRevue}" style="width:180px"
+						rendered="#{statsVentesBean.docType == 'MAGAZINE' or statsVentesBean.docType == 'JOURNAL' or statsVentesBean.editeur != null}">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{statsVentesBean.revues}" var="rev"
+							itemValue="#{rev.id}" itemLabel="#{rev.nom}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2"
+					rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}">
+					<h:outputText for="editeur" value="Éditeur"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="editeur" value="#{statsVentesBean.editeur}"
+						style="width:100px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
+							itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
+							<p:ajax event="change" update="panel" listener="#{statsVentesBean.docTypeListener}"/>
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:commandButton value="Générer stats"
+						action="#{statsVentesBean.analyser}" icon="pi pi-chart-bar"
+						align="center" ajax="false" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</p:panel>
 	</h:form>
 	</h:body>
 </html>

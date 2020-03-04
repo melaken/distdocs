@@ -34,6 +34,9 @@ public class ConstanteBean {
 	private String listAllTransactions;
 	private String createRevue;
 	private String revues;
+	private String statsTransactions;
+	private String statsVentes1;
+	private String statsVentes;
 
 	
 	@PostConstruct
@@ -59,14 +62,26 @@ public class ConstanteBean {
 		articlesPerTrans = "/views/listing/articlesPerTransaction.xhtml";
 		telMarchand = "077921645";
 		urlRedirect = "http://myracenter.homeip.net:3580/distdocs/response";
-		stats = "/views/statistics/stats.xhtml?i=2";
+		stats = "/views/statistics/stats.xhtml?i=1";
 		menuBarWithoutSearch="/menuBarWithoutSearch.xhtml";
 		listAllTransactions = "/views/listing/listAllTransactions.xhtml?i=0";
 		createRevue="/views/creation/creationRevue.xhtml?i=1";
 		revues="/views/listing/revues.xhtml?i=0";
+		statsTransactions = "/views/statistics/statsTransactions.xhtml";
+		statsVentes = "/views/statistics/statsVentes.xhtml";
+		statsVentes1 = "/views/statistics/statsVentes1.xhtml";
 	}
 
 
+	public String getStatsTransactions() {
+		return statsTransactions;
+	}
+	public String getStatsVentes() {
+		return statsVentes;
+	}
+	public String getStatsVentes1() {
+		return statsVentes1;
+	}
 	public String getCreateRevue() {
 		return createRevue;
 	}
