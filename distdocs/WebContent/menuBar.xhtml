@@ -50,6 +50,9 @@ xmlns:p="http://primefaces.org/ui">
           	style="margin-right:10px;margin-top:50px;padding-left:5px" 
           	outcome="#{constanteBean.creationUser}"/>
           	
+          	<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" 
+			style="margin-top:50px"/>
+			
            <p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}" 
            icon="pi pi-user-plus"
            	outcome="#{constanteBean.creationEditeur}" style="margin-right:10px;padding-left:5px"/>
@@ -57,9 +60,6 @@ xmlns:p="http://primefaces.org/ui">
           <p:commandButton value="Connexion"  onclick="PF('dlg2').show();" icon="pi pi-sign-in"
         		rendered="#{sessionScope['user'] == null}" style="margin-right:10px;padding-left:5px" />
 		
-		<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" 
-			style="margin-top:50px"/>
-				 
         <p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
         	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
         		
