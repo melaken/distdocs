@@ -32,8 +32,8 @@ xmlns:p="http://primefaces.org/ui">
     <p:growl id="messages"/>
  	<p:toolbar id="tb" style="height:80px;font-size:13px;background-color:#0060a0;margin-right:0px;margin-left:0px;">
         <f:facet name="left">
-        	<p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;
-        			border-radius: 5px;margin-left:30px;"/>
+        	<p:graphicImage name="images/logo.png" style="height:70px; width:100px;
+        			border-radius: 5px;margin-left:10px;"/>
        		<p:inputText value="#{rechercheBean.chaine}" style="margin-top:15px;margin-left:400px;width:300px;height:20px;" 
        			placeholder="Rechercher..." />
        		<p:commandButton title="rechercher" action="#{rechercheBean.search}" icon="pi pi-search"
@@ -41,10 +41,6 @@ xmlns:p="http://primefaces.org/ui">
 <!--         		 <p:button  style="margin:0px;"/> -->
 <!--         	</p:commandButton><br/> -->
         </f:facet>
-        <f:facet name="middle">
-        <p:graphicImage name="images/books.jpeg" style="height:50px; width:50px;
-        			border-radius: 5px;margin-left:30px;"/><br/> 
-        			</f:facet>
         <f:facet name="right" style="margin-right:20px;">
         	<p:linkButton  id="inscription" value="	Inscription" rendered="#{sessionScope['user'] == null}" icon="pi pi-user-plus"
           	style="margin-right:10px;margin-top:50px;padding-left:5px" 
