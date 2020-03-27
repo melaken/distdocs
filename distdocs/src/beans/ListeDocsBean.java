@@ -28,6 +28,7 @@ import dao.DocumentDao;
 import dao.EditeurDao;
 import entities.DocType;
 import entities.Document;
+import entities.Editeur;
 
 @Named
 @SessionScoped
@@ -50,10 +51,12 @@ public class ListeDocsBean implements Serializable{
 	private String auteurs;
 	private String titre;
 	private java.util.Date month ;
+	private List<Editeur> editeurs;
 	
 	@PostConstruct
 	public void init() {
 		lister();
+		editeurs = editDao.lister();
 		
 	}
 	public List<Document> getListe() {
@@ -77,6 +80,9 @@ public class ListeDocsBean implements Serializable{
 		 this.selectedDoc = doc;
 		System.out.println("selectedDoc.resume : "+this.selectedDoc.getResume());
 		System.out.println("selectedDoc.id : "+this.selectedDoc.getId());
+	}
+	public List<Editeur> getEditeurs(){
+		return editeurs;
 	}
 	public boolean getDisplayMag() {
 		return docType != null && docType.equals(DocType.MAGAZINE.name()) ? true : false;

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+	<p style="margin-top:20px;"><h2>A propos de kioskOnline</h2>
+	kioskOnline est une plateforme numérique qui permet à chacun de consulter une diversité de journaux,magazines et livres 
+	de toutes catégories confondues sur l'actualité. Elle offre l’opportunité de rechercher des articles et sujets qui 
+	vous passionnent, partager les informations 
+	acquises avec vos amis, collègues, famille, acheter des produits et stocker tous vos journaux et magazines 
+	préférés. Vous êtes libre de suivre l’actualité politique, sportive, économique, culturelle et plus encore selon 
+	vos envies et centres d’intérêt. 
+	</p>
+	<p><h2>Les éditeurs disponibles sur kioskOnline</h2></p>
+		<h:form>
+			<p:dataGrid var="edit" value="#{listeDocsBean.editeurs}" columns="10" border="false"
+			emptyMessage="Aucun éditeur" style="cellspacing:0px;border:none !important;">
+		<h:panelGrid columns="1" style="text-align:center;">
+			<h:outputText value="#{edit.maisonEdition}"/>
+		</h:panelGrid>
+		</p:dataGrid>
+		</h:form>
+		
+		<p style="text-align:center;">Copyright METRIKA-IDB © All Rights Reserved 2020 </p>
+</html>
