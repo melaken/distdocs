@@ -45,7 +45,19 @@ public class DocumentDao {
 		}
 		return doc;
 	}
-	
+	public Document trouver(String numeroEdition) throws DAOException{
+		Document doc = null;
+		Query requete = em.createQuery("SELECT d FROM Document d WHERE d.numeroEdition=:num");
+		requete.setParameter("num", numeroEdition);
+		try {
+			doc = (Document) requete.getSingleResult();
+		}catch (Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+			throw new DAOException(e);
+		}
+		return doc;
+	}
 	public List<Document> lister() throws DAOException{
 		List<Document> liste= new ArrayList<>();
 		Query request = em.createQuery("select d from Document d order by d.id DESC");

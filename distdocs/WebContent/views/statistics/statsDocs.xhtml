@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Statistiques</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<h:outputStylesheet library="default" name="css/form.css" />
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="charts/charts.css" library="primefaces" />
+
+	<h:outputScript name="charts/charts.js" library="primefaces" />
+</h:head>
+<h:body>
+	<ui:insert name="nav">
+		<ui:include src="#{constanteBean.menuBarWithoutSearch}" />
+	</ui:insert>
+	<p:tabMenu activeIndex="3">
+		<p:menuitem value="Stats des ventes" icon="pi pi-money-bill"
+			outcome="#{constanteBean.statsVentes1}"
+			rendered="#{sessionScope['user'].userType != 'CLIENT'}">
+			<f:param name="i" value="0" />
+		</p:menuitem>
+		<p:menuitem value="Stats par client" icon="pi pi-money-bill"
+			outcome="#{constanteBean.statsVentes}"
+			rendered="#{sessionScope['user'].userType != 'CLIENT'}">
+			<f:param name="i" value="1" />
+		</p:menuitem>
+		<p:menuitem value="Stats des transactions" icon="pi pi-check-circle"
+			outcome="#{constanteBean.statsTransactions}"
+			rendered="#{sessionScope['user'].userType == 'ADMIN'}">
+			<f:param name="i" value="2" />
+		</p:menuitem>
+		<p:menuitem value="Stats des documents" icon="pi pi-check-circle"
+			outcome="#{constanteBean.statsDocs}"
+			rendered="#{sessionScope['user'].userType == 'ADMIN' or sessionScope['user'].userType == 'EDITEUR'}">
+			<f:param name="i" value="3" />
+		</p:menuitem>
+	</p:tabMenu>
+	<h:form>
+		<p:growl>
+			<p:autoUpdate />
+		</p:growl>
+		<p:panel header="Critères des statistiques"
+			style="margin-bottom:10px;">
+			<h:panelGrid columns="7" cellpadding="5">
+				<h:panelGrid columns="2">
+					<h:outputText for="dateDebut" value="Début période ciblée"
+						style="font-weight:bold;" />
+					<p:calendar id="dateDebut" value="#{statsDocsBean.dateDebut}"
+						style="width:60px" showOn="button" effect="fold"
+						placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="dateFin" value="Fin période ciblée"
+						style="font-weight:bold;" />
+					<p:calendar id="dateFin" value="#{statsDocsBean.dateFin}"
+						style="margin-left:1px" showOn="button" effect="fold"
+						placeholder="Exemple 18/11/19" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="nbDocs" value="Nombre de documents"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="nbDocs" value="#{statsDocsBean.nbDocs}"
+						style="width:40px">
+						<f:selectItems value="#{staticticsBean.nbClients}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2" >
+					<h:outputText for="revue" value="Revue" style="font-weight:bold" />
+					<p:selectOneMenu id="revue" value="#{statsDocsBean.revue}"
+					style="width:100px">
+					<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{statsDocsBean.allRevues}" var="rev"
+						itemValue="#{rev.id}" itemLabel="#{rev.nom}" />
+				</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2" id="numeroPanel">
+					<h:outputText for="mumero" value="Numéro d'édition" style="font-weight:bold" />
+					<p:inputText id="mumero" value="#{statsDocsBean.numeroEdition}"/>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:commandButton value="Générer stats"
+						action="#{statsDocsBean.generateStats}" icon="pi pi-chart-bar"
+						align="center" ajax="false" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+		</p:panel>
+	</h:form>
+	<h:form>
+		<p:dataTable var="doc" value="#{statsDocsBean.liste}"
+			emptyMessage="Aucune entrée trouvée" style="text-align:center">
+			<p:column headerText="Revue">
+				<h:outputText value="#{doc[0]}" />
+			</p:column>
+			<p:column headerText="Numéro édition">
+				<h:outputText value="#{doc[1]}" />
+			</p:column>
+			<p:column headerText="Document">
+				<p:graphicImage value="#{listeDocsBean.image}"
+					style="height: 100px; width: 70px;border-radius: 2px">
+					<f:param name="cover" value="#{doc[2]}" />
+				</p:graphicImage>
+			</p:column>
+
+			<p:column headerText="Nombre de ventes">
+				<h:outputText value="#{doc[3]}" />
+			</p:column>
+
+			<p:column headerText="Montant">
+				<h:outputText value="#{doc[4]}" />
+			</p:column>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="3" style="text-align:right" footerText="TOTAL" />
+					<p:column
+						footerText="#{statsDocsBean.totalNbv}" />
+					<p:column
+						footerText="#{statsDocsBean.totalMontant}	FCFA" />
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

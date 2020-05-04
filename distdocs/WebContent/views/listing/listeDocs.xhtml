@@ -51,7 +51,7 @@ body .ui-staticmessage.ui-message {
 
 <h:form id="criteria">
 	<p:panel header="Trier document par " style="margin-bottom:10px;">
-		<h:panelGrid columns="7" cellpadding="15" cellspacing="1"
+		<h:panelGrid columns="9" cellpadding="15" cellspacing="1"
 			style="margin-bottom:10px">
 			<h:panelGrid columns="2" id="dateParutionPanel">
 				<h:outputText for="dateParution" value="Date de parution"
@@ -80,7 +80,10 @@ body .ui-staticmessage.ui-message {
 					<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
 					<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
 					<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
-					<f:ajax render="titlePanel authorPanel dateParutionPanel monthPanel" />
+					<p:ajax event="change" update="revuePanel"
+							listener="#{listeDocsBean.listener}" render="revuePanel" />
+					<f:ajax event="change" render="titlePanel authorPanel dateParutionPanel monthPanel numeroPanel" />
+					
 				</p:selectOneMenu>
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="titlePanel">
@@ -110,7 +113,29 @@ body .ui-staticmessage.ui-message {
 					<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
 						itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
+						<p:ajax event="change" update="revuePanel"
+							listener="#{listeDocsBean.listener}" render="revuePanel" />
 				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="revuePanel">
+				<h:outputText for="revue" rendered="#{listeDocsBean.docType == 'MAGAZINE' or 
+				listeDocsBean.docType == 'JOURNAL' or listeDocsBean.editeur != null}" 
+				value="Revue" style="font-weight:bold" />
+				<p:selectOneMenu id="revue" rendered="#{listeDocsBean.docType == 'MAGAZINE' or 
+				listeDocsBean.docType == 'JOURNAL' or listeDocsBean.editeur != null}"
+				value="#{listeDocsBean.rev}"
+					style="width:100px">
+					<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{listeDocsBean.revues}" var="rev"
+						itemValue="#{rev.id}" itemLabel="#{rev.nom}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="numeroPanel">
+				<h:outputText for="mumero" rendered="#{listeDocsBean.docType == 'MAGAZINE' or listeDocsBean.docType == 'JOURNAL'}" 
+				value="Numéro d'édition" style="font-weight:bold" />
+				<p:inputText id="mumero" rendered="#{listeDocsBean.docType == 'MAGAZINE' or listeDocsBean.docType == 'JOURNAL'}"
+				value="#{listeDocsBean.numeroEdition}">
+					</p:inputText>
 			</h:panelGrid>
 			<h:panelGrid columns="1">
 				<p:commandButton value="Trier" action="#{listeDocsBean.trier}"

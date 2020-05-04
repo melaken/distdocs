@@ -14,12 +14,17 @@ xmlns:p="http://primefaces.org/ui">
 	préférés. Vous êtes libre de suivre l’actualité politique, sportive, économique, culturelle et plus encore selon 
 	vos envies et centres d’intérêt. 
 	</p>
-	<p><h2>Les éditeurs disponibles sur kioskOnline</h2></p>
+	<p><h2>Les revues disponibles sur kioskOnline</h2></p>
 		<h:form>
-			<p:dataGrid var="edit" value="#{listeDocsBean.editeurs}" columns="10" border="false"
-			emptyMessage="Aucun éditeur" style="cellspacing:0px;border:none !important;">
-		<h:panelGrid columns="1" style="text-align:center;">
-			<h:outputText value="#{edit.maisonEdition}"/>
+			<p:dataGrid var="revue" value="#{revueBean.allRevues}" columns="10" border="false"
+			emptyMessage="Aucune revue" style="cellspacing:0px;border:none !important;">
+		<h:panelGrid columns="2" style="text-align:center;">
+			<p:graphicImage value="#{listeDocsBean.image}"
+				style="height: 50px; width: 50px;border-radius: 5px">
+				<f:param name="cover" value="#{revue.logo}" />
+				<f:param name="type" value="logo" />
+			</p:graphicImage>
+			<h:outputText value="#{revue.nom}" style="font-size:14px"/>
 		</h:panelGrid>
 		</p:dataGrid>
 		</h:form>

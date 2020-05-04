@@ -38,6 +38,7 @@ public class ConstanteBean {
 	private String statsVentes1;
 	private String statsVentes;
 	private String footer;
+	private String statsDocs;
 
 	
 	@PostConstruct
@@ -72,6 +73,7 @@ public class ConstanteBean {
 		statsVentes = "/views/statistics/statsVentes.xhtml";
 		statsVentes1 = "/views/statistics/statsVentes1.xhtml";
 		footer = "/views/footer.xhtml";
+		statsDocs = "/views/statistics/statsDocs.xhtml";
 	}
 
 
@@ -193,5 +195,8 @@ public class ConstanteBean {
 	}
 	public String getFooter() {
 		return footer;
+	}
+	public String getStatsDocs() {
+		return statsDocs;
 	}
 }

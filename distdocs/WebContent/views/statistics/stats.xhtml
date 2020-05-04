@@ -36,6 +36,10 @@
 				rendered="#{sessionScope['user'].userType == 'ADMIN'}">
 				<f:param name="i" value="2" />
 			</p:menuitem>
+			<p:menuitem value="Stats des documents" icon="pi pi-check-circle" outcome="#{constanteBean.statsDocs}"
+				rendered="#{sessionScope['user'].userType == 'ADMIN' or sessionScope['user'].userType == 'EDITEUR'}">
+				<f:param name="i" value="3" />
+			</p:menuitem>
 		</p:tabMenu>
 	</h:form>
 

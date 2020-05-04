@@ -29,9 +29,9 @@ public class StaticticsBean implements Serializable{
 	@PostConstruct
 	public void init() {
 		nbClients  = new HashMap<String, String>();
-		nbClients.put("5", "5");
+		nbClients.put("50", "50");
+		nbClients.put("20", "20");
 		nbClients.put("10", "10");
-		nbClients.put("15", "15");
 		
 		editeurs= editDao.lister();
 	}

@@ -69,4 +69,16 @@ public class RevueDao {
 		}
 		return rev;
 	}
+	public List<Revue> lister(long idEditeur) {
+		List<Revue> liste= new ArrayList<>();
+		Query request = em.createQuery("select r from Revue r where r.editeur=:editeur");
+		request.setParameter("editeur", idEditeur);
+		try {
+			 liste = request.getResultList();
+		}catch(Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return liste;
+	}
 }

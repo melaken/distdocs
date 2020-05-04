@@ -40,9 +40,12 @@ public class RevueBean implements Serializable{
 	@EJB
 	private EditeurDao editDao;
 	private Revue revue;
+	//revues d'un éditeur particulier
 	private List<Revue> liste;
 	@NotNull(message = "Aucune image sélectionnée")
 	private Part logo;
+	//toutes les revues
+	private List<Revue> allRevues;
 
 	@PostConstruct
 	public void init() {
@@ -69,6 +72,11 @@ public class RevueBean implements Serializable{
 	}
 	public void setListe(List<Revue> liste) {
 		this.liste = liste;
+	}
+	//liste toutes les revues
+	public List<Revue> getAllRevues() {
+		allRevues = revueDao.lister();
+		return allRevues;
 	}
 
 	public void creer() {
@@ -101,6 +109,7 @@ public class RevueBean implements Serializable{
 		catch (IOException e1) {
 			e1.printStackTrace();}
 	}
+	//liste les revues d'un éditeur 
 	private void lister() {
 		Utilisateur user = getCurrentUser();
 		liste = new ArrayList<>();
@@ -121,5 +130,4 @@ public class RevueBean implements Serializable{
 		System.out.println("Revue Editeur "+ed.getMaisonEdition());
 		return  ed;
 	}
-
 }

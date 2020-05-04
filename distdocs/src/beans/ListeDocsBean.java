@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.imageio.ImageIO;
 import javax.inject.Named;
 
@@ -26,9 +27,11 @@ import org.primefaces.model.StreamedContent;
 import dao.DAOException;
 import dao.DocumentDao;
 import dao.EditeurDao;
+import dao.RevueDao;
 import entities.DocType;
 import entities.Document;
 import entities.Editeur;
+import entities.Revue;
 
 @Named
 @SessionScoped
@@ -41,6 +44,8 @@ public class ListeDocsBean implements Serializable{
 	private DocumentDao docDao;
 	@EJB
 	private EditeurDao editDao;
+	@EJB
+	private RevueDao revueDao;
 	private List<Document> liste;
 	private List<String> tenLatestDocs;
 	private StreamedContent image;
@@ -52,11 +57,15 @@ public class ListeDocsBean implements Serializable{
 	private String titre;
 	private java.util.Date month ;
 	private List<Editeur> editeurs;
+	private String numeroEdition;
+	private List<Revue> revues;
+	private String rev;
 	
 	@PostConstruct
 	public void init() {
 		lister();
 		editeurs = editDao.lister();
+		revues = revueDao.lister();
 		
 	}
 	public List<Document> getListe() {
@@ -65,6 +74,12 @@ public class ListeDocsBean implements Serializable{
 
 	public void setListe(List<Document> liste) {
 		this.liste = liste;
+	}
+	public String getNumeroEdition() {
+		return numeroEdition;
+	}
+	public void setNumeroEdition(String num) {
+		 numeroEdition = num;
 	}
 	public Document getSelectedDoc() {
 		return selectedDoc;
@@ -83,6 +98,15 @@ public class ListeDocsBean implements Serializable{
 	}
 	public List<Editeur> getEditeurs(){
 		return editeurs;
+	}
+	public List<Revue> getRevues(){
+		return revues;
+	}
+	public void setRev(String revue) {
+		rev = revue;
+	}
+	public String getRev() {
+		return rev;
 	}
 	public boolean getDisplayMag() {
 		return docType != null && docType.equals(DocType.MAGAZINE.name()) ? true : false;
@@ -205,30 +229,52 @@ public class ListeDocsBean implements Serializable{
 	public void trier() {
 		lister();
 		System.out.println("docType "+docType+" editeur = "+editeur+" dateParution = "+dateParution+" month = "+month);
-		
-		if(docType != null && !docType.isEmpty()) {
-			liste = liste.parallelStream().filter(d -> d.getDocType().equals(docType)).collect(Collectors.toList());
+		System.out.println("trier liste size "+liste.size());
+		if(numeroEdition != null && !numeroEdition.isEmpty())
+			liste = liste.parallelStream().filter(d -> d.getNumeroEdition().equals(numeroEdition)).collect(Collectors.toList());
+		else if(rev != null && !rev.isEmpty()) {
+			long idRev = Long.parseLong(rev);
+			liste = liste.parallelStream().filter(d -> d.getIdRevue() != null && d.getIdRevue()== idRev).
+					collect(Collectors.toList());
+			}
+		else{
+			if(docType != null && !docType.isEmpty()) {
+				liste = liste.parallelStream().filter(d -> d.getDocType().equals(docType)).collect(Collectors.toList());
+			}
+			if(docType != null && docType.equals(DocType.LIVRE.name()) && titre != null && !titre.isEmpty())
+				liste = liste.parallelStream().filter(d -> d.getTitre().contains(titre)).collect(Collectors.toList());
+			if(docType != null && docType.equals(DocType.LIVRE.name()) && auteurs != null && !auteurs.isEmpty())
+				liste = liste.parallelStream().filter(d -> d.getTitre().contains(auteurs)).collect(Collectors.toList());
+			if (docType != null &&docType.equals(DocType.MAGAZINE.name()) && month != null) {
+				System.out.println("month = "+ month);
+				int year = getYear(month);
+				int mois = getMonth(month);
+				liste = liste.parallelStream().filter(d -> getYear(d.getDateParution())==year 
+						&& getMonth(d.getDateParution())==mois).collect(Collectors.toList());
+			}
+			if(editeur != null) {
+				Long editeurId = Long.parseLong(editeur);
+				liste = liste.parallelStream().filter(d -> d.getEditeur().equals(editeurId)).collect(Collectors.toList());
+			}
+			if(dateParution != null && docType != null && docType.equals(DocType.JOURNAL.name())) {
+				java.sql.Date dt = new java.sql.Date(dateParution.getTime());
+				liste = liste.parallelStream().filter(d -> d.getDateParution().equals(dt)).collect(Collectors.toList());
+			}
 		}
-		
-		if(docType != null && docType.equals(DocType.LIVRE.name()) && titre != null && !titre.isEmpty())
-			liste = liste.parallelStream().filter(d -> d.getTitre().contains(titre)).collect(Collectors.toList());
-		if(docType != null && docType.equals(DocType.LIVRE.name()) && auteurs != null && !auteurs.isEmpty())
-			liste = liste.parallelStream().filter(d -> d.getTitre().contains(auteurs)).collect(Collectors.toList());
-		if (docType != null &&docType.equals(DocType.MAGAZINE.name()) && month != null) {
-			System.out.println("month = "+ month);
-			int year = getYear(month);
-			int mois = getMonth(month);
-			liste = liste.parallelStream().filter(d -> getYear(d.getDateParution())==year 
-					&& getMonth(d.getDateParution())==mois).collect(Collectors.toList());
-		}
-		
-		if(editeur != null) {
-			Long editeurId = Long.parseLong(editeur);
-			liste = liste.parallelStream().filter(d -> d.getEditeur().equals(editeurId)).collect(Collectors.toList());
-		}
-		if(dateParution != null && docType != null && docType.equals(DocType.JOURNAL.name())) {
-			java.sql.Date dt = new java.sql.Date(dateParution.getTime());
-			liste = liste.parallelStream().filter(d -> d.getDateParution().equals(dt)).collect(Collectors.toList());
+	}
+	
+	public void listener(AjaxBehaviorEvent event) {
+		System.out.println("in ListeDocsBean listener");
+		if(docType != null && !docType.isEmpty() || editeur != null && !editeur.isEmpty()) {
+			revues = revueDao.lister();
+			System.out.println("before filter revues size = "+revues.size());
+			if(docType != null && !docType.isEmpty())
+				revues = revues.parallelStream().filter(r -> r.getDocType().equals(docType)).collect(Collectors.toList());
+			if(editeur != null && !editeur.isEmpty()) {
+				long editeurId = Long.parseLong(editeur);
+				revues = revues.parallelStream().filter(r -> r.getEditeur() == editeurId).collect(Collectors.toList());
+			}
+			System.out.println("after filter revues size = "+revues.size());
 		}
 	}
 }
