@@ -70,6 +70,18 @@ public class DocumentDao {
 		}
 		return liste;
 	}
+	public List<Integer> listerDocsForMobile() {
+		List<Integer> liste= new ArrayList<>();
+		Query request = em.createNativeQuery("select id from Document where id_revue is not null " + 
+				"group by id_revue order by id desc");
+		try {
+			 liste = request.getResultList();
+		}catch(Throwable e) {
+			Logger.getLogger(MODULE).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return liste;
+	}
 	public long lastInsertId() throws DAOException{
 		long lastId=0;
 		try{
