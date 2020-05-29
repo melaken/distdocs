@@ -41,7 +41,7 @@ public class StatsDocsBean implements Serializable{
 	private EditeurDao editDao;
 	@EJB
 	private DocumentDao docDao;
-	
+
 	private java.util.Date dateDebut;
 	private java.util.Date dateFin;
 	private String nbDocs = "10";
@@ -52,7 +52,7 @@ public class StatsDocsBean implements Serializable{
 	private List<Revue>  allRevues;
 	private long totalNbv;
 	private float totalMontant;
-	
+
 	@PostConstruct
 	public void init() {
 		liste = new ArrayList<>();
@@ -116,19 +116,21 @@ public class StatsDocsBean implements Serializable{
 	public void generateStats() {
 		java.sql.Date debut = dateDebut != null ? new java.sql.Date(dateDebut.getTime()) : null;
 		java.sql.Date fin = dateFin != null ? new java.sql.Date(dateFin.getTime()) : null;
-		
+
 		if(revue != null && !revue.isEmpty()) {
 			if(numeroEdition != null && !numeroEdition.isEmpty()) {
 				liste = statDao.oneDocStats(debut, fin,Long.parseLong(revue), numeroEdition.trim());
-				System.out.println("liste zero "+Arrays.toString(liste.get(0)));
-				if((Long)liste.get(0)[0] == new Long(0)) {
-					try {
-						Object[] obj = {new Long(0),docDao.trouver(numeroEdition).getId()};
-						liste = new ArrayList<>();
-						liste.add(obj);
-					}catch(Exception ex) {
-						Logger.getLogger(MODULE).log(Level.SEVERE, ex.getMessage(), ex);
-						ex.printStackTrace();
+				if(liste.size() != 0) {
+					System.out.println("liste zero "+Arrays.toString(liste.get(0)));
+					if((Long)liste.get(0)[0] == new Long(0)) {
+						try {
+							Object[] obj = {new Long(0),docDao.trouver(numeroEdition).getId()};
+							liste = new ArrayList<>();
+							liste.add(obj);
+						}catch(Exception ex) {
+							Logger.getLogger(MODULE).log(Level.SEVERE, ex.getMessage(), ex);
+							ex.printStackTrace();
+						}
 					}
 				}
 			}else {
@@ -140,13 +142,13 @@ public class StatsDocsBean implements Serializable{
 		else {
 			if(numeroEdition != null && !numeroEdition.isEmpty()) {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, " ", "Veuillez sélectionner la revue concernée.");
-		        PrimeFaces.current().dialog().showMessageDynamic(message);
+				PrimeFaces.current().dialog().showMessageDynamic(message);
 			}else {
 				long nb = Long.parseLong(nbDocs);
 				liste = statDao.docStats(debut, fin, nb);
 				fillDataTable();
 			}
-			
+
 		}
 		System.out.println("statsDocsBean liste size = "+liste.size()); 
 	}
@@ -165,7 +167,7 @@ public class StatsDocsBean implements Serializable{
 				totalNbv += Long.parseLong(obj[0]+"");
 			}
 			liste = lt;
-			
+
 		}catch(Exception ex) {
 			Logger.getLogger(MODULE).log(Level.SEVERE, ex.getMessage(), ex);
 			ex.printStackTrace();

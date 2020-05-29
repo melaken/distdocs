@@ -49,7 +49,7 @@ xmlns:p="http://primefaces.org/ui">
           	<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" 
 			style="margin-top:50px"/>
 			
-           <p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}" 
+           <p:linkButton id="editeur" value="Créer Éditeur" rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}" 
            icon="pi pi-user-plus"
            	outcome="#{constanteBean.creationEditeur}" style="margin-right:10px;padding-left:5px"/>
            	
@@ -65,11 +65,11 @@ xmlns:p="http://primefaces.org/ui">
     			icon="pi pi-file" style="padding-left:10px"/> 
     			<p:menuitem value="Mes revues" outcome="#{constanteBean.revues}" icon="pi pi-file-o"
 						 style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/>
-					<p:menuitem value="Revues" outcome="#{constanteBean.revues}"  style="padding-left:10px"
+				<p:menuitem value="Revues" outcome="#{constanteBean.revues}"  style="padding-left:10px"
 						 icon="pi pi-file-o" rendered="#{sessionScope['user'].userType == 'ADMIN'}" />
      			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listUserTransactions}" 
      				style="padding-left:10px"/>
-     				<p:menuitem value="Transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listAllTransactions}" 
+     			<p:menuitem value="Transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listAllTransactions}" 
      				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'ADMIN'}"/>
      			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>
      			<p:menuitem value="Statistiques"  outcome="#{constanteBean.statsVentes1}" icon="pi pi-chart-bar" style="padding-left:10px"

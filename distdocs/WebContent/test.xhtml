@@ -11,6 +11,7 @@ xmlns:p="http://primefaces.org/ui">
   		<meta name="viewport" content="width=device-width, initial-scale=1"/>
   		<h:outputStylesheet name="components.css" library="primefaces"/>
   		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+  		<h:outputStylesheet name="css/test.css" library="default"/>
   		<style>
   		 .pi {  
     width: 18px !important; 
@@ -87,9 +88,16 @@ xmlns:p="http://primefaces.org/ui">
 					<p:commandButton value="Générer stats"
 						action="#{statsVentesBean.analyser}" icon="pi pi-chart-bar"
 						align="center" ajax="false" />
+						<h:commandButton value="Button Text" 
+						styleClass="buttons"/>
 				</h:panelGrid>
 			</h:panelGrid>
 		</p:panel>
 	</h:form>
+	<div class="buttons">
+    
+    <h:commandButton value="Button Text" styleClass="cross"/>
+     <h:commandButton value="Button Text" />
+</div>
 	</h:body>
 </html>

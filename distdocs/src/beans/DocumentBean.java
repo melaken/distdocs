@@ -39,6 +39,7 @@ import com.sun.pdfview.PDFPage;
 import dao.DAOException;
 import dao.DocumentDao;
 import dao.RevueDao;
+import entities.DocType;
 import entities.Document;
 import entities.Revue;
 import entities.UserType;
@@ -69,6 +70,7 @@ public class DocumentBean implements Serializable{
 	@PostConstruct
 	public void init() {
 		doc = new Document();
+		doc.setDocType(DocType.MAGAZINE.name());
 		listerRevues();
 	}
 
@@ -134,8 +136,9 @@ public class DocumentBean implements Serializable{
 		Utilisateur user = currentUser();
 		System.out.println("user "+user);
 	    try {
-	    	if(!verifyCompulsoryFields())
+	    	if(!verifyCompulsoryFields()) {
 	    		throw new ValidationException("Erreur validation");
+	    	}
 	    	if(user != null) {
 	    		System.out.println("title "+doc.getTitre()+" auteurs "+doc.getAuteurs()+"dateP "+dateParution);
 		    	InputStream input = file.getInputStream();
@@ -153,7 +156,7 @@ public class DocumentBean implements Serializable{
 		      
 		      File fich = new File(Constante.CHEMIN_DOCS,id+"");
 		      File fich_cover = new File(Constante.CHEMIN_IMAGES,p_couverture);
-
+		      System.out.println("B4 writing on disk");
 		      //écritures des fichiers sur le disque
 		      Files.copy(input, fich.toPath());
 		      Files.copy(input_cover, fich_cover.toPath());

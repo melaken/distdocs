@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+.buttons {
+    border:1px;
+    border-color:grey;
+    font-weight:bold;
+    border-radius:3px;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:5px;
+	padding-bottom:5px;
+	border-style:solid;
+	
+}
+
+.buttons:hover {
+    background-color: #60a0ff;
+}
+

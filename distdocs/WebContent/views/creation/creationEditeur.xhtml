@@ -34,6 +34,8 @@ xmlns:p="http://primefaces.org/ui">
 	   
 	   <div  align="center"> 
 	 	<h:form>
+	 	<fieldset>
+			<legend>Création d'un éditeur</legend>
 	    	<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
 	     		<f:facet name="header">Informations de l'éditeur</f:facet>
 			   	<h:panelGrid columns="2" >
@@ -104,10 +106,12 @@ xmlns:p="http://primefaces.org/ui">
 	        	<h:messages globalOnly="true" errorClass="erreur" />
 				<f:facet name="footer" align="center" >
 	   	    		<p:commandButton value="Enregistrer" action="#{editeurBean.creerEditeur}" onfocus="$('p:inputText').blur()"
-	   	    		icon="pi pi-save" 
-	   	    		/>
+	   	    		icon="pi pi-save" >
+	   	    			<f:ajax execute="@form" render="@form"/>
+					</p:commandButton>
 	   	    </f:facet>
    	    </h:panelGrid>
+   	    </fieldset>
 	</h:form>
 	</div>
 </h:body>

@@ -14,7 +14,7 @@ import javax.servlet.http.Part;
 
 @FacesValidator(value= "fileValidator")
 public class FileValidator implements Validator{
-	private static final String EMPTY_FILE="Fichier vide";
+	private static final String EMPTY_FILE="Vous devez selectionnez un fichier PDF";
 	private static final String FILE_TOO_BIG="Fichier trop grand";
 	private static final String FILE_NOT_PDF="Ce fichier doit être au format PDF";
 	private static final long TAILLE_MAX=1024*10000;
@@ -23,6 +23,8 @@ public class FileValidator implements Validator{
 	@Override
 	public void validate(FacesContext ctx,UIComponent comp, Object value) {
 		try {
+			if(value == null)
+				throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, EMPTY_FILE, null));
 			Part file = (Part)value;
 			if(file.getSize() <= TAILLE_MIN)
 				throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, EMPTY_FILE, null));

@@ -68,7 +68,9 @@ xmlns:p="http://primefaces.org/ui">
 			    </h:panelGrid>
 				<f:facet name="footer">
 	   	    		<p:commandButton value="S'inscrire" action="#{creationUserBean.inscrire}" icon="pi pi-user-plus" 
-	   	    		style="align:center"/>
+	   	    		style="align:center">
+	   	    		<f:ajax execute="@form" render="@form"/>
+					</p:commandButton>
 	   	    </f:facet>
    	    </h:panelGrid>
 	

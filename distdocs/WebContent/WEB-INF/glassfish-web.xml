@@ -9,6 +9,6 @@
 			<description>Conserve une copie du code des servlets auto-générées.</description>
 		</property>
 	</jsp-config>
-	<property name="alternatedocroot_1" value="from=/books/* dir=/home/myra/distdocs"/>
-<!-- 	<property name="alternatedocroot_1" value="from=/books/* dir=/home/lady/distdocs"/> -->
+<!-- 	<property name="alternatedocroot_1" value="from=/books/* dir=/home/myra/distdocs"/> -->
+	<property name="alternatedocroot_1" value="from=/books/* dir=/home/lady/distdocs"/>
 </glassfish-web-app>

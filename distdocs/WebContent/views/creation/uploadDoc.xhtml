@@ -13,6 +13,7 @@
 		library="primefaces" />
 	<h:outputStylesheet name="components.css" library="primefaces" />
 	<h:outputStylesheet name="charts/charts.css" library="primefaces" />
+	<h:outputStylesheet name="css/test.css" library="default"/>
 	<style>
 body {
 	background-color: #e0e0e0;
@@ -24,7 +25,7 @@ body {
 		<ui:include src="#{constanteBean.menuBarWithoutSearch}" />
 	</ui:insert>
 	<div align="center">
-		<h:form enctype="multipart/form-data">
+		<h:form id="formUpload" enctype="multipart/form-data">
 			<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
 				<f:facet name="header">Informations sur le contenu à publier</f:facet>
 				<h:panelGrid columns="2">
@@ -51,7 +52,7 @@ body {
 					<h:outputLabel for="prix" value="Prix" style="font-weight:bold">
 						<span class="requis">*</span>
 					</h:outputLabel>
-					<p:inputNumber id="prix" value="#{documentBean.doc.prix}"
+					<p:inputNumber id="prix" value="#{documentBean.doc.prix}" 
 						minValue="0.0" emptyValue="empty">
 						<f:ajax event="blur" render="prixMessage" />
 					</p:inputNumber>
@@ -86,9 +87,8 @@ body {
 						style="font-weight:bold">
 						<span class="requis">*</span>
 					</h:outputLabel>
-					<h:inputFile id="file" mode="simple" skinSimple="true"
-						value="#{documentBean.file}"
-						requiredMesssage="Veuillez sélectionnez le document à publier">
+					<h:inputFile id="file" mode="simple" skinSimple="true" 
+						value="#{documentBean.file}">
 						<f:ajax event="blur" render="fileMessage" />
 						<f:validator validatorId="fileValidator" />
 					</h:inputFile>
@@ -120,8 +120,7 @@ body {
 						<span class="requis">*</span>
 					</h:outputLabel>
 					<h:inputFile id="cover" mode="simple" skinSimple="true" 
-						value="#{documentBean.cover}"
-						requiredMesssage="Veuillez sélectionner une couverture pour votre document">
+						value="#{documentBean.cover}">
 						<f:ajax event="blur" render="coverMessage" />
 						<f:validator validatorId="imageValidator" />
 					</h:inputFile>
@@ -131,21 +130,29 @@ body {
 					<h:outputLabel for="resume" value="Résumé" style="font-weight:bold">
 						<span class="requis">*</span>
 					</h:outputLabel>
-					<p:inputTextarea rows="6" cols="33" id="resume"
-						value="#{documentBean.doc.resume}">
+					<p:inputTextarea id="resume" rows="10" cols="51" value="#{documentBean.doc.resume}"
+						counter="display" maxlength="255" counterTemplate="{0} caractères restant" autoResize="false">
 						<f:ajax event="blur" render="resumeMessage" />
 					</p:inputTextarea>
 					<h:message id="resumeMessage" for="resume" errorClass="erreur" />
+					<h:outputText id="display" />
 				</h:panelGrid>
+				<h:messages globalOnly="true" infoClass="info" />
 				<f:facet name="footer">
-					<p:commandButton value="Publier" icon="pi pi-cloud-upload"
-						align="center" ajax="false" action="#{documentBean.upload}">
-						<f:ajax execute="@form" />
-					</p:commandButton>
+					<h:commandButton value="Publier" icon="pi pi-cloud-upload" styleClass="buttons" 
+					style="font-size:12px;" ajax="true"
+					onstart="this.disabled=true; $('#formUpload\\:loading').show()"
+						action="#{documentBean.upload}" 
+    					oncomplete="this.disabled=false; $('#formUpload\\:loading').hide()">
+						<f:ajax execute="@form" render="@form"/>
+					</h:commandButton>
 				</f:facet>
 			</h:panelGrid>
+			<p:graphicImage id="loading" name="images/loading.gif"
+					style="display:none;align:right;height: 150px; width: 150px;border-radius: 2px" />
 		</h:form>
 	</div>
-
+	<div align="right"> 
+	</div>
 </h:body>
 </html>

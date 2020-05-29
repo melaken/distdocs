@@ -17,10 +17,12 @@ public class ImageValidator implements Validator {
 
 	private static final String FILE_NOT_IMAGE="Ce fichier doit être une image";
 	private static final long TAILLE_MIN=0;
-	private static final String EMPTY_FILE="Fichier vide";
+	private static final String EMPTY_FILE="Vous devez selectionnez une image";
 	@Override
 	public void validate(FacesContext ctx,UIComponent comp, Object value) {
 		try {
+			if(value == null)
+				throw new ValidatorException(new FacesMessage( FacesMessage.SEVERITY_ERROR, EMPTY_FILE, null));
 			Part file = (Part)value;
 	        	
 			if(file.getSize() <= TAILLE_MIN)

@@ -27,9 +27,10 @@ public class StatsDao {
 				" where t.etat = ? and t.reference = da.reference and da.doc_id = d.id and d.numero_edition =?" +
 				" and d.id_revue = ?";
 		Query req = null;
+		String groupBy = " group by da.doc_id";
 		
 		if(debut != null && fin != null) {
-			str += date_condition;
+			str += date_condition+groupBy;
 			
 			req = em.createNativeQuery(str);
 			req.setParameter(1, Etat.TERMINE.name());
@@ -38,12 +39,15 @@ public class StatsDao {
 			req.setParameter(4, fin );
 			req.setParameter(5,debut );
 		}else if(debut == null && fin == null) {
+			str += groupBy;
+			
 			req = em.createNativeQuery(str);
 			req.setParameter(1, Etat.TERMINE.name());
 			req.setParameter(2, numeroEdition);
 			req.setParameter(3, idRevue);
+			
 		}else if(fin != null) {
-			str += " and CAST(date_achat AS DATE) <= ?";
+			str += " and CAST(date_achat AS DATE) <= ?"+groupBy;
 			
 			req = em.createNativeQuery(str);
 			req.setParameter(1, Etat.TERMINE.name());
@@ -51,7 +55,7 @@ public class StatsDao {
 			req.setParameter(3, idRevue);
 			req.setParameter(4, fin);
 		}else if(debut != null) {
-			str += " and CAST(date_achat AS DATE) >= ? ";
+			str += " and CAST(date_achat AS DATE) >= ? "+groupBy;
 			
 			req = em.createNativeQuery(str);
 			req.setParameter(1, Etat.TERMINE.name());

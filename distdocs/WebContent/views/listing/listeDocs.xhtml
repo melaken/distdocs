@@ -82,7 +82,7 @@ body .ui-staticmessage.ui-message {
 					<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
 					<p:ajax event="change" update="revuePanel"
 							listener="#{listeDocsBean.listener}" render="revuePanel" />
-					<f:ajax event="change" render="titlePanel authorPanel dateParutionPanel monthPanel numeroPanel" />
+					<f:ajax event="change" render="titlePanel authorPanel dateParutionPanel monthPanel" />
 					
 				</p:selectOneMenu>
 			</h:panelGrid>
@@ -115,32 +115,35 @@ body .ui-staticmessage.ui-message {
 						itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
 						<p:ajax event="change" update="revuePanel"
 							listener="#{listeDocsBean.listener}" render="revuePanel" />
+						<f:ajax event="change" render="numeroPanel"/>
 				</p:selectOneMenu>
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="revuePanel">
-				<h:outputText for="revue" rendered="#{listeDocsBean.docType == 'MAGAZINE' or 
-				listeDocsBean.docType == 'JOURNAL' or listeDocsBean.editeur != null}" 
+				<h:outputText for="revue" rendered="#{listeDocsBean.docType != 'LIVRE' and
+				 listeDocsBean.editeur != null}" 
 				value="Revue" style="font-weight:bold" />
-				<p:selectOneMenu id="revue" rendered="#{listeDocsBean.docType == 'MAGAZINE' or 
-				listeDocsBean.docType == 'JOURNAL' or listeDocsBean.editeur != null}"
+				<p:selectOneMenu id="revue" rendered="#{listeDocsBean.docType != 'LIVRE' and
+				 listeDocsBean.editeur != null}"
 				value="#{listeDocsBean.rev}"
 					style="width:100px">
 					<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{listeDocsBean.revues}" var="rev"
 						itemValue="#{rev.id}" itemLabel="#{rev.nom}" />
+						
+					<f:ajax event="change" render="numeroPanel"/>
 				</p:selectOneMenu>
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="numeroPanel">
-				<h:outputText for="mumero" rendered="#{listeDocsBean.docType == 'MAGAZINE' or listeDocsBean.docType == 'JOURNAL'}" 
+				<h:outputText for="mumero" rendered="#{listeDocsBean.rev != null and listeDocsBean.editeur != null}" 
 				value="Numéro d'édition" style="font-weight:bold" />
-				<p:inputText id="mumero" rendered="#{listeDocsBean.docType == 'MAGAZINE' or listeDocsBean.docType == 'JOURNAL'}"
+				<p:inputText id="mumero" rendered="#{listeDocsBean.rev != null and listeDocsBean.editeur != null}" 
 				value="#{listeDocsBean.numeroEdition}">
 					</p:inputText>
 			</h:panelGrid>
 			<h:panelGrid columns="1">
-				<p:commandButton value="Trier" action="#{listeDocsBean.trier}"
-					ajax="true" update="formListe">
-					<f:ajax execute="month"/>
+				<p:commandButton value="Trier" action="#{listeDocsBean.trier}" 
+					 update="formListe" >
+<!-- 					<f:ajax execute="month"/> -->
 					</p:commandButton>
 			</h:panelGrid>
 		</h:panelGrid>
@@ -159,9 +162,9 @@ body .ui-staticmessage.ui-message {
 		rendered="#{panierBean.articles.size() > 0}"
 		style="background-color:#0060a0;width:100px;margin-bottom:15px;float:right" />
 
-	<p:dataGrid var="doc" value="#{listeDocsBean.liste}" columns="5"
+	<p:dataGrid id="liste" var="doc" value="#{listeDocsBean.liste}" columns="5"
 		emptyMessage="Aucun document à afficher" rows="12" paginator="true"
-		id="liste" style="cellspacing:0px;"
+		 style="cellspacing:0px;"
 		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		rowsPerPageTemplate="6,12,16">
 		<h:panelGrid columns="1"
@@ -171,6 +174,8 @@ body .ui-staticmessage.ui-message {
 				<f:param name="cover" value="#{doc.premiereCouverture}" />
 			</p:graphicImage>
 			<h:outputText value="#{listeDocsBean.getNomEditeur(doc.editeur)}"
+				styleClass="label dateParution" />
+			<h:outputText rendered="#{doc.docType!= 'LIVRE'}" value="N°#{doc.numeroEdition}"
 				styleClass="label dateParution" />
 			<h:outputText value="#{doc.dateParution}"
 				styleClass="label dateParution" />

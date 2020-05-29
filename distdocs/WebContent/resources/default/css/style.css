@@ -1,3 +1,5 @@
+@CHARSET "UTF-8";
+
 //remove border from datagrid
 .ui-datagrid-content {
 	border: none;
@@ -9,4 +11,4 @@
 }
 body{
 	background-color:#e0e0e0;
-}
+} 
