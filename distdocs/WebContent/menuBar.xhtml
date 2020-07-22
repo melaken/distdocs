@@ -49,26 +49,26 @@ xmlns:p="http://primefaces.org/ui">
           	<p:linkButton outcome="#{constanteBean.accueil}" value="Accueil" icon="pi pi-home" rendered="#{sessionScope['user'] != null}" 
 			style="margin-top:50px"/>
 			
-           <p:linkButton id="editeur" value="Créer Éditeur" rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}" 
+           <p:linkButton id="editeur" value="Devenir Éditeur" rendered="#{sessionScope['user'] == null}" 
            icon="pi pi-user-plus"
            	outcome="#{constanteBean.creationEditeur}" style="margin-right:10px;padding-left:5px"/>
            	
           <p:commandButton value="Connexion"  onclick="PF('dlg2').show();" icon="pi pi-sign-in"
         		rendered="#{sessionScope['user'] == null}" style="margin-right:10px;padding-left:5px" />
 		
-        <p:menuButton value="#{sessionScope['user'].nom}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
+        <p:menuButton value="#{sessionBean.menuButtonValue(sessionScope['user'])}" style="font-size:13px;margin-right:20px;margin-top:20px;padding:5px"
         	icon="pi pi-user" rendered="#{sessionScope['user'] != null}">
         		
         		<p:menuitem value="Publier" outcome="#{constanteBean.upload}" icon="pi pi-upload"
      				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/> 
     			<p:menuitem value="Ma bibliothèque" outcome="#{constanteBean.biblio}" 
-    			icon="pi pi-file" style="padding-left:10px"/> 
-    			<p:menuitem value="Mes revues" outcome="#{constanteBean.revues}" icon="pi pi-file-o"
+    			icon="pi pi-list" style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'CLIENT'}"/> 
+    			<p:menuitem value="Mes revues" outcome="#{constanteBean.revues}" icon="pi pi-file"
 						 style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'EDITEUR'}"/>
-				<p:menuitem value="Revues" outcome="#{constanteBean.revues}"  style="padding-left:10px"
-						 icon="pi pi-file-o" rendered="#{sessionScope['user'].userType == 'ADMIN'}" />
+				<p:menuitem value="Revues" outcome="#{constanteBean.revues}"  icon="pi pi-file" style="padding-left:10px"
+						  rendered="#{sessionScope['user'].userType == 'ADMIN'}" />
      			<p:menuitem value="Mes transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listUserTransactions}" 
-     				style="padding-left:10px"/>
+     				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'CLIENT'}"/>
      			<p:menuitem value="Transactions"  icon="pi pi-money-bill" outcome="#{constanteBean.listAllTransactions}" 
      				style="padding-left:10px" rendered="#{sessionScope['user'].userType == 'ADMIN'}"/>
      			<p:menuitem value="Paramètres"  icon="pi pi-cog" style="padding-left:10px"/>

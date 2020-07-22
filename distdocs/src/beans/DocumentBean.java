@@ -170,6 +170,7 @@ public class DocumentBean implements Serializable{
 		      //createImage("JPG",fich,id+"_cover.jpg");
 		      System.out.println("Everything is ok");
 		      
+		      doc = new Document();
 		      Constante.redirect(FacesContext.getCurrentInstance(), Constante.ACCUEIL+"?faces-redirect=true", MODULE);
 	    	}else {
 	    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN," ", "Veuillez vous connecter");

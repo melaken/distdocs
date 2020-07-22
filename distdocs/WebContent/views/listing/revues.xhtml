@@ -10,7 +10,8 @@
 	<title>Revues</title>
 	<h:outputStylesheet library="default" name="css/form.css" />
 	<h:outputStylesheet library="default" name="css/style.css" />
-	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
 	<h:outputStylesheet name="components.css" library="primefaces" />
 	<h:outputStylesheet name="galleria/galleria.css" library="primefaces" />
 </h:head>
@@ -22,25 +23,64 @@
 	<h:form>
 		<p:tabMenu activeIndex="#{param.i}">
 			<p:menuitem value="Mes revues" icon="pi pi-file-o"
-				rendered="#{sessionScope['user'].userType == 'EDITEUR'}" outcome="#{constanteBean.revues}">
+				rendered="#{sessionScope['user'].userType == 'EDITEUR'}"
+				outcome="#{constanteBean.revues}">
 				<f:param name="i" value="0" />
 			</p:menuitem>
 			<p:menuitem value="Toutes les revues" icon="pi pi-file-o"
-				rendered="#{sessionScope['user'].userType == 'ADMIN'}" outcome="#{constanteBean.revues}">
+				rendered="#{sessionScope['user'].userType == 'ADMIN'}"
+				outcome="#{constanteBean.revues}">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Créer une nouvelle revue" icon="pi pi-plus-circle" 
-				rendered="#{sessionScope['user'].userType == 'EDITEUR'}" outcome="#{constanteBean.createRevue}">
+			<p:menuitem value="Créer une nouvelle revue" icon="pi pi-plus-circle"
+				rendered="#{sessionScope['user'].userType == 'EDITEUR'}"
+				outcome="#{constanteBean.createRevue}">
 				<f:param name="i" value="1" />
 			</p:menuitem>
 		</p:tabMenu>
 	</h:form>
 
+	<h:form rendered="#{sessionScope['user'].userType == 'ADMIN' and (param.i == 0 || param.i == null)}">
+		<p:panel  header="Critères de listing" style="margin-bottom:10px;">
+			<h:panelGrid columns="9" cellpadding="15" cellspacing="1"
+				style="margin-bottom:10px">
+				<h:panelGrid columns="2">
+					<h:outputText for="editeur" value="Éditeur"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="editeur" value="#{revueBean.editeurId}"
+						style="width:100px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
+							itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:outputText for="docType" value="Type de contenu"
+						style="font-weight:bold" />
+					<p:selectOneMenu id="docType" value="#{revueBean.docType}"
+						style="width:180px">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
+						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
+						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
+
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:commandButton value="Lister" action="#{revueBean.lister}" update="liste">
+					</p:commandButton>
+				</h:panelGrid>
+			</h:panelGrid>
+
+		</p:panel>
+	</h:form>
 	<h:form id="liste" rendered="#{param.i == 0 || param.i == null}">
 		<p:dataTable var="revue" value="#{revueBean.liste}"
 			emptyMessage="Aucune entrée trouvée" style="text-align:center">
-			<p:column headerText="Éditeur" rendered="#{sessionScope['user'].userType == 'ADMIN'}">
-				<h:outputText value="#{revueBean.getEditeur(revue.editeur).maisonEdition}" />
+			<p:column headerText="Éditeur"
+				rendered="#{sessionScope['user'].userType == 'ADMIN'}">
+				<h:outputText
+					value="#{revueBean.getEditeur(revue.editeur).maisonEdition}" />
 			</p:column>
 			<p:column headerText="Titre de la revue">
 				<h:outputText value="#{revue.nom}" />
@@ -50,10 +90,10 @@
 			</p:column>
 			<p:column headerText="Logo">
 				<p:graphicImage value="#{listeDocsBean.image}"
-				style="height: 50px; width: 50px;border-radius: 2px">
-				<f:param name="cover" value="#{revue.logo}" />
-				<f:param name="type" value="logo" />
-			</p:graphicImage>
+					style="height: 50px; width: 50px;border-radius: 2px">
+					<f:param name="cover" value="#{revue.logo}" />
+					<f:param name="type" value="logo" />
+				</p:graphicImage>
 			</p:column>
 
 		</p:dataTable>

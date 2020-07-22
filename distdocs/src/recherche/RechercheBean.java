@@ -70,6 +70,8 @@ public class RechercheBean implements Serializable{
 		try {
 			if(this.chaine == null || this.chaine.isEmpty())
 				this.results = docDao.lister();
+			else if(chaine.trim().length() <= LuceneReadIndexFromFile.STOP_WORD_MAX_LENGTH)
+				this.results = mainSearch(this.chaine,this.docDao);
 			else
 				this.results = mainSearch(this.chaine,this.docDao);
 			System.out.println("before redirect "+results.size());
@@ -77,15 +79,19 @@ public class RechercheBean implements Serializable{
 			System.out.println("after redirect "+results.size());
 		} catch (IndexException e) {
 			System.out.println("Erreur lors de la recherche");
+			this.results = new ArrayList<>();
 			e.printStackTrace();
 			showErrorMessage();
 		}catch (NumberFormatException e) {
 			System.out.println("NumberFormatException");
+			this.results = new ArrayList<>();
 			e.printStackTrace();
 		} catch (DAOException e) {
 			System.out.println("daoException");
+			this.results = new ArrayList<>();
 			e.printStackTrace();
 		}catch(Throwable e) {
+			this.results = new ArrayList<>();
 			System.out.println("exception in redirect ");
 			e.printStackTrace();
 		}

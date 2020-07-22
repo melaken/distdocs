@@ -26,22 +26,24 @@ public class Login extends HttpServlet{
 	UtilisateurDao utilisateurDao;
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		
+
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		
+
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
-		
+
 		boolean success = false;
-		
+
 		try {
 			success = loginDao.validate(email, password);
-			Utilisateur user = utilisateurDao.trouver(email);
-			obj.put("nom", user.getNom());
-			obj.put("prenom", user.getPrenom());
-			obj.put("id", user.getId());
-			obj.put("email", user.getEmail());
+			if(success) {
+				Utilisateur user = utilisateurDao.trouver(email);
+				obj.put("nom", user.getNom());
+				obj.put("prenom", user.getPrenom());
+				obj.put("id", user.getId());
+				obj.put("email", user.getEmail());
+			}
 		} catch (DAOException e) {
 			obj.put("error", true);
 			e.printStackTrace();

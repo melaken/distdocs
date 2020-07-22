@@ -342,23 +342,32 @@ public class StatsVentesBean implements Serializable{
 		yAxis.setMax(statdao.nbDocsVendus(debut, fin,editeurId,docType));
 	}
 	private ChartSeries setSeriesForUsersPerDocType(String docType,String label,List<Object[]> liste) {
-		Map<String,Utilisateur> copy = usersWithDocType;
+		Map<Integer,Utilisateur> copy = new HashMap<>();
+		for(Object[] obj : liste) {
+			Integer userId = (Integer)obj[1];
+			if(!copy.containsKey(userId)) {
+				copy.put(userId, userDao.trouver(userId.intValue()));
+			}
+		}
+				//usersWithDocType;
+		
 		ChartSeries series = new ChartSeries();
 		series.setLabel(label);
 
 		System.out.println("setSeriesForUsersPerDocType docType = "+docType+", copy.size = "+copy.size());
 		for(Object[] obj : liste) {
 			if(obj[2].toString().equals(docType) )  {
-				String email = userDao.trouver((Integer)obj[1]).getEmail();
+				Integer userId = (Integer)obj[1];
+				String email = userDao.trouver(userId.intValue()).getEmail();
 				series.set(email, (Number)obj[0]);
 				System.out.println("docType "+docType+" user = "+obj[1] +" montant = "+obj[0]);
-				copy.remove(email);
+				copy.remove(userId);
 			}
 		}
 		System.out.println("copy.size = "+copy.size()+" usersWithDocType = "+usersWithDocType.size());
 		copy.forEach((k,v)->{
 			System.out.println("copy : doctype = "+docType+" email = "+k);
-			series.set(k,0);});
+			series.set(v.getEmail(),0);});
 
 		return series;
 	}
@@ -480,6 +489,7 @@ public class StatsVentesBean implements Serializable{
 			bigArray[i][0] = ed;
 			for(Object[] obj : liste) {
 				if((Integer)obj[1] == ed) {
+					bigArray[i][1] = new Double(0);
 					if(obj[2].toString().equals(DocType.JOURNAL.name())) {
 						bigArray[i][1] =  obj[0] ;
 						total += (double)obj[0];
@@ -513,7 +523,15 @@ public class StatsVentesBean implements Serializable{
 		ChartSeries series = new ChartSeries();
 		series.setLabel(label);
 
-		Map<Long,Editeur> editeurs = editDao.listerEditeur();
+		Map<Integer,Editeur> editeurs = new HashMap<>();
+				//editDao.listerEditeur();
+		
+		for(Object[] obj : liste) {
+			Integer ed = (Integer)obj[1];
+			if(!editeurs.containsKey(ed)) {
+				editeurs.put(ed, editDao.trouver(ed.intValue()));
+			}
+		}
 		System.out.println("map size1 = "+editeurs.size()+" docType = "+docType);
 
 		int nbDocs = 0;
@@ -522,7 +540,7 @@ public class StatsVentesBean implements Serializable{
 
 				series.set(editDao.trouver((Integer)obj[1]).getMaisonEdition(), (Number)obj[0]);
 				//remove publishers that have'doctype' documents
-				editeurs.remove(Long.valueOf(((Integer)obj[1]).longValue()));
+				editeurs.remove(((Integer)obj[1]));
 				System.out.println("docType "+docType+" EDITEUR = "+obj[1] +" montant = "+obj[0]);
 				nbDocs++;
 			}

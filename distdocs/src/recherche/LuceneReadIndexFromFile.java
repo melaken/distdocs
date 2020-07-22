@@ -21,7 +21,7 @@ import beans.Constante;
 import dao.DAOException;
 public class LuceneReadIndexFromFile {
 
-	private static int STOP_WORD_MAX_LENGTH = 2;
+	public static final int STOP_WORD_MAX_LENGTH = 2;
 	
 	public static List<Document> rechercher(String chaine ) throws IndexException{
 		List<Document> liste = new ArrayList<>();
@@ -51,7 +51,7 @@ public class LuceneReadIndexFromFile {
 	 private static TopDocs searchInContent(String textToFind, IndexSearcher searcher) throws IOException{
 	        //Create search query
 	        QueryParser qp = new QueryParser("contents", new StandardAnalyzer());
-	        qp.setDefaultOperator(QueryParser.Operator.AND);
+	        //qp.setDefaultOperator(QueryParser.Operator.OR);
 	        
 	        String words[] = textToFind.split(" ");
 	        StringBuilder finalText = new StringBuilder();

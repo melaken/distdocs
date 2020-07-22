@@ -25,6 +25,7 @@ body {
 		<ui:include src="#{constanteBean.menuBarWithoutSearch}" />
 	</ui:insert>
 	<div align="center">
+	
 		<h:form id="formUpload" enctype="multipart/form-data">
 			<h:panelGrid columns="1" cellpadding="5" style="margin-bottom:10px">
 				<f:facet name="header">Informations sur le contenu à publier</f:facet>
@@ -130,7 +131,7 @@ body {
 					<h:outputLabel for="resume" value="Résumé" style="font-weight:bold">
 						<span class="requis">*</span>
 					</h:outputLabel>
-					<p:inputTextarea id="resume" rows="10" cols="51" value="#{documentBean.doc.resume}"
+					<p:inputTextarea id="resume" rows="6" cols="51" value="#{documentBean.doc.resume}"
 						counter="display" maxlength="255" counterTemplate="{0} caractères restant" autoResize="false">
 						<f:ajax event="blur" render="resumeMessage" />
 					</p:inputTextarea>
@@ -139,17 +140,26 @@ body {
 				</h:panelGrid>
 				<h:messages globalOnly="true" infoClass="info" />
 				<f:facet name="footer">
-					<h:commandButton value="Publier" icon="pi pi-cloud-upload" styleClass="buttons" 
-					style="font-size:12px;" ajax="true"
-					onstart="this.disabled=true; $('#formUpload\\:loading').show()"
+					<p:commandButton value="Publier" icon="pi pi-cloud-upload"  
+					 ajax="false"
+					onstart="PF('uploadDialog').show()"
 						action="#{documentBean.upload}" 
-    					oncomplete="this.disabled=false; $('#formUpload\\:loading').hide()">
+    					oncomplete="PF('uploadDialog').hide()">
 						<f:ajax execute="@form" render="@form"/>
-					</h:commandButton>
+					</p:commandButton>
 				</f:facet>
 			</h:panelGrid>
-			<p:graphicImage id="loading" name="images/loading.gif"
+			<p:dialog widgetVar="uploadDialog" modal="true" showEffect="fade" closable="false"
+		hideEffect="fade" resizable="false" header="Uploading.........">
+		<p:outputPanel id="image" style="text-align:justify;border:0">
+			<p:panelGrid columns="1"
+				columnClasses="label,value">
+				<p:graphicImage id="loading" name="images/loading.gif"
 					style="display:none;align:right;height: 150px; width: 150px;border-radius: 2px" />
+			</p:panelGrid>
+		</p:outputPanel>
+	</p:dialog>
+			
 		</h:form>
 	</div>
 	<div align="right"> 

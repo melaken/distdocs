@@ -50,7 +50,7 @@ xmlns:p="http://primefaces.org/ui">
 	                    </h:panelGrid>
 	                </p:outputPanel>
 	 
-	                <p:commandLink  title="#{constanteBean.panierMessage}" 
+	                <p:commandLink  title="#{constanteBean.panierMessage}" rendered="#{sessionScope['user'].userType == 'CLIENT'}"
 			                	action="#{panierBean.panier}" >
 	                    <h:outputText styleClass="pi pi-shopping-cart emoticone" style="margin:0 auto;font-size: 35px !important;width: 35px !important;"/>
 	                    <f:setPropertyActionListener value="#{doc}" target="#{panierBean.selectedDoc}" />

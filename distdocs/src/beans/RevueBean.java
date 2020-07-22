@@ -47,12 +47,15 @@ public class RevueBean implements Serializable{
 	//toutes les revues
 	private List<Revue> allRevues;
 
+	private String docType;
+	private Long editeurId;
+
 	@PostConstruct
 	public void init() {
 		revue = new Revue();
 		lister();
 	}
-	
+
 	public Part getLogo() {
 		return logo;
 	}
@@ -73,6 +76,21 @@ public class RevueBean implements Serializable{
 	public void setListe(List<Revue> liste) {
 		this.liste = liste;
 	}
+	public String getDocType() {
+		return docType;
+	}
+	public void setDocType(String docType) {
+		this.docType = docType;
+	}
+
+	public Long getEditeurId() {
+		return editeurId;
+	}
+
+	public void setEditeurId(Long editeurId) {
+		this.editeurId = editeurId;
+	}
+
 	//liste toutes les revues
 	public List<Revue> getAllRevues() {
 		allRevues = revueDao.lister();
@@ -93,7 +111,7 @@ public class RevueBean implements Serializable{
 				System.out.println("p_logo = "+p_logo);
 				revue.setLogo(p_logo);
 				File fich = new File(Constante.CHEMIN_LOGO,p_logo);
-				
+
 				//écritures des fichiers sur le disque
 				Files.copy(input, fich.toPath());
 
@@ -110,13 +128,19 @@ public class RevueBean implements Serializable{
 			e1.printStackTrace();}
 	}
 	//liste les revues d'un éditeur 
-	private void lister() {
+	public void lister() {
 		Utilisateur user = getCurrentUser();
 		liste = new ArrayList<>();
 		if(user != null && !user.getUserType().equals(UserType.CLIENT.name())) {
 			liste = revueDao.lister();
 			if(user.getUserType().equals(UserType.EDITEUR.name()))
 				liste = liste.parallelStream().filter(r->r.getEditeur()==user.getId()).collect(Collectors.toList());
+			else {
+				if(editeurId != null)
+					liste = liste.parallelStream().filter(r->r.getEditeur()== editeurId).collect(Collectors.toList());
+				if(docType != null && !docType.isEmpty())
+					liste = liste.parallelStream().filter(r->r.getDocType().equals(docType)).collect(Collectors.toList());
+			}
 		}
 	}
 	private Utilisateur getCurrentUser() {

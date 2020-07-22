@@ -1,103 +1,43 @@
 <!DOCTYPE html>
-<html lang="en"
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:p="http://primefaces.org/ui">
-	<h:head>
-		<title>Création d'un nouvel éditeur</title>
-		<meta charset="utf-8"/>
-  		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-  		<h:outputStylesheet name="components.css" library="primefaces"/>
-  		<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
-  		<h:outputStylesheet name="css/test.css" library="default"/>
-  		<style>
-  		 .pi {  
-    width: 18px !important; 
-    font-size: 18px !important; 
-  }  
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Création d'un nouvel éditeur</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<h:outputStylesheet name="components.css" library="primefaces" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputStylesheet name="css/test.css" library="default" />
+	<style>
+.pi {
+	width: 18px !important;
+	font-size: 18px !important;
+}
 </style>
-	</h:head>
-	<h:body>
-	<h:form >
-		<p:growl>
-			<p:autoUpdate />
-		</p:growl>
-		<p:panel header="Indicateurs" style="margin-bottom:10px;">
-			<p:selectOneRadio id="customRadio" layout="grid" columns="1"
-				value="#{statsVentesBean.indicateur}">
-				<f:selectItem itemLabel="Chiffres d'affaires" itemValue="CA" />
-				<f:selectItem itemLabel="Nombre de ventes" itemValue="NBV" />
-			</p:selectOneRadio>
-		</p:panel>
-		<p:panel header="Axes d'analyse" style="margin-bottom:10px;">
-			<h:panelGrid columns="6">
-				<h:panelGrid columns="2">
-					<h:outputText for="debutdaByUser" value="Début période ciblée"
-						style="font-weight:bold;" />
-					<p:calendar id="debutdaByUser" value="#{statsVentesBean.dateDebut}"
-						style="width:60px" showOn="button" effect="fold"
-						placeholder="Exemple 18/11/19" />
-				</h:panelGrid>
-				<h:panelGrid columns="2">
-					<h:outputText for="findaByUser" value="Fin période ciblée"
-						style="font-weight:bold;" />
-					<p:calendar id="findaByUser" value="#{statsVentesBean.dateFin}"
-						style="margin-left:1px" showOn="button" effect="fold"
-						placeholder="Exemple 18/11/19" />
-				</h:panelGrid>
-				<h:panelGrid columns="2" 
-				rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}">
-					<h:outputText for="docType" value="Type de contenu"
-						style="font-weight:bold" />
-					<p:selectOneMenu id="docType" value="#{statsVentesBean.docType}"
-						style="width:180px">
-						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
-						<f:selectItem itemLabel="MAGAZINE" itemValue="MAGAZINE" />
-						<f:selectItem itemLabel="JOURNAL" itemValue="JOURNAL" />
-						<f:selectItem itemLabel="LIVRE" itemValue="LIVRE" />
-						<p:ajax event="change" update="panel" listener="#{statsVentesBean.docTypeListener}" render="panel"/>
-					</p:selectOneMenu>
-				</h:panelGrid>
-				<h:panelGrid columns="2" id="panel" 
-				rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}"
-				>
-					<h:outputText for="revue" value="Revue" style="font-weight:bold" 
-					rendered="#{statsVentesBean.docType == 'MAGAZINE' or statsVentesBean.docType == 'JOURNAL' or statsVentesBean.editeur != null}"/>
-					<p:selectOneMenu id="revue" value="#{statsVentesBean.selectedRevue}" style="width:180px"
-						rendered="#{statsVentesBean.docType == 'MAGAZINE' or statsVentesBean.docType == 'JOURNAL' or statsVentesBean.editeur != null}">
-						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
-						<f:selectItems value="#{statsVentesBean.revues}" var="rev"
-							itemValue="#{rev.id}" itemLabel="#{rev.nom}" />
-					</p:selectOneMenu>
-				</h:panelGrid>
-				<h:panelGrid columns="2"
-					rendered="#{sessionScope['user'] != null and sessionScope['user'].userType == 'ADMIN'}">
-					<h:outputText for="editeur" value="Éditeur"
-						style="font-weight:bold" />
-					<p:selectOneMenu id="editeur" value="#{statsVentesBean.editeur}"
-						style="width:100px">
-						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
-						<f:selectItems value="#{staticticsBean.editeurs}" var="edit"
-							itemValue="#{edit.id}" itemLabel="#{edit.maisonEdition}" />
-							<p:ajax event="change" update="panel" listener="#{statsVentesBean.docTypeListener}"/>
-					</p:selectOneMenu>
-				</h:panelGrid>
-				<h:panelGrid columns="1">
-					<p:commandButton value="Générer stats"
-						action="#{statsVentesBean.analyser}" icon="pi pi-chart-bar"
-						align="center" ajax="false" />
-						<h:commandButton value="Button Text" 
-						styleClass="buttons"/>
-				</h:panelGrid>
-			</h:panelGrid>
-		</p:panel>
+</h:head>
+<h:body>
+	<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+
+		<f:facet name="complete">
+			<p:graphicImage name="images/loading.gif" />
+		</f:facet>
+
+	</p:ajaxStatus>
+
+<!-- 	<p:ajaxStatus onstart="PF('statusDialog').show()" -->
+<!-- 		onsuccess="PF('statusDialog').hide()" /> -->
+
+<!-- 	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" -->
+<!-- 		closable="false" resizable="false" showHeader="false"> -->
+<!-- 		<p:graphicImage name="images/loading.gif" /> -->
+<!-- 	</p:dialog> -->
+
+	<h:form>
+		<p:commandButton value="Send" icon="pi pi-refresh" />
 	</h:form>
-	<div class="buttons">
-    
-    <h:commandButton value="Button Text" styleClass="cross"/>
-     <h:commandButton value="Button Text" />
-</div>
-	</h:body>
+</h:body>
 </html>
